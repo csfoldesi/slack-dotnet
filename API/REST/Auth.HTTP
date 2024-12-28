@@ -1,0 +1,42 @@
+@API_HostAddress = http://localhost:5000/api/auth
+
+#Sign up
+POST {{API_HostAddress}}/signup
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "Földesi Csaba",
+    "email": "cs@cs.cs",
+    "password": "Password+1"
+}
+###
+
+
+#Sign in
+POST {{API_HostAddress}}/signin
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "cs@cs.cs",
+    "password": "Password+1"
+}
+###
+
+# Sign out
+GET {{API_HostAddress}}/signout
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiY3NhYnVzQGdtYWlsLmNvbSIsImVtYWlsIjoiY3NhYnVzQGdtYWlsLmNvbSIsIlByb3ZpZGVyIjoiR29vZ2xlIiwibmJmIjoxNzM1Mzk2MTU0LCJleHAiOjE3MzUzOTY0NTQsImlhdCI6MTczNTM5NjE1NH0.S0w5YkENWdOktZZyqgwmV2oGR5fODSuVpBgmrOlmqEU1gbUtInCK6NGGUyvTkEvhSLeyIjYWRYCrUsWua1aWfQ
+
+###
+
+# Test portected enpoint
+GET {{API_HostAddress}}/protected
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiY3NhYnVzQGdtYWlsLmNvbSIsImVtYWlsIjoiY3NhYnVzQGdtYWlsLmNvbSIsIlByb3ZpZGVyIjoiR2l0SHViIiwibmJmIjoxNzM1MzkxNjQ1LCJleHAiOjE3MzUzOTE5NDUsImlhdCI6MTczNTM5MTY0NX0.oFGlK7U0rzGSefOJn36GjtdDu7PB8QWHjVQIX5I5kfAft48zwLmYD9ugaHi_exa_jLhyLcDWVGqmd-cEG_LmIA
+
+
+###

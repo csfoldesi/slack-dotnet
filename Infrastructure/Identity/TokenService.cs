@@ -9,14 +9,14 @@ namespace Infrastructure.Identity
 {
     public class TokenService : ITokenService
     {
-        public async Task<string> CreateAccessTokenAsync(User user, string provider)
+        public async Task<string> CreateAccessTokenAsync(User user, string? provider)
         {
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, user.Name),
                 new(ClaimTypes.NameIdentifier, user.Id),
                 new(ClaimTypes.Email, user.Email!),
-                new("Provider", provider),
+                new("Provider", provider ?? ""),
             };
 
             var key =

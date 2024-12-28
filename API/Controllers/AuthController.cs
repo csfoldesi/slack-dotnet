@@ -1,4 +1,6 @@
-﻿using Application.Common.Interfaces;
+﻿using API.Dto;
+using Application.Common;
+using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -6,15 +8,60 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController : BaseApiController
 {
     private readonly ITokenService _tokenService;
+    private readonly IIdentityService _identityService;
 
-    public AuthController(ITokenService tokenService)
+    public AuthController(ITokenService tokenService, IIdentityService identityService)
     {
         _tokenService = tokenService;
+        _identityService = identityService;
+    }
+
+    [HttpPost("signin")]
+    public async Task<IActionResult> SignIn(SignInRequest signInRequest)
+    {
+        var result = await _identityService.GetUserAsync(
+            signInRequest.Email,
+            signInRequest.Password
+        );
+
+        if (result.ResultCode != ResultCode.Success)
+        {
+            return Unauthorized(ApiResponse<string>.Failure(result.Error));
+        }
+
+        var accessToken = await _tokenService.CreateAccessTokenAsync(
+            result.Value!,
+            result.Value!.AuthProvider
+        );
+        return HandleResult(Result<string>.Success(accessToken));
+    }
+
+    [HttpPost("signup")]
+    public async Task<IActionResult> SignUp(CreateUserRequest createUserRequest)
+    {
+        var result = await _identityService.CreateUserAsync(
+            createUserRequest.Name,
+            createUserRequest.Email,
+            createUserRequest.Password,
+            createUserRequest.Avatar
+        );
+        if (result.ResultCode != ResultCode.Success)
+        {
+            return HandleResult(Result<CreateUserResponse>.Failure(result.Error));
+        }
+
+        var user = result.Value!;
+        var createUserResponse = new CreateUserResponse
+        {
+            Name = user.Name,
+            Email = user.Email!,
+            Avatar = user.Avatar,
+            AccessToken = await _tokenService.CreateAccessTokenAsync(user, null),
+        };
+        return HandleResult(Result<CreateUserResponse>.Success(createUserResponse));
     }
 
     [HttpGet("signin/github")]
@@ -45,40 +92,34 @@ public class AuthController : ControllerBase
         {
             return BadRequest("Authentication failed");
         }
-        var claims = authenticateResult.Principal.Claims.ToList();
-        var email = claims.Find(c => c.Type == "oauth:email")?.Value ?? "";
-        var name = claims.Find(c => c.Type == "oauth:name")?.Value ?? "";
-        //var avatar = claims.Find(c => c.Type == "oauth:avatar")?.Value ?? "";
-        var provider = claims.FirstOrDefault(c => c.Type == "oauth:provider")?.Value ?? "";
-        var token = await _tokenService.CreateAccessTokenAsync(
-            new Domain.User
-            {
-                Name = name,
-                UserName = email,
-                Id = email,
-                Email = email,
-            },
-            provider
-        );
 
-        return Ok(token);
+        var result = await _identityService.CreateOauthUserAsync(
+            authenticateResult.Principal.Claims.ToList()
+        );
+        if (result.ResultCode == ResultCode.Error)
+        {
+            return HandleResult(Result<CreateUserResponse>.Failure(result.Error));
+        }
+
+        var user = result.Value!;
+        var createUserResponse = new CreateUserResponse
+        {
+            Name = user.Name,
+            Email = user.Email!,
+            Avatar = user.Avatar,
+            AccessToken = await _tokenService.CreateAccessTokenAsync(user, user.AuthProvider),
+        };
+        return HandleResult(Result<CreateUserResponse>.Success(createUserResponse));
     }
 
     [HttpGet("signout")]
     [Authorize]
-    public IActionResult SignOut()
+    public async Task<IActionResult> SignOutHandler()
     {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return SignOut(
-            new AuthenticationProperties { RedirectUri = "/" },
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            "GitHub"
+            new AuthenticationProperties { },
+            CookieAuthenticationDefaults.AuthenticationScheme
         );
-    }
-
-    [HttpGet("protected")]
-    [Authorize]
-    public IActionResult ProtectedEndpoint()
-    {
-        return Ok(new { Message = "You have accessed a protected endpoint!" });
     }
 }
