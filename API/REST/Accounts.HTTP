@@ -1,0 +1,52 @@
+@API_HostAddress = http://localhost:5000/api/accounts
+
+# Create Account
+POST {{API_HostAddress}}/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Földesi Csaba",
+  "email": "cs@cs.hu",
+  "avatar": ""
+}
+###
+
+
+# Login
+# @name postLogin
+POST {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@admin.hu",
+  "password": "Password1"
+}
+###
+@accessToken = {{postLogin.response.body.data.accessToken}}
+
+
+#Logout
+POST {{API_HostAddress}}/logout
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get profile
+GET {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+
+###
+
+# Refresh token
+POST {{API_HostAddress}}/token/XpPjorvXO1857u7KQBQ4pYqI6Pj1U1fDHi4Py2UkXWM
+Accept: application/json
+Content-Type: application/json
+
+###
