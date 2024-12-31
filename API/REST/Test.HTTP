@@ -6,3 +6,10 @@ Content-Type: application/json
 Authorization: Bearer 
 
 ###
+
+
+GET http://localhost:3000/api/auth/callback/myProvider?state=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoienlTRHhBUjRuM0NFVFdRYmswM3YxYXBNTGpvUGhtYUVEUWZzS0QwTkRVVV9ka1Uwam5tVDJPZjliS1lPV0piLWxhVHJqRzlYMTJvaFgwZnZMdlhua0EifQ..tf9xR99DyQ2AU2OujcudeA._ZJxOWWdQ53WQv4IeIaKZj9V9MebVGxzimAT1q_k34g5Jr9YCpZqJxi_nuuIM_QFruZZr3kq90LKQg1SgLaYNVZTXQzyicQfutpmngDAAUcRR8yAfU3XnPm6ohwWGYmmBqVyCH2oUZ5zLaU3bQTEQxWgezFlhcuwASrnGaUCrhOcYb6G_0AL1w1zqOoPuGMy.SP3-yPoygpTgzai8mY8eDcoiXz4QmZIGwVbfDBhgsLM
+Content-Type: application/json
+
+{}
+###

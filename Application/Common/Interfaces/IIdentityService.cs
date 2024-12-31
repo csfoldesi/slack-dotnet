@@ -10,4 +10,6 @@ public interface IIdentityService
     Task<Result<User>> CreateOauthUserAsync(List<Claim> claims);
 
     Task<Result<User>> GetUserAsync(string email, string? password);
+
+    Task<Result<User>> GetUserProfileAsync(string userId);
 }

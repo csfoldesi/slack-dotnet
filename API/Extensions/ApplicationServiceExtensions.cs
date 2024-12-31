@@ -1,4 +1,8 @@
-﻿namespace API.Extensions;
+﻿using System.Reflection;
+using API.Services;
+using Domain.Interfaces;
+
+namespace API.Extensions;
 
 public static class ApplicationServiceExtensions
 {
@@ -10,7 +14,9 @@ public static class ApplicationServiceExtensions
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddScoped<IUser, CurrentUser>();
         services.AddHttpContextAccessor();
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddCors(options =>
         {

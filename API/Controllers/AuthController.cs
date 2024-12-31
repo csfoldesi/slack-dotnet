@@ -1,6 +1,9 @@
 ﻿using API.Dto;
 using Application.Common;
 using Application.Common.Interfaces;
+using AutoMapper;
+using Domain;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -12,11 +15,23 @@ public class AuthController : BaseApiController
 {
     private readonly ITokenService _tokenService;
     private readonly IIdentityService _identityService;
+    private readonly IConfiguration _config;
+    private readonly IUser _user;
+    private readonly IMapper _mapper;
 
-    public AuthController(ITokenService tokenService, IIdentityService identityService)
+    public AuthController(
+        ITokenService tokenService,
+        IIdentityService identityService,
+        IConfiguration config,
+        IUser user,
+        IMapper mapper
+    )
     {
         _tokenService = tokenService;
         _identityService = identityService;
+        _config = config;
+        _user = user;
+        _mapper = mapper;
     }
 
     [HttpPost("signin")]
@@ -65,10 +80,10 @@ public class AuthController : BaseApiController
     }
 
     [HttpGet("signin/github")]
-    public IActionResult SignInGitHub()
+    public IActionResult SignInGitHub([FromQuery] string state = "")
     {
         return Challenge(
-            new AuthenticationProperties { RedirectUri = "/api/auth/callback" },
+            new AuthenticationProperties { RedirectUri = $"/api/auth/callback?state={state}" },
             "GitHub"
         );
     }
@@ -83,7 +98,7 @@ public class AuthController : BaseApiController
     }
 
     [HttpGet("callback")]
-    public async Task<IActionResult> Callback()
+    public async Task<IActionResult> Callback([FromQuery] string state = "")
     {
         var authenticateResult = await HttpContext.AuthenticateAsync(
             CookieAuthenticationDefaults.AuthenticationScheme
@@ -109,7 +124,11 @@ public class AuthController : BaseApiController
             Avatar = user.Avatar,
             AccessToken = await _tokenService.CreateAccessTokenAsync(user, user.AuthProvider),
         };
-        return HandleResult(Result<CreateUserResponse>.Success(createUserResponse));
+        //return HandleResult(Result<CreateUserResponse>.Success(createUserResponse));
+
+        var callbackUrl = _config.GetSection("OAuthCallbackUrl").Get<string>() ?? "";
+
+        return Redirect($"{callbackUrl}?accessToken={createUserResponse.AccessToken}");
     }
 
     [HttpGet("signout")]
@@ -121,5 +140,18 @@ public class AuthController : BaseApiController
             new AuthenticationProperties { },
             CookieAuthenticationDefaults.AuthenticationScheme
         );
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetUserProfile()
+    {
+        var result = await _identityService.GetUserProfileAsync(_user.Id!);
+        if (result.ResultCode != ResultCode.Success)
+        {
+            return Unauthorized(ApiResponse<UserProfile>.Failure(result.Error));
+        }
+        var userProfile = _mapper.Map<User, UserProfile>(result.Value!);
+        return HandleResult(Result<UserProfile>.Success(userProfile));
     }
 }

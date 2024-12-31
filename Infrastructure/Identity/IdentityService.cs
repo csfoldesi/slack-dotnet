@@ -80,5 +80,15 @@ namespace Infrastructure.Identity
                 ? Result<User>.Success(user)
                 : Result<User>.Failure("Unauthorized access");
         }
+
+        public async Task<Result<User>> GetUserProfileAsync(string userId)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null)
+            {
+                return Result<User>.Failure("User not found");
+            }
+            return Result<User>.Success(user);
+        }
     }
 }
