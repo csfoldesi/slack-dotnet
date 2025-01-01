@@ -117,18 +117,28 @@ public class AuthController : BaseApiController
         }
 
         var user = result.Value!;
-        var createUserResponse = new CreateUserResponse
+        var accessToken = await _tokenService.CreateAccessTokenAsync(user, user.AuthProvider);
+        var refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
+
+        /*var createUserResponse = new CreateUserResponse
         {
             Name = user.Name,
             Email = user.Email!,
             Avatar = user.Avatar,
             AccessToken = await _tokenService.CreateAccessTokenAsync(user, user.AuthProvider),
+        };*/
+
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None,
         };
-        //return HandleResult(Result<CreateUserResponse>.Success(createUserResponse));
-
+        Response.Cookies.Append("AccessToken", accessToken, cookieOptions);
+        Response.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
         var callbackUrl = _config.GetSection("OAuthCallbackUrl").Get<string>() ?? "";
-
-        return Redirect($"{callbackUrl}?accessToken={createUserResponse.AccessToken}");
+        return Redirect(callbackUrl);
+        //return Redirect($"{callbackUrl}?accessToken={accessToken}&refreshToken={refreshToken}");
     }
 
     [HttpGet("signout")]
@@ -146,12 +156,52 @@ public class AuthController : BaseApiController
     [Authorize]
     public async Task<IActionResult> GetUserProfile()
     {
-        var result = await _identityService.GetUserProfileAsync(_user.Id!);
+        var result = await _identityService.GetUserByIdAsync(_user.Id!);
         if (result.ResultCode != ResultCode.Success)
         {
             return Unauthorized(ApiResponse<UserProfile>.Failure(result.Error));
         }
         var userProfile = _mapper.Map<User, UserProfile>(result.Value!);
         return HandleResult(Result<UserProfile>.Success(userProfile));
+    }
+
+    [HttpGet("refresh-token")]
+    public async Task<IActionResult> RefreshToken()
+    {
+        if (Request.Cookies.ContainsKey("RefreshToken"))
+        {
+            var refreshToken = Request.Cookies["RefreshToken"]!;
+            var userId = await _tokenService.GetUserIdByTokenAsync(refreshToken);
+            if (userId == null)
+            {
+                return Unauthorized(ApiResponse<string>.Failure("Invalid token"));
+            }
+
+            var result = await _identityService.GetUserByIdAsync(userId);
+            if (result.ResultCode == ResultCode.Success)
+            {
+                var user = result.Value!;
+                await _tokenService.ExtendRefreshTokenAsync(refreshToken);
+                var accessToken = await _tokenService.CreateAccessTokenAsync(
+                    user,
+                    user.AuthProvider
+                );
+
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                };
+                Response.Cookies.Append("AccessToken", accessToken, cookieOptions);
+
+                return HandleResult(Result<string>.Success("Ok"));
+            }
+            else
+            {
+                return Unauthorized(ApiResponse<string>.Failure(result.Error));
+            }
+        }
+        return Unauthorized(ApiResponse<string>.Failure("Missing token"));
     }
 }

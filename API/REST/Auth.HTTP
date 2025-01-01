@@ -1,5 +1,12 @@
 @API_HostAddress = http://localhost:5000/api/auth
 
+# Get profile
+GET {{API_HostAddress}}
+Accept: application/json
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzU3NDMzNjksImV4cCI6MTczNTc0MzY2OSwiaWF0IjoxNzM1NzQzMzY5fQ.QDezz8Kkg8quShO9sy6WkjRSibiiu1cpLXq0PA2wZesin_aO0PTyvNQSU5Y8bClht1QiuBwVe5jaODKhXGzIYQ
+
+###
+
 #Sign up
 POST {{API_HostAddress}}/signup
 Accept: application/json
@@ -28,15 +35,23 @@ Content-Type: application/json
 GET {{API_HostAddress}}/signout
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiY3NhYnVzQGdtYWlsLmNvbSIsImVtYWlsIjoiY3NhYnVzQGdtYWlsLmNvbSIsIlByb3ZpZGVyIjoiR29vZ2xlIiwibmJmIjoxNzM1Mzk2MTU0LCJleHAiOjE3MzUzOTY0NTQsImlhdCI6MTczNTM5NjE1NH0.S0w5YkENWdOktZZyqgwmV2oGR5fODSuVpBgmrOlmqEU1gbUtInCK6NGGUyvTkEvhSLeyIjYWRYCrUsWua1aWfQ
+Authorization: Bearer 
 
 ###
 
-# Test portected enpoint
+# Test protected endpoint
 GET {{API_HostAddress}}/protected
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiY3NhYnVzQGdtYWlsLmNvbSIsImVtYWlsIjoiY3NhYnVzQGdtYWlsLmNvbSIsIlByb3ZpZGVyIjoiR2l0SHViIiwibmJmIjoxNzM1MzkxNjQ1LCJleHAiOjE3MzUzOTE5NDUsImlhdCI6MTczNTM5MTY0NX0.oFGlK7U0rzGSefOJn36GjtdDu7PB8QWHjVQIX5I5kfAft48zwLmYD9ugaHi_exa_jLhyLcDWVGqmd-cEG_LmIA
+Authorization: Bearer 
 
 
+###
+
+
+# Refresh token
+GET {{API_HostAddress}}/refresh-token
+Accept: application/json
+Content-Type: application/json
+Cookie: RefreshToken=CTEsrDIn2YAi4bAvWvL6VlHnYp0wnF_v5BeNeFOWnWQ
 ###

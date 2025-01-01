@@ -11,5 +11,5 @@ public interface IIdentityService
 
     Task<Result<User>> GetUserAsync(string email, string? password);
 
-    Task<Result<User>> GetUserProfileAsync(string userId);
+    Task<Result<User>> GetUserByIdAsync(string userId);
 }

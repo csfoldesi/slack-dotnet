@@ -39,7 +39,7 @@ Authorization: Bearer {{accessToken}}
 GET {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzU2NzY5MTMsImV4cCI6MTczNTY3NzIxMywiaWF0IjoxNzM1Njc2OTEzfQ.G7_Gh8xItwS1m1Zrd5hctGqIpMAqnhVr3f7XZbmjAHKakfl0y3jOcdxO39Q6WfSPreN3JDtmF2PLJ5uyp-As8g
+Authorization: Bearer 
 
 
 ###

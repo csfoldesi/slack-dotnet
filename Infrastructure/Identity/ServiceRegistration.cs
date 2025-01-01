@@ -48,6 +48,17 @@ public static class ServiceRegistration
                     ValidateIssuer = false,
                     ValidateAudience = false,
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Cookies.ContainsKey("AccessToken"))
+                        {
+                            context.Token = context.Request.Cookies["AccessToken"];
+                        }
+                        return Task.CompletedTask;
+                    },
+                };
             })
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddGitHubAuthentication(configuration)
