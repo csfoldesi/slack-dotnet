@@ -13,6 +13,9 @@ interface SignInCardProps {
   setState: (state: SignInFlow) => void;
 }
 
+const GITHUB_URL = import.meta.env.VITE_OAUTH_GITHUB;
+const GOOGLE_URL = import.meta.env.VITE_OAUTH_GOOGLE;
+
 export const SignInCard = ({ setState }: SignInCardProps) => {
   //const { signIn } = useAuthActions();
   const [email, setEmail] = useState("");
@@ -34,7 +37,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
 
   const onProviderSignIn = (value: "github" | "google") => {
     setPending(true);
-    //signIn(value).finally(() => setPending(false));
+    window.location.replace(value === "github" ? GITHUB_URL : GOOGLE_URL);
   };
 
   return (
@@ -87,13 +90,13 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             Continue with Google
           </Button>
           <Button
+            variant="outline"
+            size="lg"
+            className="w-full relative"
             disabled={pending}
             onClick={() => {
               onProviderSignIn("github");
-            }}
-            variant="outline"
-            size="lg"
-            className="w-full relative">
+            }}>
             <FaGithub className="size-5" />
             Continue with Github
           </Button>

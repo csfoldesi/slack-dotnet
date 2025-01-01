@@ -9,6 +9,9 @@ import { useState } from "react";
 import { TriangleAlert } from "lucide-react";
 //import { useAuthActions } from "@convex-dev/auth/react";
 
+const GITHUB_URL = import.meta.env.VITE_OAUTH_GITHUB;
+const GOOGLE_URL = import.meta.env.VITE_OAUTH_GOOGLE;
+
 interface SignUpCardProps {
   setState: (state: SignInFlow) => void;
 }
@@ -24,7 +27,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
 
   const onProviderSignUp = (value: "github" | "google") => {
     setPending(true);
-    //signIn(value).finally(() => setPending(false));
+    window.location.replace(value === "github" ? GITHUB_URL : GOOGLE_URL);
   };
 
   const onPasswordSignUp = (e: React.FormEvent<HTMLFormElement>) => {
