@@ -60,6 +60,14 @@ public class Create
             };
             _dataContext.UserWorkspaces.Add(member);
 
+            var channel = new Channel
+            {
+                Id = Guid.NewGuid(),
+                Name = "general",
+                Workspace = workspace,
+            };
+            _dataContext.Channels.Add(channel);
+
             var result = await _dataContext.SaveChangesAsync(cancellationToken);
             if (result == 0)
             {

@@ -11,5 +11,7 @@ public interface IDataContext
 
     public DbSet<UserWorkspaces> UserWorkspaces { get; set; }
 
+    public DbSet<Channel> Channels { get; set; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

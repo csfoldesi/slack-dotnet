@@ -11,4 +11,6 @@ public class Workspace
     public required string JoinCode { get; set; }
 
     public ICollection<UserWorkspaces> UserWorkspaces { get; set; } = [];
+
+    public ICollection<Channel> Channels { get; set; } = [];
 }

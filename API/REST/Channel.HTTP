@@ -1,0 +1,9 @@
+@API_HostAddress = http://localhost:5000/api/channel
+
+
+# Get Workspaces Channels
+GET {{API_HostAddress}}/A4885545-2158-400C-8833-95F7A6C4CE36
+Accept: application/json
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzU4NTExNzMsImV4cCI6MTczNTg1MTQ3MywiaWF0IjoxNzM1ODUxMTczfQ.Zw2Y5YpqvpCvjEdpva0IUhx7w_tI_GiVLe4fWhJkIOHbWxJkSlg2olPHtQ_kyXiYhM2SlAMTPoxDfjl3qmj8tQ
+
+###

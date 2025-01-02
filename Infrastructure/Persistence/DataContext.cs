@@ -13,6 +13,8 @@ public class DataContext : IdentityDbContext<User>, IDataContext
 
     public DbSet<UserWorkspaces> UserWorkspaces { get; set; }
 
+    public DbSet<Channel> Channels { get; set; }
+
     public DataContext(DbContextOptions options)
         : base(options) { }
 
@@ -31,5 +33,7 @@ public class DataContext : IdentityDbContext<User>, IDataContext
             .HasOne(uw => uw.Workspace)
             .WithMany(w => w.UserWorkspaces)
             .HasForeignKey(w => w.WorkspaceId);
+
+        builder.Entity<Workspace>().HasMany(w => w.Channels).WithOne(c => c.Workspace);
     }
 }
