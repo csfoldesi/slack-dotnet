@@ -25,7 +25,7 @@ function RouteComponent() {
 
   useEffect(() => {
     if (userProfile !== undefined) {
-      navigate({ to: "/workspace" });
+      navigate({ to: "/workspaces" });
     }
   }, [navigate, userProfile]);
 

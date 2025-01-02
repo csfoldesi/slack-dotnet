@@ -1,19 +1,20 @@
-import { useGetUser } from "@/features/auth/api/use-get-user";
-import { useAuthStore } from "@/features/auth/store";
-//import { useStore } from "@tanstack/react-store";
+import { useNavigate } from "@tanstack/react-router";
+import { useGetWorkspaces } from "../api/use-get-workspaces";
+import { useEffect } from "react";
 
 export const Workspaces = () => {
-  //const user = useStore(AuthStore, (state) => state.user);
-  const { user } = useAuthStore();
+  const navigate = useNavigate();
+  const { data: workspaces, status } = useGetWorkspaces();
 
-  const { data: userProfile } = useGetUser();
+  useEffect(() => {
+    if (workspaces !== undefined && workspaces.length > 0) {
+      const workspaceId = workspaces[0].id;
+      navigate({ to: "/workspaces/$workspaceId", params: { workspaceId } });
+    }
+  }, [navigate, workspaces]);
 
-  console.log(userProfile);
-
-  return (
-    <>
-      <div>Workspaces</div>
-      <div>{JSON.stringify(user)}</div>
-    </>
-  );
+  if (status !== "success") {
+    return <>Loading</>;
+  }
+  return <div>No workspace found</div>;
 };

@@ -21,3 +21,16 @@ createAuthRefreshInterceptor(
     pauseInstanceWhileRefreshing: true,
   }
 );
+
+/*export function sleep(ms = 1000): Promise<void> {
+  console.log("Kindly remember to remove `sleep`");
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+client.interceptors.response.use(async (response) => {
+  // add artificial delay for dev env
+  if (import.meta.env.DEV) {
+    await sleep();
+  }
+  return response.data;
+});*/
