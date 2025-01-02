@@ -9,6 +9,8 @@ public class DataContext : IdentityDbContext<User>, IDataContext
 {
     public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+    public DbSet<Workspace> Workspaces { get; set; }
+
     public DataContext(DbContextOptions options)
         : base(options) { }
 
