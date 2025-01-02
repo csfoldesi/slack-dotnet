@@ -1,4 +1,5 @@
 using API.Extensions;
+using Application;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddAPIServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 

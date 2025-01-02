@@ -1,4 +1,6 @@
-﻿namespace Domain;
+﻿using Domain.Common;
+
+namespace Domain;
 
 public class UserWorkspaces
 {
@@ -9,4 +11,6 @@ public class UserWorkspaces
     public required Guid WorkspaceId { get; set; }
 
     public Workspace? Workspace { get; set; }
+
+    public string Role { get; set; } = WorkspaceRole.member.ToString();
 }
