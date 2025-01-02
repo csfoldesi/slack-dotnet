@@ -2,11 +2,13 @@
 
 public class Workspace
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
 
     public required string Name { get; set; }
 
-    public required string UserId { get; set; }
+    public required string OwnerId { get; set; }
 
     public required string JoinCode { get; set; }
+
+    public ICollection<UserWorkspaces> UserWorkspaces { get; set; } = [];
 }

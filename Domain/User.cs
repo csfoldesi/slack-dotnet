@@ -9,4 +9,6 @@ public class User : IdentityUser
     public string? Avatar { get; set; }
 
     public string? AuthProvider { get; set; }
+
+    public ICollection<UserWorkspaces> Workspaces { get; set; } = [];
 }

@@ -9,5 +9,7 @@ public interface IDataContext
 
     public DbSet<Workspace> Workspaces { get; set; }
 
+    public DbSet<UserWorkspaces> UserWorkspaces { get; set; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
