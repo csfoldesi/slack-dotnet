@@ -15,6 +15,14 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [HttpGet("{workspaceId}")]
+        [Authorize]
+        public async Task<IActionResult> Get(Guid workspaceId)
+        {
+            var result = await Mediator.Send(new Get.Query { WorkspaceId = workspaceId });
+            return HandleResult(result);
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(CreateWorkspaceRequest request)
