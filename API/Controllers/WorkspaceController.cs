@@ -23,6 +23,14 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [HttpGet("members/{workspaceId}")]
+        [Authorize]
+        public async Task<IActionResult> GetMembers(Guid workspaceId)
+        {
+            var result = await Mediator.Send(new GetMembers.Query { WorkspaceId = workspaceId });
+            return HandleResult(result);
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(CreateWorkspaceRequest request)
