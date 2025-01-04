@@ -38,5 +38,18 @@ namespace API.Controllers
             var result = await Mediator.Send(new NewJoinCode.Command { WorkspaceId = workspaceId });
             return HandleResult(result);
         }
+
+        [HttpPatch("{workspaceId}")]
+        [Authorize]
+        public async Task<IActionResult> Rename(
+            Guid workspaceId,
+            [FromBody] RenameWorkspaceRequest request
+        )
+        {
+            var result = await Mediator.Send(
+                new Rename.Command { WorkspaceId = workspaceId, Name = request.Name }
+            );
+            return HandleResult(result);
+        }
     }
 }
