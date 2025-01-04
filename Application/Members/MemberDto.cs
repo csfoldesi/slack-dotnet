@@ -1,4 +1,4 @@
-﻿namespace Application.Workspaces;
+﻿namespace Application.Members;
 
 public class MemberDto
 {

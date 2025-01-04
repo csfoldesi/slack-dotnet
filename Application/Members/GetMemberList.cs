@@ -6,9 +6,9 @@ using Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Workspaces;
+namespace Application.Members;
 
-public class GetMembers
+public class GetMemberList
 {
     public class Query : IRequest<Result<List<MemberDto>>>
     {

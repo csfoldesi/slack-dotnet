@@ -1,4 +1,5 @@
 ﻿using API.Dto;
+using Application.Members;
 using Application.Workspaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,6 @@ namespace API.Controllers
         public async Task<IActionResult> Get(Guid workspaceId)
         {
             var result = await Mediator.Send(new Get.Query { WorkspaceId = workspaceId });
-            return HandleResult(result);
-        }
-
-        [HttpGet("members/{workspaceId}")]
-        [Authorize]
-        public async Task<IActionResult> GetMembers(Guid workspaceId)
-        {
-            var result = await Mediator.Send(new GetMembers.Query { WorkspaceId = workspaceId });
             return HandleResult(result);
         }
 
