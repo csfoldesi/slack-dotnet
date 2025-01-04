@@ -34,6 +34,25 @@ public class DataContext : IdentityDbContext<User>, IDataContext
             .WithMany(w => w.UserWorkspaces)
             .HasForeignKey(w => w.WorkspaceId);
 
-        builder.Entity<Workspace>().HasMany(w => w.Channels).WithOne(c => c.Workspace);
+        // Configure cascade delete for Workspace -> Channels relationship
+        builder
+            .Entity<Workspace>()
+            .HasMany(w => w.Channels)
+            .WithOne(c => c.Workspace)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Configure cascade delete for Workspace -> UserWorkspaces relationship
+        builder
+            .Entity<Workspace>()
+            .HasMany(w => w.UserWorkspaces)
+            .WithOne(uw => uw.Workspace)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Ensure UserWorkspaces relationship to User does not cascade delete Users
+        builder
+            .Entity<UserWorkspaces>()
+            .HasOne(uw => uw.User)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

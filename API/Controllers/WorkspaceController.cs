@@ -41,14 +41,22 @@ namespace API.Controllers
 
         [HttpPatch("{workspaceId}")]
         [Authorize]
-        public async Task<IActionResult> Rename(
+        public async Task<IActionResult> Update(
             Guid workspaceId,
-            [FromBody] RenameWorkspaceRequest request
+            [FromBody] UpdateWorkspaceRequest request
         )
         {
             var result = await Mediator.Send(
-                new Rename.Command { WorkspaceId = workspaceId, Name = request.Name }
+                new Update.Command { WorkspaceId = workspaceId, Name = request.Name }
             );
+            return HandleResult(result);
+        }
+
+        [HttpDelete("{workspaceId}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(Guid workspaceId)
+        {
+            var result = await Mediator.Send(new Delete.Command { WorkspaceId = workspaceId });
             return HandleResult(result);
         }
     }

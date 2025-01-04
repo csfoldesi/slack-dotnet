@@ -9,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Workspaces;
 
-public class Rename
+public class Update
 {
     public class Command : IRequest<Result<WorkspaceDto>>
     {
         public required Guid WorkspaceId { get; set; }
-        public required string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Result<WorkspaceDto>>
@@ -48,12 +48,12 @@ public class Rename
                 );
             }
 
-            workspace.Name = request.Name;
+            workspace.Name = request.Name ?? workspace.Name;
 
             var result = await _dataContext.SaveChangesAsync(cancellationToken);
             if (result == 0)
             {
-                return Result<WorkspaceDto>.Failure("Unable to generate new Join Code");
+                return Result<WorkspaceDto>.Failure("Unable to update the workspace");
             }
 
             return Result<WorkspaceDto>.Success(_mapper.Map<Workspace, WorkspaceDto>(workspace));
