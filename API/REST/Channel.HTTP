@@ -2,8 +2,20 @@
 
 
 # Get Workspaces Channels
-GET {{API_HostAddress}}/a4885545-2158-400c-8833-95f7a6c4ce36
+GET {{API_HostAddress}}/ff77c220-3fcc-448e-b2ce-e25a8c263b4d
 Accept: application/json
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzU5MDExNTksImV4cCI6MTczNTkwMTQ1OSwiaWF0IjoxNzM1OTAxMTU5fQ.3l54RpfIxNhwiSLj4Q_qKNE-pRCcLIDv4_oI1OZOLRFfpy9OBAbkQl5nA_-vQEBrFc_IwcvAiiVEKp-ud5o34w
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzYwMDgwMTQsImV4cCI6MTczNjAwODMxNCwiaWF0IjoxNzM2MDA4MDE0fQ.AX0roWEejgT7p89QLg2b9bXTWy7XmF2VQYi8akkZSTzIdkwTRsnsEzNK8Wt3yRrT4-cmV-q2T-PbvH_5PV-5Bg
 
+###
+
+#Create Channel
+POST {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzYwMDgwMTQsImV4cCI6MTczNjAwODMxNCwiaWF0IjoxNzM2MDA4MDE0fQ.AX0roWEejgT7p89QLg2b9bXTWy7XmF2VQYi8akkZSTzIdkwTRsnsEzNK8Wt3yRrT4-cmV-q2T-PbvH_5PV-5Bg
+
+{
+    "name": "Another  test Channel",
+    "workspaceId": "ff77c220-3fcc-448e-b2ce-e25a8c263b4d"
+}
 ###

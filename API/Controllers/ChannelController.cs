@@ -1,4 +1,5 @@
-﻿using Application.Channels;
+﻿using API.Dto;
+using Application.Channels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,16 @@ public class ChannelController : BaseApiController
     public async Task<IActionResult> List(Guid workspaceId)
     {
         var result = await Mediator.Send(new List.Query { WorkspaceId = workspaceId });
+        return HandleResult(result);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Create(CreateChannelRequest request)
+    {
+        var result = await Mediator.Send(
+            new Create.Command { Name = request.Name, WorkspaceId = request.WorkspaceId }
+        );
         return HandleResult(result);
     }
 }
