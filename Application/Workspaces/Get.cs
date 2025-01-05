@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Common;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -34,18 +35,31 @@ public class Get
         )
         {
             var query = _dataContext
-                .UserWorkspaces.Where(x =>
-                    x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId
-                )
+                .UserWorkspaces.Where(x => x.WorkspaceId == request.WorkspaceId)
                 .Select(x => x.Workspace)
                 .OrderBy(x => x!.Name)
                 .ProjectTo<WorkspaceDto>(_mapper.ConfigurationProvider);
 
             var result = await query.FirstOrDefaultAsync(cancellationToken);
+            if (result == null)
+            {
+                return Result<WorkspaceDto>.NotFound();
+            }
 
-            return result != null
-                ? Result<WorkspaceDto>.Success(result)
-                : Result<WorkspaceDto>.NotFound();
+            var isAdminMember = await _dataContext
+                .UserWorkspaces.Where(x =>
+                    x.UserId == _user.Id
+                    && x.WorkspaceId == request.WorkspaceId
+                    && x.Role == WorkspaceRole.admin.ToString()
+                )
+                .AnyAsync(cancellationToken: cancellationToken);
+            if (!isAdminMember)
+            {
+                result.JoinCode = "";
+                result.Channels = [];
+            }
+
+            return Result<WorkspaceDto>.Success(result);
         }
     }
 }
