@@ -35,7 +35,7 @@ Content-Type: application/json
 GET {{API_HostAddress}}/signout
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer 
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkbDtmxkZXNpIENzYWJhIiwibmFtZWlkIjoiZGMzYzIyOTItMWEzZi00ZmMwLWI4ZjYtYzRkOTNiZTM0MWI4IiwiZW1haWwiOiJjc0Bjcy5jcyIsIlByb3ZpZGVyIjoiIiwibmJmIjoxNzM2MDg4NjcyLCJleHAiOjE3MzYwODg5NzIsImlhdCI6MTczNjA4ODY3Mn0.m0WHKZGrXr0GoG_DuxiFS8LfimQJ1qEgokbaEYpNqruogXy9npRnAfy62RnTrkMoXDKlw73oXFXhLLUXD0iC8g
 
 ###
 
@@ -53,5 +53,5 @@ Authorization: Bearer
 GET {{API_HostAddress}}/refresh-token
 Accept: application/json
 Content-Type: application/json
-Cookie: RefreshToken=CTEsrDIn2YAi4bAvWvL6VlHnYp0wnF_v5BeNeFOWnWQ
+Cookie: RefreshToken=9bnPTCYM8PxxzLnzuGIyg6LHXJcg9qrB9TB7TSPjKk8
 ###

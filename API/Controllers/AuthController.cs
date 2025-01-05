@@ -159,6 +159,15 @@ public class AuthController : BaseApiController
     [Authorize]
     public async Task<IActionResult> SignOutHandler()
     {
+        await _tokenService.RevokeRefreshTokenAsync(_user.Id!);
+        if (Request.Cookies.ContainsKey("AccessToken"))
+        {
+            Response.Cookies.Delete("AccessToken");
+        }
+        if (Request.Cookies.ContainsKey("RefreshToken"))
+        {
+            Response.Cookies.Delete("RefreshToken");
+        }
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return SignOut(
             new AuthenticationProperties { },

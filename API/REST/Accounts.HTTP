@@ -28,10 +28,10 @@ Content-Type: application/json
 
 
 #Logout
-POST {{API_HostAddress}}/logout
+GET {{API_HostAddress}}/signout
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{accessToken}}
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzYwODc2MDEsImV4cCI6MTczNjA4NzkwMSwiaWF0IjoxNzM2MDg3NjAxfQ.7TwyQ5PTZax8abyi8Em63GRsmuYN-ebqIvm59m4xbDAjuAWu4a_nwen2Qf8aXDfZFMBghbop10QkXP5LXpdkkA
 
 ###
 
@@ -39,13 +39,14 @@ Authorization: Bearer {{accessToken}}
 GET {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkbDtmxkZXNpIENzYWJhIiwibmFtZWlkIjoiNDNmMDIwZTYtMWMyZC00NDQ2LThkOGQtMjRmMDlmNGM1NzE2IiwiZW1haWwiOiJjczFAY3MuaHUiLCJQcm92aWRlciI6IiIsIm5iZiI6MTczNjA3OTk5MCwiZXhwIjoxNzM2MDgwMjkwLCJpYXQiOjE3MzYwNzk5OTB9._k-kozXiNBhHaSTj4e3LgB3iLAYVRrXbR1z3f0r94Ypdc0ZR_3d4i2WD7PSdotMS4rxP78VgU3waHxEbamsS6A
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkbDtmxkZXNpIENzYWJhIiwibmFtZWlkIjoiZGMzYzIyOTItMWEzZi00ZmMwLWI4ZjYtYzRkOTNiZTM0MWI4IiwiZW1haWwiOiJjc0Bjcy5jcyIsIlByb3ZpZGVyIjoiIiwibmJmIjoxNzM2MDgxMTExLCJleHAiOjE3MzYwODE0MTEsImlhdCI6MTczNjA4MTExMX0.Q5zCTlna5EXjX0kmXnAkvvE1FCnm3lMR5Sl436eVrwcC-Qj6itU1aohVfz4rMqqTP6yx3p7z85x_J0puFjfwTA
 
 ###
 
 # Refresh token
-POST {{API_HostAddress}}/token/XpPjorvXO1857u7KQBQ4pYqI6Pj1U1fDHi4Py2UkXWM
+POST {{API_HostAddress}}/refresh-token
 Accept: application/json
 Content-Type: application/json
+Cookie: RefreshToken=
 
 ###
