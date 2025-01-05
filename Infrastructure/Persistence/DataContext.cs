@@ -49,10 +49,10 @@ public class DataContext : IdentityDbContext<User>, IDataContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // Ensure UserWorkspaces relationship to User does not cascade delete Users
-        builder
+        /*builder
             .Entity<UserWorkspaces>()
             .HasOne(uw => uw.User)
             .WithMany()
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict);*/
     }
 }

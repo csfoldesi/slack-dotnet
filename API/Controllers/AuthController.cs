@@ -47,11 +47,20 @@ public class AuthController : BaseApiController
             return Unauthorized(ApiResponse<string>.Failure(result.Error));
         }
 
-        var accessToken = await _tokenService.CreateAccessTokenAsync(
-            result.Value!,
-            result.Value!.AuthProvider
-        );
-        return HandleResult(Result<string>.Success(accessToken));
+        var user = result.Value!;
+        var response = _mapper.Map<User, UserProfile>(user);
+        var accessToken = await _tokenService.CreateAccessTokenAsync(user, null);
+        var refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None,
+        };
+        Response.Cookies.Append("AccessToken", accessToken, cookieOptions);
+        Response.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
+
+        return HandleResult(Result<UserProfile>.Success(response));
     }
 
     [HttpPost("signup")]
@@ -65,18 +74,23 @@ public class AuthController : BaseApiController
         );
         if (result.ResultCode != ResultCode.Success)
         {
-            return HandleResult(Result<CreateUserResponse>.Failure(result.Error));
+            return HandleResult(Result<UserProfile>.Failure(result.Error));
         }
 
         var user = result.Value!;
-        var createUserResponse = new CreateUserResponse
+        var response = _mapper.Map<User, UserProfile>(user);
+        var accessToken = await _tokenService.CreateAccessTokenAsync(user, null);
+        var refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
+        var cookieOptions = new CookieOptions
         {
-            Name = user.Name,
-            Email = user.Email!,
-            Avatar = user.Avatar,
-            AccessToken = await _tokenService.CreateAccessTokenAsync(user, null),
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.None,
         };
-        return HandleResult(Result<CreateUserResponse>.Success(createUserResponse));
+        Response.Cookies.Append("AccessToken", accessToken, cookieOptions);
+        Response.Cookies.Append("RefreshToken", refreshToken, cookieOptions);
+
+        return HandleResult(Result<UserProfile>.Success(response));
     }
 
     [HttpGet("signin/github")]
@@ -113,7 +127,7 @@ public class AuthController : BaseApiController
         );
         if (result.ResultCode == ResultCode.Error)
         {
-            return HandleResult(Result<CreateUserResponse>.Failure(result.Error));
+            return HandleResult(Result<UserProfile>.Failure(result.Error));
         }
 
         var user = result.Value!;

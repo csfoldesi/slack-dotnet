@@ -1,30 +1,30 @@
 @API_HostAddress = http://localhost:5000/api/auth
 
 # Create Account
-POST {{API_HostAddress}}/register
+POST {{API_HostAddress}}/signup
 Accept: application/json
 Content-Type: application/json
 
 {
   "name": "Földesi Csaba",
-  "email": "cs@cs.hu",
-  "avatar": ""
+  "email": "cs1@cs.hu",
+  "password": "Password+1"
 }
 ###
 
 
 # Login
 # @name postLogin
-POST {{API_HostAddress}}
+POST {{API_HostAddress}}/signin
 Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "admin@admin.hu",
-  "password": "Password1"
+  "email": "cs@cs.cs",
+  "password": "Password+1"
 }
 ###
-@accessToken = {{postLogin.response.body.data.accessToken}}
+//@accessToken = {{postLogin.response.body.data.accessToken}}
 
 
 #Logout
@@ -39,8 +39,7 @@ Authorization: Bearer {{accessToken}}
 GET {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer 
-
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkbDtmxkZXNpIENzYWJhIiwibmFtZWlkIjoiNDNmMDIwZTYtMWMyZC00NDQ2LThkOGQtMjRmMDlmNGM1NzE2IiwiZW1haWwiOiJjczFAY3MuaHUiLCJQcm92aWRlciI6IiIsIm5iZiI6MTczNjA3OTk5MCwiZXhwIjoxNzM2MDgwMjkwLCJpYXQiOjE3MzYwNzk5OTB9._k-kozXiNBhHaSTj4e3LgB3iLAYVRrXbR1z3f0r94Ypdc0ZR_3d4i2WD7PSdotMS4rxP78VgU3waHxEbamsS6A
 
 ###
 
