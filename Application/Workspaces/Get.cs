@@ -35,31 +35,30 @@ public class Get
         )
         {
             var query = _dataContext
-                .UserWorkspaces.Where(x => x.WorkspaceId == request.WorkspaceId)
-                .Select(x => x.Workspace)
+                .Workspaces.Where(x => x.Id == request.WorkspaceId)
                 .OrderBy(x => x!.Name)
                 .ProjectTo<WorkspaceDto>(_mapper.ConfigurationProvider);
 
-            var result = await query.FirstOrDefaultAsync(cancellationToken);
-            if (result == null)
+            var workspace = await query.SingleOrDefaultAsync(cancellationToken);
+            if (workspace == null)
             {
                 return Result<WorkspaceDto>.NotFound();
             }
 
-            var isAdminMember = await _dataContext
+            var membership = await _dataContext
                 .UserWorkspaces.Where(x =>
-                    x.UserId == _user.Id
-                    && x.WorkspaceId == request.WorkspaceId
-                    && x.Role == WorkspaceRole.admin.ToString()
+                    x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId
                 )
-                .AnyAsync(cancellationToken: cancellationToken);
-            if (!isAdminMember)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            workspace.IsMember = membership != null;
+
+            if (membership == null || membership.Role != WorkspaceRole.admin.ToString())
             {
-                result.JoinCode = "";
-                result.Channels = [];
+                workspace.JoinCode = "";
             }
 
-            return Result<WorkspaceDto>.Success(result);
+            return Result<WorkspaceDto>.Success(workspace);
         }
     }
 }

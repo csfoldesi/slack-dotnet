@@ -1,5 +1,4 @@
-﻿using System;
-using Application.Common;
+﻿using Application.Common;
 using Application.Common.Interfaces;
 using AutoMapper;
 using Domain;

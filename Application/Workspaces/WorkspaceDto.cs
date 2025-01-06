@@ -8,6 +8,8 @@ public class WorkspaceDto
 
     public required string Name { get; set; }
 
+    public bool IsMember { get; set; } = false;
+
     public required string JoinCode { get; set; }
 
     public required List<ChannelDto> Channels { get; set; } = [];

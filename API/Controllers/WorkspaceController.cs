@@ -59,5 +59,15 @@ namespace API.Controllers
             var result = await Mediator.Send(new Delete.Command { WorkspaceId = workspaceId });
             return HandleResult(result);
         }
+
+        [HttpPost("{workspaceId}/join")]
+        [Authorize]
+        public async Task<IActionResult> Join(Guid workspaceId, [FromBody] JoinRequest request)
+        {
+            var result = await Mediator.Send(
+                new Join.Command { WorkspaceId = workspaceId, JoinCode = request.Code }
+            );
+            return HandleResult(result);
+        }
     }
 }
