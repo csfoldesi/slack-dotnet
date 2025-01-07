@@ -23,6 +23,7 @@ export const WorkspaceSidebar = () => {
   const { setOpen } = useCreteChannelModal();
 
   const channels = useMemo(() => workspace?.channels, [workspace]);
+  const orherMembers = members?.filter((x) => x.userId !== membership?.userId);
 
   if (workspaceLoading || membershipLoading) {
     return <Loader />;
@@ -59,7 +60,7 @@ export const WorkspaceSidebar = () => {
         ))}
       </WorkspaceSection>
       <WorkspaceSection label="Direct messages" hint="New DM" onNew={() => {}}>
-        {members?.map((item) => (
+        {orherMembers?.map((item) => (
           <UserItem
             key={item.userId}
             id={item.userId}
