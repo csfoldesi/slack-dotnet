@@ -7,7 +7,15 @@ namespace API.Controllers;
 
 public class ChannelController : BaseApiController
 {
-    [HttpGet("{workspaceId}")]
+    [HttpGet("{channelId}")]
+    [Authorize]
+    public async Task<IActionResult> Get(Guid channelId)
+    {
+        var result = await Mediator.Send(new Get.Query { ChannelId = channelId });
+        return HandleResult(result);
+    }
+
+    [HttpGet("list/{workspaceId}")]
     [Authorize]
     public async Task<IActionResult> List(Guid workspaceId)
     {
