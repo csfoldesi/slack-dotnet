@@ -6,8 +6,9 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { SignInFlow } from "../types";
 import { useState } from "react";
-//import { useAuthActions } from "@convex-dev/auth/react";
 import { TriangleAlert } from "lucide-react";
+import { useSignIn } from "../api/use-sign-in";
+import { useNavigate } from "@tanstack/react-router";
 
 interface SignInCardProps {
   setState: (state: SignInFlow) => void;
@@ -17,22 +18,26 @@ const GITHUB_URL = import.meta.env.VITE_OAUTH_GITHUB;
 const GOOGLE_URL = import.meta.env.VITE_OAUTH_GOOGLE;
 
 export const SignInCard = ({ setState }: SignInCardProps) => {
-  //const { signIn } = useAuthActions();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const { signIn } = useSignIn();
 
   const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPending(true);
-    /*signIn("password", { email, password, flow: "signIn" })
+    signIn({ email, password })
+      .then(() => {
+        navigate({ to: "/workspaces" });
+      })
       .catch(() => {
         setError("Invalid email or password");
       })
       .finally(() => {
         setPending(false);
-      });*/
+      });
   };
 
   const onProviderSignIn = (value: "github" | "google") => {

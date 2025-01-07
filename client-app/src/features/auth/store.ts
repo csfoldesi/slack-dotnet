@@ -30,9 +30,7 @@ export const useAuthStore = () => {
     }
   };
 
-  return { user: store.user, setUser };
-};
+  const isAuthenticated = store.user !== undefined;
 
-export const isAuthenticated = () => {
-  return AuthStore.state.user !== undefined;
+  return { user: store.user, setUser, isAuthenticated };
 };

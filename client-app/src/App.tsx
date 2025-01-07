@@ -1,46 +1,38 @@
+import { createRouter, parseSearchWith, RouterProvider, stringifySearchWith } from "@tanstack/react-router";
 import "./App.css";
-import { Button } from "./components/ui/button";
-import { Display } from "./Display";
-import { AuthScreen } from "./features/auth/components/auth-screen";
-import { UserButton } from "./features/auth/components/user-button";
-import { store } from "./store";
+import { routeTree } from "./routeTree.gen";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "sonner";
+import { useAuthStore } from "./features/auth/store";
+
+// Create a new router instance
+const router = createRouter({
+  routeTree,
+  parseSearch: parseSearchWith(JSON.parse),
+  stringifySearch: stringifySearchWith(JSON.stringify),
+  context: {
+    auth: undefined!,
+  },
+});
+
+// Register the router instance for type safety
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
+
+const queryClient = new QueryClient();
 
 function App() {
-  const updateState = (animal: "cats" | "dogs") => {
-    store.setState((state) => {
-      return {
-        ...state,
-        [animal]: state[animal] + 1,
-      };
-    });
-  };
-
-  interface IncrementProps {
-    animal: "cats" | "dogs";
-  }
-
-  const Increment = ({ animal }: IncrementProps) => (
-    <Button onClick={() => updateState(animal)}>My Friend Likes {animal}</Button>
-  );
+  const auth = useAuthStore();
 
   return (
-    <div className="h-full w-full">
-      <AuthScreen />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Toaster />
+      <RouterProvider router={router} context={{ auth }} />
+    </QueryClientProvider>
   );
-
-  /*return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <h1>How many of your friends like cats or dogs?</h1>
-      <p>Press one of the buttons to add a counter of how many of your friends like cats or dogs</p>
-      <Increment animal="dogs" />
-      <Display animal="dogs" />
-      <Increment animal="cats" />
-      <Display animal="cats" />
-      <UserButton />
-    </div>
-  );*/
 }
 
 export default App;

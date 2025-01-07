@@ -5,3 +5,15 @@ export type User = {
   email: string;
   avatar?: string;
 };
+
+export type SignUpRequest = {
+  name: string;
+  email: string;
+  password: string;
+  avatar?: string;
+};
+
+export type SignInRequest = {
+  email: string;
+  password: string;
+};

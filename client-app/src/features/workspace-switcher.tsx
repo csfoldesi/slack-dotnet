@@ -23,7 +23,7 @@ export const WorkspaceSwitcher = () => {
   const { data: workspaces, isLoading: workspaceLoading } = useGetWorkspaces();
   const { data: currentWokrspace } = useGetWorkspace(workspaceId);
 
-  const filteredWorkspaces = workspaces?.filter((w) => w.id !== workspaceId);
+  //const filteredWorkspaces = workspaces?.filter((w) => w.id !== workspaceId);
 
   return (
     <>
@@ -47,19 +47,21 @@ export const WorkspaceSwitcher = () => {
             {currentWokrspace?.name}
             <span className="text-xs text-muted-foreground">Active workspace</span>
           </DropdownMenuItem>
-          {filteredWorkspaces?.map((workspace) => (
-            <DropdownMenuItem
-              key={workspace.id}
-              onClick={() => {
-                navigate({ to: "/workspaces/$workspaceId", params: { workspaceId: workspace.id } });
-              }}
-              className="cursor-pointer capitalize overflow-hidden">
-              <div className="size-9 relative overflow-hidden bg-[#616061] text-white font-semibold text-lg rounded-md flex items-center justify-center mr-2">
-                {workspace.name.charAt(0).toUpperCase()}
-              </div>
-              <p className="truncate">{workspace.name}</p>
-            </DropdownMenuItem>
-          ))}
+          {workspaces
+            ?.filter((w) => w.id !== workspaceId)
+            ?.map((workspace) => (
+              <DropdownMenuItem
+                key={workspace.id}
+                onClick={() => {
+                  navigate({ to: "/workspaces/$workspaceId", params: { workspaceId: workspace.id } });
+                }}
+                className="cursor-pointer capitalize overflow-hidden">
+                <div className="size-9 relative overflow-hidden bg-[#616061] text-white font-semibold text-lg rounded-md flex items-center justify-center mr-2">
+                  {workspace.name.charAt(0).toUpperCase()}
+                </div>
+                <p className="truncate">{workspace.name}</p>
+              </DropdownMenuItem>
+            ))}
           <DropdownMenuItem className="cursor-pointer" onClick={() => setOpen(true)}>
             <div className="size-9 relative overflow-hidden bg-[#f2f2f2] text-slate-800 font-semibold text-lg rounded-md flex items-center justify-center mr-2">
               <Plus />

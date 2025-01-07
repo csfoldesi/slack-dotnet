@@ -7,7 +7,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { useState } from "react";
 import { TriangleAlert } from "lucide-react";
-//import { useAuthActions } from "@convex-dev/auth/react";
+import { useSignUp } from "../api/use-sign-up";
+import { useNavigate } from "@tanstack/react-router";
 
 const GITHUB_URL = import.meta.env.VITE_OAUTH_GITHUB;
 const GOOGLE_URL = import.meta.env.VITE_OAUTH_GOOGLE;
@@ -17,13 +18,14 @@ interface SignUpCardProps {
 }
 
 export const SignUpCard = ({ setState }: SignUpCardProps) => {
-  //const { signIn } = useAuthActions();
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const { signUp } = useSignUp();
 
   const onProviderSignUp = (value: "github" | "google") => {
     setPending(true);
@@ -37,13 +39,16 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
       return;
     }
     setPending(true);
-    /*signIn("password", { name, email, password, flow: "signUp" })
+    signUp({ name, email, password })
+      .then(() => {
+        navigate({ to: "/workspaces" });
+      })
       .catch(() => {
         setError("Something went wrong");
       })
       .finally(() => {
         setPending(false);
-      });*/
+      });
   };
 
   return (

@@ -3,6 +3,7 @@ import { Channel } from "../channels/types";
 export type Workspace = {
   id: string;
   name: string;
+  isMember: boolean;
   joinCode: string;
   channels: Channel[];
 };

@@ -16,6 +16,7 @@ export const useUpdateWorkspace = () => {
       client.patch(`/workspace/${data.id}`, data).then((res) => res.data.data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["GetWorkspace"] });
+      queryClient.invalidateQueries({ queryKey: ["GetWorkspaces"] });
     },
   });
 

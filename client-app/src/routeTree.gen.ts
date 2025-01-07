@@ -14,6 +14,7 @@ import { Route as rootRoute } from "./routes/__root"
 import { Route as IndexImport } from "./routes/index"
 import { Route as WorkspacesIndexImport } from "./routes/workspaces_/index"
 import { Route as AuthIndexImport } from "./routes/auth/index"
+import { Route as JoinWorkspaceIdImport } from "./routes/join_/$workspaceId"
 import { Route as AuthCallbackImport } from "./routes/auth/callback"
 import { Route as WorkspacesWorkspaceIdIndexImport } from "./routes/workspaces_/$workspaceId/index"
 import { Route as WorkspacesWorkspaceIdChannelsChannelIdIndexImport } from "./routes/workspaces_/$workspaceId/channels_/$channelId/index"
@@ -35,6 +36,12 @@ const WorkspacesIndexRoute = WorkspacesIndexImport.update({
 const AuthIndexRoute = AuthIndexImport.update({
   id: "/auth/",
   path: "/auth/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const JoinWorkspaceIdRoute = JoinWorkspaceIdImport.update({
+  id: "/join_/$workspaceId",
+  path: "/join/$workspaceId",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -77,6 +84,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof AuthCallbackImport
       parentRoute: typeof rootRoute
     }
+    "/join_/$workspaceId": {
+      id: "/join_/$workspaceId"
+      path: "/join/$workspaceId"
+      fullPath: "/join/$workspaceId"
+      preLoaderRoute: typeof JoinWorkspaceIdImport
+      parentRoute: typeof rootRoute
+    }
     "/auth/": {
       id: "/auth/"
       path: "/auth"
@@ -113,6 +127,7 @@ declare module "@tanstack/react-router" {
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/auth/callback": typeof AuthCallbackRoute
+  "/join/$workspaceId": typeof JoinWorkspaceIdRoute
   "/auth": typeof AuthIndexRoute
   "/workspaces": typeof WorkspacesIndexRoute
   "/workspaces/$workspaceId": typeof WorkspacesWorkspaceIdIndexRoute
@@ -122,6 +137,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
   "/auth/callback": typeof AuthCallbackRoute
+  "/join/$workspaceId": typeof JoinWorkspaceIdRoute
   "/auth": typeof AuthIndexRoute
   "/workspaces": typeof WorkspacesIndexRoute
   "/workspaces/$workspaceId": typeof WorkspacesWorkspaceIdIndexRoute
@@ -132,6 +148,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   "/": typeof IndexRoute
   "/auth/callback": typeof AuthCallbackRoute
+  "/join_/$workspaceId": typeof JoinWorkspaceIdRoute
   "/auth/": typeof AuthIndexRoute
   "/workspaces_/": typeof WorkspacesIndexRoute
   "/workspaces_/$workspaceId/": typeof WorkspacesWorkspaceIdIndexRoute
@@ -143,6 +160,7 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/auth/callback"
+    | "/join/$workspaceId"
     | "/auth"
     | "/workspaces"
     | "/workspaces/$workspaceId"
@@ -151,6 +169,7 @@ export interface FileRouteTypes {
   to:
     | "/"
     | "/auth/callback"
+    | "/join/$workspaceId"
     | "/auth"
     | "/workspaces"
     | "/workspaces/$workspaceId"
@@ -159,6 +178,7 @@ export interface FileRouteTypes {
     | "__root__"
     | "/"
     | "/auth/callback"
+    | "/join_/$workspaceId"
     | "/auth/"
     | "/workspaces_/"
     | "/workspaces_/$workspaceId/"
@@ -169,6 +189,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  JoinWorkspaceIdRoute: typeof JoinWorkspaceIdRoute
   AuthIndexRoute: typeof AuthIndexRoute
   WorkspacesIndexRoute: typeof WorkspacesIndexRoute
   WorkspacesWorkspaceIdIndexRoute: typeof WorkspacesWorkspaceIdIndexRoute
@@ -178,6 +199,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthCallbackRoute: AuthCallbackRoute,
+  JoinWorkspaceIdRoute: JoinWorkspaceIdRoute,
   AuthIndexRoute: AuthIndexRoute,
   WorkspacesIndexRoute: WorkspacesIndexRoute,
   WorkspacesWorkspaceIdIndexRoute: WorkspacesWorkspaceIdIndexRoute,
@@ -197,6 +219,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth/callback",
+        "/join_/$workspaceId",
         "/auth/",
         "/workspaces_/",
         "/workspaces_/$workspaceId/",
@@ -208,6 +231,9 @@ export const routeTree = rootRoute
     },
     "/auth/callback": {
       "filePath": "auth/callback.tsx"
+    },
+    "/join_/$workspaceId": {
+      "filePath": "join_/$workspaceId.tsx"
     },
     "/auth/": {
       "filePath": "auth/index.tsx"

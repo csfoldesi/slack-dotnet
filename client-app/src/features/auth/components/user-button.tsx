@@ -1,5 +1,3 @@
-"use client";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -7,37 +5,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-//import { useCurrentUser } from "../api/use-current-user";
-import { Loader, LogOut } from "lucide-react";
-//import { useAuthActions } from "@convex-dev/auth/react";
-//import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
+import { useAuthStore } from "../store";
+import { useNavigate } from "@tanstack/react-router";
+import { useSignOut } from "../api/use-sign-out";
 
 export const UserButton = () => {
-  //const { signOut } = useAuthActions();
-  //const { data, isLoading } = useCurrentUser();
-  //const router = useRouter();
+  const navigate = useNavigate();
+  const { user } = useAuthStore();
+  const { signOut } = useSignOut();
 
   const onSignOut = async () => {
-    /*await signOut();
-    router.replace("/auth");*/
+    signOut().then(() => {
+      navigate({ to: "/auth" });
+    });
   };
 
   //if (isLoading) return <Loader className="size-4 animate-spin text-muted-foreground" />;
 
-  //if (!data) return null;
+  if (!user) return null;
 
-  //const { image, name } = data;
-
-  const name = "Csabus";
-  const image = "https://avatars.githubusercontent.com/u/601087?v=4";
-
-  const avatarFallback = name!.charAt(0).toUpperCase();
+  const avatarFallback = user.name.charAt(0).toUpperCase();
 
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="outline-none relative">
         <Avatar className="size-10 hover:opacity-75 transition rounded-md">
-          <AvatarImage alt={name} src={image} />
+          <AvatarImage alt={user.name} src={user.avatar} />
           <AvatarFallback className="bg-blue-400 text-white rounded-md">{avatarFallback}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
