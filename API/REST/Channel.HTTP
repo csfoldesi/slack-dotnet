@@ -9,14 +9,14 @@ Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkN
 ###
 
 # Get a Channels
-GET {{API_HostAddress}}/f9f733f8-3eeb-4e00-a8b8-996d50fa6f6a
+GET {{API_HostAddress}}/f4e074e4-c627-496a-b47f-d0f036a651cd
 Accept: application/json
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik5hZ3kgSXN0dsOhbiIsIm5hbWVpZCI6IjgyOTA1Y2RkLWY2NjEtNDM5MC1iNDAxLTYxNzAzYTE0NjQxNyIsImVtYWlsIjoibmFneUBjcy5jcyIsIlByb3ZpZGVyIjoiIiwibmJmIjoxNzM2MjY5NTUwLCJleHAiOjE3MzYyNjk4NTAsImlhdCI6MTczNjI2OTU1MH0.bc8lLGBBkEvldvvYlubwRYCBNheo2oWKAvPivAOuypCZ3IT6lsElz1KWjhuUa-fEcw0t7NWkC5DY-Y9GOU4fWw
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzYzNDQ3NzUsImV4cCI6MTczNjM0NTA3NSwiaWF0IjoxNzM2MzQ0Nzc1fQ.b6K2MtHWo9XEdEElPE66YkjrbpdLBkHtDuOSBO8bdNE7zp1GOMuJeKRSzHUGSL8UenInKmIvvaOwZLnLNPWFKQ
 
 ###
 
 
-#Create Channel
+# Create Channel
 POST {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
@@ -25,5 +25,16 @@ Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkN
 {
     "name": "Another  test Channel",
     "workspaceId": "ff77c220-3fcc-448e-b2ce-e25a8c263b4d"
+}
+###
+
+# Update Channel
+PATCH {{API_HostAddress}}/f4e074e4-c627-496a-b47f-d0f036a651cd
+Accept: application/json
+Content-Type: application/json
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzYzNDQ3NzUsImV4cCI6MTczNjM0NTA3NSwiaWF0IjoxNzM2MzQ0Nzc1fQ.b6K2MtHWo9XEdEElPE66YkjrbpdLBkHtDuOSBO8bdNE7zp1GOMuJeKRSzHUGSL8UenInKmIvvaOwZLnLNPWFKQ
+
+{
+    "name": "Renamed Workspace"
 }
 ###

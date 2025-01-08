@@ -32,4 +32,14 @@ public class ChannelController : BaseApiController
         );
         return HandleResult(result);
     }
+
+    [HttpPatch("{channelId}")]
+    [Authorize]
+    public async Task<IActionResult> Update(Guid channelId, [FromBody] UpdateChannelRequest request)
+    {
+        var result = await Mediator.Send(
+            new Update.Command { ChannelId = channelId, Name = request.Name }
+        );
+        return HandleResult(result);
+    }
 }
