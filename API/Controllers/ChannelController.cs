@@ -42,4 +42,12 @@ public class ChannelController : BaseApiController
         );
         return HandleResult(result);
     }
+
+    [HttpDelete("{channelId}")]
+    [Authorize]
+    public async Task<IActionResult> Delete(Guid channelId)
+    {
+        var result = await Mediator.Send(new Delete.Command { ChannelId = channelId });
+        return HandleResult(result);
+    }
 }
