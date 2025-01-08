@@ -12,7 +12,7 @@ public class List
 {
     public class Query : IRequest<Result<List<ChannelDto>>>
     {
-        public Guid WorkspaceId { get; set; }
+        public QueryParams Params { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, Result<List<ChannelDto>>>
@@ -35,7 +35,7 @@ public class List
         {
             var query = _dataContext
                 .UserWorkspaces.Where(x =>
-                    x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId
+                    x.UserId == _user.Id && x.WorkspaceId == request.Params.WorkspaceId
                 )
                 .SelectMany(x => x.Workspace!.Channels)
                 .ProjectTo<ChannelDto>(_mapper.ConfigurationProvider);

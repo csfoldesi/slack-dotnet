@@ -15,11 +15,11 @@ public class ChannelController : BaseApiController
         return HandleResult(result);
     }
 
-    [HttpGet("list/{workspaceId}")]
+    [HttpGet("list")]
     [Authorize]
-    public async Task<IActionResult> List(Guid workspaceId)
+    public async Task<IActionResult> List([FromQuery] QueryParams queryParams)
     {
-        var result = await Mediator.Send(new List.Query { WorkspaceId = workspaceId });
+        var result = await Mediator.Send(new List.Query { Params = queryParams });
         return HandleResult(result);
     }
 
