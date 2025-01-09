@@ -14,9 +14,9 @@ export const useCreateChannel = () => {
   const mutation = useMutation<Channel, AxiosError, Request>({
     mutationFn: (data: Request) => client.post("/channel", data).then((res) => res.data.data),
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["GetWorkspace"]})
-    }
+      queryClient.invalidateQueries({ queryKey: ["GetWorkspace"] });
+    },
   });
 
-  return { mutateAsync: mutation.mutateAsync, isPending: mutation.isPending };
+  return { createChannel: mutation.mutateAsync, isPending: mutation.isPending };
 };

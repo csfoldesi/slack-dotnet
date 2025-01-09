@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useCreteChannelModal } from "@/features/workspaces/store";
-import { useWorkspaceId } from "@/hooks/user-workspace-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useNavigate } from "@tanstack/react-router";
 import { useCreateChannel } from "../api/use-create-channel";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -14,7 +14,7 @@ export const CreateChannelModal = () => {
   const workspaceId = useWorkspaceId();
   const { open, setOpen } = useCreteChannelModal();
   const [name, setName] = useState("");
-  const { mutateAsync, isPending } = useCreateChannel();
+  const { createChannel, isPending } = useCreateChannel();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s+/g, "-").toLocaleLowerCase();
@@ -28,7 +28,7 @@ export const CreateChannelModal = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutateAsync({ name, workspaceId })
+    createChannel({ name, workspaceId })
       .then((result) => {
         handleClose();
         toast.success("Channel created");
