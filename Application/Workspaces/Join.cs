@@ -45,9 +45,7 @@ public class Join
             }
 
             var membership = await _dataContext
-                .UserWorkspaces.Where(x =>
-                    x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId
-                )
+                .Members.Where(x => x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId)
                 .SingleOrDefaultAsync(cancellationToken);
 
             // already a member
@@ -65,13 +63,13 @@ public class Join
             }
 
             // add membership
-            membership = new UserWorkspaces
+            membership = new Member
             {
                 UserId = _user.Id!,
                 WorkspaceId = workspace.Id,
                 Role = WorkspaceRole.member.ToString(),
             };
-            _dataContext.UserWorkspaces.Add(membership);
+            _dataContext.Members.Add(membership);
 
             var result = await _dataContext.SaveChangesAsync(cancellationToken);
             if (result == 0)

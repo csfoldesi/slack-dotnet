@@ -51,13 +51,13 @@ public class Create
             };
             _dataContext.Workspaces.Add(workspace);
 
-            var member = new UserWorkspaces
+            var member = new Member
             {
                 UserId = _user.Id!,
                 WorkspaceId = workspace.Id,
                 Role = WorkspaceRole.admin.ToString(),
             };
-            _dataContext.UserWorkspaces.Add(member);
+            _dataContext.Members.Add(member);
 
             var channel = new Channel
             {

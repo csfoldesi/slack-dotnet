@@ -34,9 +34,7 @@ public class GetMember
         )
         {
             var member = await _dataContext
-                .UserWorkspaces.Where(x =>
-                    x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId
-                )
+                .Members.Where(x => x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId)
                 .Include(x => x.User)
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);

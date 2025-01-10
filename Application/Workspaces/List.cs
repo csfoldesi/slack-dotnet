@@ -31,7 +31,7 @@ public class List
         )
         {
             var query = _dataContext
-                .UserWorkspaces.Where(x => x.UserId == _user.Id)
+                .Members.Where(x => x.UserId == _user.Id)
                 .Select(x => x.Workspace)
                 .OrderBy(x => x.Name)
                 .ProjectTo<WorkspaceDto>(_mapper.ConfigurationProvider);

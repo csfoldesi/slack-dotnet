@@ -34,7 +34,7 @@ public class List
         )
         {
             var query = _dataContext
-                .UserWorkspaces.Where(x =>
+                .Members.Where(x =>
                     x.UserId == _user.Id && x.WorkspaceId == request.Params.WorkspaceId
                 )
                 .SelectMany(x => x.Workspace!.Channels)

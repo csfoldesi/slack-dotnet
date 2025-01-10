@@ -35,7 +35,7 @@ public class Delete
         )
         {
             var query = _dataContext
-                .UserWorkspaces.Where(x =>
+                .Members.Where(x =>
                     x.UserId == _user.Id && x.Role == WorkspaceRole.admin.ToString()
                 )
                 .SelectMany(x => x.Workspace!.Channels)

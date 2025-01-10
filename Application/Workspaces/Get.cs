@@ -46,9 +46,7 @@ public class Get
             }
 
             var membership = await _dataContext
-                .UserWorkspaces.Where(x =>
-                    x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId
-                )
+                .Members.Where(x => x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId)
                 .SingleOrDefaultAsync(cancellationToken);
 
             workspace.IsMember = membership != null;

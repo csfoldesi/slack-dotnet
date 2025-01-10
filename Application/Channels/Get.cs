@@ -34,7 +34,7 @@ public class Get
         )
         {
             var query = _dataContext
-                .UserWorkspaces.Where(x => x.UserId == _user.Id)
+                .Members.Where(x => x.UserId == _user.Id)
                 .SelectMany(x => x.Workspace!.Channels)
                 .Where(x => x.Id == request.ChannelId);
 

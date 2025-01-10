@@ -2,8 +2,10 @@
 
 namespace Domain;
 
-public class UserWorkspaces
+public class Member
 {
+    public Guid Id { get; set; }
+
     public required string UserId { get; set; }
 
     public User? User { get; set; }

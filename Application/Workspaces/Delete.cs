@@ -35,7 +35,7 @@ public class Delete
         )
         {
             var workspace = await _dataContext
-                .UserWorkspaces.Where(x => x.WorkspaceId == request.WorkspaceId)
+                .Members.Where(x => x.WorkspaceId == request.WorkspaceId)
                 .Where(x => x.UserId == _user.Id)
                 .Where(x => x.Role == WorkspaceRole.admin.ToString())
                 .Select(x => x.Workspace)

@@ -33,7 +33,7 @@ public class GetMemberList
             CancellationToken cancellationToken
         )
         {
-            var isMember = await _dataContext.UserWorkspaces.AnyAsync(
+            var isMember = await _dataContext.Members.AnyAsync(
                 x => x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId,
                 cancellationToken: cancellationToken
             );
@@ -44,7 +44,7 @@ public class GetMemberList
             }
 
             var query = _dataContext
-                .UserWorkspaces.Where(x => x.WorkspaceId == request.WorkspaceId)
+                .Members.Where(x => x.WorkspaceId == request.WorkspaceId)
                 .Include(x => x.User)
                 .OrderBy(x => x.User!.Name)
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider);

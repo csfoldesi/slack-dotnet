@@ -10,5 +10,5 @@ public class User : IdentityUser
 
     public string? AuthProvider { get; set; }
 
-    public ICollection<UserWorkspaces> Workspaces { get; set; } = [];
+    public ICollection<Member> Workspaces { get; set; } = [];
 }
