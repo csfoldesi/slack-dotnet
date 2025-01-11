@@ -1,9 +1,11 @@
 ﻿using System.Text;
 using Application.Common.Interfaces;
 using Domain;
+using Infrastructure.Identity.Security;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,8 +67,16 @@ public static class ServiceRegistration
             .AddGoogleAuthentication(configuration);
 
         services.AddAuthorization();
+        /*services.AddAuthorization(options =>
+        {
+            options.AddPolicy(
+                "IsMember",
+                policy => policy.Requirements.Add(new IsWorkspaceMemberRequirement())
+            );
+        });*/
         services.AddScoped<ITokenService, TokenService>();
         services.AddTransient<IIdentityService, IdentityService>();
+        //services.AddScoped<IAuthorizationHandler, IsWorkspaceMemberHandler>();
 
         return services;
     }

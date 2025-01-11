@@ -1,4 +1,6 @@
-﻿namespace API.Dto;
+﻿using Application.Common.Interfaces;
+
+namespace API.Dto;
 
 public class CreateChannelRequest
 {

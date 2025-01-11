@@ -1,0 +1,15 @@
+@API_HostAddress = http://localhost:5000/api/message
+
+# Create Message
+POST {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzY2MDMxNjcsImV4cCI6MTczNjYwMzQ2NywiaWF0IjoxNzM2NjAzMTY3fQ.UN_kvD53fIcrItoVSSzC5RMWHT6rxgXv96mw1MP0wqs_NAz4Xq-g1vf1WnGSq8cA7DWu-AJNZ5vzwB2TwQLxCA
+
+{
+    "body": "Firts message response 2",
+    "workspaceId": "0eb2a9d5-30bd-425f-a1db-091bc3597647",
+    "channelId": "9f917529-1370-48eb-92ad-0a4f6ce96202",
+    "parentMessageId": "407f91b1-7956-4aa2-ba04-ece82a05567a"
+}
+###
