@@ -3,20 +3,26 @@ import { useGetWorkspace } from "../api/use-get-workspace";
 import { Loader } from "@/components/loader";
 import { TriangleAlert } from "lucide-react";
 import { useEffect } from "react";
+import { useCreteChannelModal } from "../store";
+import { CreateChannelModal } from "@/features/channels/components/create-channel-modal";
 
 export const Workspace = () => {
   const navigate = useNavigate();
   const { workspaceId } = useParams({ strict: false });
-  const { data: workspace, isLoading } = useGetWorkspace(workspaceId!);
+  const { data: workspace, isSuccess } = useGetWorkspace(workspaceId!);
+  const { setOpen } = useCreteChannelModal();
 
   useEffect(() => {
-    if (isLoading || !workspaceId || !workspace || workspace.channels.length == 0) return;
-
+    if (!isSuccess || !workspaceId || !workspace) return;
+    if (workspace.channels.length === 0) {
+      setOpen(true);
+      return;
+    }
     const channelId = workspace.channels[0].id;
     navigate({ to: "/workspaces/$workspaceId/channels/$channelId", params: { workspaceId, channelId } });
-  }, [isLoading, navigate, workspace, workspaceId]);
+  }, [isSuccess, navigate, setOpen, workspace, workspaceId]);
 
-  if (isLoading) {
+  if (!isSuccess) {
     return <Loader />;
   }
 
@@ -30,10 +36,16 @@ export const Workspace = () => {
   }
 
   if (workspace.channels.length == 0) {
-    <div className="h-full flex items-center justify-center flex-col gap-2">
-      <TriangleAlert className="size-6 text-muted-foreground" />
-      <span className="text-sm text-muted-foreground">No channel found</span>
-    </div>;
+    return (
+      <>
+        <CreateChannelModal />
+        <div className="h-full flex items-center justify-center flex-col gap-2">
+          <TriangleAlert className="size-6 text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">No channel found</span>
+        </div>
+        ;
+      </>
+    );
   }
 
   return (

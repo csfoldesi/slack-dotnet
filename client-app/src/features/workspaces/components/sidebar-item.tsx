@@ -3,7 +3,7 @@ import { LucideIcon } from "lucide-react";
 import { IconType } from "react-icons/lib";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { useWorkspaceId } from "@/hooks/user-workspace-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Link } from "@tanstack/react-router";
 
 const sidebarItemVariants = cva(

@@ -18,6 +18,7 @@ export const useCreteChannelModal = () => {
   const store = useStore(CreteChannelModalStore);
 
   const setOpen = (value: boolean) => {
+    console.log("setOpen:", value);
     CreteChannelModalStore.setState(() => value);
   };
 

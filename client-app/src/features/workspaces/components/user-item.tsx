@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useWorkspaceId } from "@/hooks/user-workspace-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Link } from "@tanstack/react-router";
 
 const userItemVariants = cva("flex items-center gap-1.5 justify-start font-normal h-7 px-4 text-sm overflow-hidden", {

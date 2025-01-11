@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useConfirm } from "@/hooks/use-confirm";
-import { useWorkspaceId } from "@/hooks/user-workspace-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { CopyIcon, RefreshCwIcon } from "lucide-react";
 import { toast } from "sonner";

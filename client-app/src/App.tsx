@@ -4,6 +4,7 @@ import { routeTree } from "./routeTree.gen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import { useAuthStore } from "./features/auth/store";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // Create a new router instance
 const router = createRouter({
@@ -31,6 +32,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Toaster />
       <RouterProvider router={router} context={{ auth }} />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

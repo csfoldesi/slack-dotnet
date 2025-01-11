@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useConfirm } from "@/hooks/use-confirm";
-import { useWorkspaceId } from "@/hooks/user-workspace-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useNavigate } from "@tanstack/react-router";
 import { TrashIcon } from "lucide-react";

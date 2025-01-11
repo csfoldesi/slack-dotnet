@@ -8,6 +8,9 @@ type Response = Workspace;
 export const useGetWorkspace = (workspaceId?: string) => {
   return useQuery<Response, AxiosError>({
     queryKey: ["GetWorkspace", workspaceId],
-    queryFn: () => client.get(`/workspace/${workspaceId}`).then((res) => res.data.data),
+    queryFn: async () => {
+      const res = await client.get(`/workspace/${workspaceId}`);
+      return res.data.data;
+    },
   });
 };

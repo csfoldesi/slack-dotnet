@@ -10,7 +10,7 @@ import { useCreteWorkspaceModal } from "./workspaces/store";
 import { useNavigate } from "@tanstack/react-router";
 import { useGetWorkspaces } from "./workspaces/api/use-get-workspaces";
 import { useGetWorkspace } from "./workspaces/api/use-get-workspace";
-import { useWorkspaceId } from "@/hooks/user-workspace-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { CreateWorkspaceModal } from "./workspaces/components/create-workspace-modal";
 
 export const WorkspaceSwitcher = () => {

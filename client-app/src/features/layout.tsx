@@ -4,6 +4,7 @@ import { WorkspaceSidebar } from "./workspaces/components/workspace-sidebar";
 import { Toolbar } from "./toolbar";
 import { Sidebar } from "./sidebar";
 import { Modals } from "@/components/modals";
+import { ChannelLayout } from "./channels/channel-layout";
 
 export const Layout = () => {
   const showPanel = true;
@@ -22,7 +23,7 @@ export const Layout = () => {
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={80} minSize={20}>
-              <div>Children</div>
+              <ChannelLayout />
             </ResizablePanel>
             {showPanel && (
               <>
