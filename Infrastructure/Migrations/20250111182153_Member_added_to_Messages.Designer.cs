@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250111182153_Member_added_to_Messages")]
+    partial class Member_added_to_Messages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -99,9 +102,6 @@ namespace Infrastructure.Migrations
                     b.Property<Guid?>("ConversationId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Image")
                         .HasColumnType("TEXT");
 
@@ -111,7 +111,7 @@ namespace Infrastructure.Migrations
                     b.Property<Guid?>("ParentMessageId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset?>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("WorkspaceId")

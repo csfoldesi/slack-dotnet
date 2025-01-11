@@ -13,4 +13,6 @@ public class Workspace
     public ICollection<Member> UserWorkspaces { get; set; } = [];
 
     public ICollection<Channel> Channels { get; set; } = [];
+
+    public ICollection<Message> Messages { get; set; } = [];
 }

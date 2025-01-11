@@ -18,5 +18,7 @@ public class MessageDto
 
     public Guid? ConversationId { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+
     public DateTime? UpdatedAt { get; set; }
 }

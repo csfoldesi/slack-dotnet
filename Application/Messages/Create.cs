@@ -43,12 +43,12 @@ public class Create
             CancellationToken cancellationToken
         )
         {
-            var isMember = await _dataContext.Members.AnyAsync(
+            var member = await _dataContext.Members.FirstOrDefaultAsync(
                 x => x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId,
                 cancellationToken: cancellationToken
             );
 
-            if (!isMember)
+            if (member == null)
             {
                 return Result<MessageDto>.NotFound();
             }
@@ -66,6 +66,7 @@ public class Create
             var message = new Message
             {
                 Id = Guid.NewGuid(),
+                Member = member,
                 Body = request.Body,
                 Image = request.Image,
                 Workspace = workspace,

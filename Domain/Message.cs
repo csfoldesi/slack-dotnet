@@ -8,6 +8,10 @@ public class Message
 
     public string? Image { get; set; }
 
+    public required Member Member { get; set; }
+
+    public Guid? MemberId { get; set; }
+
     public required Workspace Workspace { get; set; }
 
     public Guid? WorkspaceId { get; set; }
@@ -23,6 +27,8 @@ public class Message
     public Conversation? Conversation { get; set; }
 
     public Guid? ConversationId { get; set; }
+
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; }
 }

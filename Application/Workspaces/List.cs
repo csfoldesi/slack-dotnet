@@ -32,8 +32,8 @@ public class List
         {
             var query = _dataContext
                 .Members.Where(x => x.UserId == _user.Id)
-                .Select(x => x.Workspace)
-                .OrderBy(x => x.Name)
+                .Select(member => member.Workspace)
+                .OrderBy(workspace => workspace!.Name)
                 .ProjectTo<WorkspaceDto>(_mapper.ConfigurationProvider);
 
             var result = await query.ToListAsync(cancellationToken);
