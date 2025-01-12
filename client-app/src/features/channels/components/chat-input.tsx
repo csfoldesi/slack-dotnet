@@ -1,7 +1,8 @@
 //import dynamic from "next/dynamic";
 
 import { Editor } from "@/components/editor";
-//import { useCreateMessage } from "@/features/messages/api/use-create-message";
+import { useCreateMessage } from "@/features/messages/api/use-create-message";
+import { CreateMessageRequest } from "@/features/messages/types";
 //import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
@@ -15,13 +16,6 @@ interface ChatInputProps {
   placeholder: string;
 }
 
-type CreateMessageValues = {
-  channelId: string;
-  workspaceId: string;
-  body: string;
-  image: string | undefined;
-};
-
 export const ChatInput = ({ placeholder }: ChatInputProps) => {
   const [editorKey, setEditorKey] = useState(0);
   const [isPending, setIsPending] = useState(false);
@@ -29,7 +23,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
 
-  //const { mutate: createMessage } = useCreateMessage();
+  const { createMessage } = useCreateMessage();
   //const { mutate: generateUploadUrl } = useGenerateUploadUrl();
 
   const handleSubmit = async ({ body, image }: { body: string; image: File | null }) => {
@@ -37,7 +31,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
       setIsPending(true);
       editorRef.current?.enable(false);
 
-      const values: CreateMessageValues = {
+      const values: CreateMessageRequest = {
         channelId,
         workspaceId,
         body,
@@ -63,8 +57,14 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
         values.image = storageId;
       }*/
 
-      //await createMessage(values, { throwError: true });
-      setEditorKey((prevKey) => prevKey + 1);
+      createMessage(values)
+        .then(() => {
+          setEditorKey((prevKey) => prevKey + 1);
+        })
+        .catch((error) => {
+          console.log(error);
+          throw error;
+        });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Failed to send message");
