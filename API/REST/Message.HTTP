@@ -4,13 +4,12 @@
 POST {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzY2MjA3MTgsImV4cCI6MTczNjYyMTAxOCwiaWF0IjoxNzM2NjIwNzE4fQ.tKemWaWnV0r5p03oKMVoJgZU7i6hxtmVWyCJLvF6swQ6_YwnSRbD9Y2o_snPtRb3Fq3A6Jk1J-pa4WzrjIgfmA
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzY2OTc4ODcsImV4cCI6MTczNjY5ODE4NywiaWF0IjoxNzM2Njk3ODg3fQ.rxENKYIDFI9UTCt1ap-3s59RsF8rDgsVECCqanJfKd7tmCw7HqC86iJACFKyZSqG0adwJEtValr-4ZvGO2JmnQ
 
 {
-    "body": "Message 6 answer",
-    "workspaceId": "886eb85e-445e-495a-8c7f-6c0c65f22f68",
-    "channelId": "f7614ad3-88c3-4b01-8fa4-b0ffa674c756",
-    "parentMessageId": "eeef4bce-0a3c-4395-84ec-5b9f0a25c17c"
+  "channelId": "f7614ad3-88c3-4b01-8fa4-b0ffa674c756",
+  "workspaceId": "886eb85e-445e-495a-8c7f-6c0c65f22f68",
+  "body": "Message"
 }
 ###
 
@@ -20,3 +19,6 @@ GET {{API_HostAddress}}?channelId=f7614ad3-88c3-4b01-8fa4-b0ffa674c756
 Accept: application/json
 Content-Type: application/json
 Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzY2MjA3MTgsImV4cCI6MTczNjYyMTAxOCwiaWF0IjoxNzM2NjIwNzE4fQ.tKemWaWnV0r5p03oKMVoJgZU7i6hxtmVWyCJLvF6swQ6_YwnSRbD9Y2o_snPtRb3Fq3A6Jk1J-pa4WzrjIgfmA
+
+
+    "parentMessageId": "eeef4bce-0a3c-4395-84ec-5b9f0a25c17c",
