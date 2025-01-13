@@ -10,6 +10,12 @@ public class MessageDto
 
     public string? Image { get; set; }
 
+    public Guid AuthorId { get; set; }
+
+    public required string AuthorName { get; set; }
+
+    public required string AuthorAvatar { get; set; }
+
     public Guid WorkspaceId { get; set; }
 
     public Guid? ChannelId { get; set; }
