@@ -26,6 +26,14 @@ public class DataContext : IdentityDbContext<User>, IDataContext
     {
         base.OnModelCreating(builder);
 
+        // set IDs NOCASE
+        builder.Entity<RefreshToken>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+        builder.Entity<Workspace>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+        builder.Entity<Member>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+        builder.Entity<Channel>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+        builder.Entity<Message>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+        builder.Entity<Conversation>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+
         //builder.Entity<Member>(x => x.HasKey(uw => new { uw.UserId, uw.WorkspaceId }));
         builder
             .Entity<Member>()
