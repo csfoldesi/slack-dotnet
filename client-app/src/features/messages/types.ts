@@ -1,6 +1,10 @@
 export type Message = {
+  id: string;
   body: string;
   image?: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar: string;
   workspaceId: string;
   channelId?: string;
   parentMessageId?: string;

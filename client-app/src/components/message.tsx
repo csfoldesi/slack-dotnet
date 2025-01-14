@@ -17,7 +17,7 @@ import { ThreadBar } from "./thread-bar";
 
 interface MessageProps {
   id: string;
-  memberId: string;
+  authorId: string;
   authorImage?: string;
   authorName?: string;
   isAuthor: boolean;
@@ -43,7 +43,7 @@ interface MessageProps {
 
 export const Message = ({
   id,
-  memberId,
+  authorId,
   authorImage,
   authorName = "Member",
   isAuthor,
@@ -125,7 +125,7 @@ export const Message = ({
     return `${isToday(date) ? "Today" : isYesterday(date) ? "Yesterday" : format(date, "MMM d, yyyy")} at ${format(date, "H:mm:ss")}`;
   };
 
-  const avatarFallback = authorName.charAt(0).toUpperCase();
+  const avatarFallback = authorName?.charAt(0).toUpperCase();
 
   if (isCompact) {
     return (

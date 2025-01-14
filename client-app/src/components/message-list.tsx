@@ -1,12 +1,11 @@
-//import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
-import { Message } from "./message";
 import { useState } from "react";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-//import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { Loader } from "lucide-react";
 import { ChannelHero } from "@/features/channels/components/channel-hero";
 import { ConversationHero } from "@/features/conversations/components/conversation-hero";
+import { Message as MessageType } from "@/features/messages/types";
+import { Message } from "./message";
+import { useAuthStore } from "@/features/auth/store";
 
 const TIME_TRESHOLD = 5;
 
@@ -16,7 +15,7 @@ interface MessageListProps {
   channelName?: string;
   channelCreationTime?: number;
   variant?: "channel" | "thread" | "conversation";
-  data: string[] | undefined;
+  data: MessageType[] | undefined;
   loadMore: () => void;
   isLoadingMore: boolean;
   canLoadMore: boolean;
@@ -34,12 +33,11 @@ export const MessageList = ({
   canLoadMore,
 }: MessageListProps) => {
   const [editingId, setEditingId] = useState<string | null>(null);
-  const workspaceId = useWorkspaceId();
-  //const { data: currentMember } = useCurrentMember({ workspaceId });
+  const { user } = useAuthStore();
 
   const groupMessages = data?.reduce(
     (groups, message) => {
-      const date = new Date(message);
+      const date = new Date(message.createdAt);
       const dateKey = format(date, "yyyy-MM-dd");
       if (!groups[dateKey]) {
         groups[dateKey] = [];
@@ -57,6 +55,15 @@ export const MessageList = ({
     return format(date, "EEEE, MMMM d");
   };
 
+  const isCompact = (message: MessageType, previousMessage: MessageType): boolean => {
+    return (
+      message &&
+      previousMessage &&
+      previousMessage.authorId === message.authorId &&
+      differenceInMinutes(new Date(message.createdAt), new Date(previousMessage.createdAt)) < TIME_TRESHOLD
+    );
+  };
+
   return (
     <div className="flex-1 flex flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
       {Object.entries(groupMessages || {}).map(([dateKey, messages]) => (
@@ -67,33 +74,29 @@ export const MessageList = ({
               {formatDateLabel(dateKey)}
             </span>
           </div>
-          {messages.map((message, index) => {
-            const previousMessage = messages[index - 1];
-            const isCompact = false;
-            return (
-              <Message
-                key={message}
-                id={message}
-                memberId={message}
-                authorImage={message}
-                authorName={message}
-                isAuthor={false}
-                reactions={[]}
-                body={message}
-                image={message}
-                updatedAt={0}
-                createdAt={0}
-                isEditing={false}
-                setEditingId={setEditingId}
-                isCompact={isCompact}
-                hideThreadButton={variant === "thread"}
-                threadCount={0}
-                threadImage={message}
-                threadName={message}
-                threadTimestamp={0}
-              />
-            );
-          })}
+          {messages.map((message, index) => (
+            <Message
+              key={message.id}
+              id={message.id}
+              authorId={message.authorId}
+              authorImage={message.authorAvatar}
+              authorName={message.authorName}
+              isAuthor={message.authorId === user?.id}
+              reactions={[]}
+              body={message.body}
+              image={message.image}
+              updatedAt={message.updatedAt}
+              createdAt={message.createdAt}
+              isEditing={editingId === message.id}
+              setEditingId={setEditingId}
+              isCompact={isCompact(message, messages[index - 1])}
+              hideThreadButton={variant === "thread"}
+              threadCount={0}
+              threadImage={undefined}
+              threadName={undefined}
+              threadTimestamp={0}
+            />
+          ))}
         </div>
       ))}
       {isLoadingMore && (

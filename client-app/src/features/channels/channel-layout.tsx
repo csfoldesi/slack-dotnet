@@ -2,17 +2,19 @@ import { useChannelId } from "@/hooks/use-channel-id";
 import { useGetChannel } from "./api/use-get-channel";
 import { Loader } from "@/components/loader";
 import { TriangleAlert } from "lucide-react";
-import { ChannelHeader } from "./channel-header";
+import { ChannelHeader } from "./components/channel-header";
 import { ChatInput } from "./components/chat-input";
 import { MessageList } from "@/components/message-list";
+import { useGetMessages } from "../messages/api/use-get-messages";
 
 export const ChannelLayout = () => {
   const channelId = useChannelId();
   const { data: channel, isLoading: isChannelLoading, error } = useGetChannel(channelId);
+  const { data: messages, isLoading: isMessagesLoading } = useGetMessages(channelId);
   //const { results, status, loadMore } = useGetMessages({ channelId });
   //const { data: channel, isLoading: channelLoading } = useGetChannel({ id: channelId });
 
-  if (isChannelLoading /*|| status === "LoadingFirstPage"*/) {
+  if (isChannelLoading || isMessagesLoading /*|| status === "LoadingFirstPage"*/) {
     return <Loader />;
   }
 
@@ -30,8 +32,8 @@ export const ChannelLayout = () => {
       <ChannelHeader title={channel.name} />
       <MessageList
         channelName={channel.name}
-        channelCreationTime={0}
-        data={[]}
+        channelCreationTime={channel.createdAt}
+        data={messages?.items}
         loadMore={() => {}}
         isLoadingMore={false}
         canLoadMore={true}

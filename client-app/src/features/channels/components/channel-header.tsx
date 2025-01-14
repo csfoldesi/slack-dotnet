@@ -16,9 +16,9 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { ChevronDownIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useGetMembership } from "../workspaces/api/use-get-membership";
-import { useUpdateChannel } from "./api/use-update-channel";
-import { useDeleteChannel } from "./api/use-delete-channel";
+import { useGetMembership } from "../../workspaces/api/use-get-membership";
+import { useUpdateChannel } from "../api/use-update-channel";
+import { useDeleteChannel } from "../api/use-delete-channel";
 import { useNavigate } from "@tanstack/react-router";
 
 interface HeaderProps {
