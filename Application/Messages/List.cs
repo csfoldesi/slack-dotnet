@@ -86,7 +86,7 @@ public class List
                     && message.ParentMessageId == request.ParentMessageId
                 )
                 .OrderByDescending(message => message.CreatedAt)
-                .Include(x => x.Member.User)
+                .Include(x => x.User)
                 .ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
 
             var result = await query.PaginatedListAsync(0, 10);

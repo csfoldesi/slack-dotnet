@@ -21,3 +21,15 @@ Content-Type: application/json
 Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzY4MDE1MzAsImV4cCI6MTczNjgwMTgzMCwiaWF0IjoxNzM2ODAxNTMwfQ.YkRw7xE7SE--oN5ascZ0GiZijfu4huXBl0kzFlUki7OZpkyNeKkR65yQlK1TU1G1DxSFE9nN5LrAzMh_AWaf0Q
 
 ###
+
+
+# Update Message
+PATCH {{API_HostAddress}}/00b6d74f-18ef-41a5-8fb3-6c09ec529291
+Accept: application/json
+Content-Type: application/json
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkbDtmxkZXNpIENzYWJhIiwibmFtZWlkIjoiZGMzYzIyOTItMWEzZi00ZmMwLWI4ZjYtYzRkOTNiZTM0MWI4IiwiZW1haWwiOiJjc0Bjcy5jcyIsIlByb3ZpZGVyIjoiIiwibmJmIjoxNzM2ODg1Mzg0LCJleHAiOjE3MzY4ODU2ODQsImlhdCI6MTczNjg4NTM4NH0.qZy0OTheWB2dhI8BPv0lPGspNL9MWMuQiAAooY2SLDGJsjtX2Cz9K0wIpI2enD9aLWyFYoPUUUdzQYv9QFNrnQ
+
+{
+  "body": "{\"ops\":[{\"insert\":\"mi\\n\"}]}"
+}
+###

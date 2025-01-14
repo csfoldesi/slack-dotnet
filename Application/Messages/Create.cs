@@ -12,7 +12,7 @@ public class Create
 {
     public class Command : IRequest<Result<MessageDto>>
     {
-        public required string Body { get; set; }
+        public string? Body { get; set; }
 
         public string? Image { get; set; }
 
@@ -66,7 +66,7 @@ public class Create
             var message = new Message
             {
                 Id = Guid.NewGuid(),
-                Member = member,
+                UserId = _user.Id,
                 Body = request.Body,
                 Image = request.Image,
                 Workspace = workspace,

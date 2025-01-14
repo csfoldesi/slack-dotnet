@@ -26,6 +26,21 @@ public class MessageController : BaseApiController
     }
 
     [Authorize]
+    [HttpPatch("{messageId}")]
+    public async Task<IActionResult> Update(Guid messageId, [FromBody] UpdateMessageRequest request)
+    {
+        var result = await Mediator.Send(
+            new Update.Command
+            {
+                Id = messageId,
+                Body = request.Body,
+                Image = request.Image,
+            }
+        );
+        return HandleResult(result);
+    }
+
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> List([FromQuery] MessageListRequest request)
     {

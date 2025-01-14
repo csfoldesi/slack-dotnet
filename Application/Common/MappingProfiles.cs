@@ -17,8 +17,8 @@ public class MappingProfiles : AutoMapper.Profile
             .ForMember(x => x.Email, ex => ex.MapFrom(u => u.User!.Email))
             .ForMember(x => x.Avatar, ex => ex.MapFrom(u => u.User!.Avatar));
         CreateMap<Message, MessageDto>()
-            .ForMember(x => x.AuthorId, ex => ex.MapFrom(m => m.MemberId))
-            .ForMember(x => x.AuthorName, ex => ex.MapFrom(m => m.Member.User!.Name))
-            .ForMember(x => x.AuthorAvatar, ex => ex.MapFrom(m => m.Member.User!.Avatar));
+            .ForMember(x => x.AuthorId, ex => ex.MapFrom(m => m.UserId))
+            .ForMember(x => x.AuthorName, ex => ex.MapFrom(m => m.User!.Name))
+            .ForMember(x => x.AuthorAvatar, ex => ex.MapFrom(m => m.User!.Avatar));
     }
 }

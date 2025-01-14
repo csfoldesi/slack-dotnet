@@ -6,11 +6,11 @@ public class MessageDto
 {
     public Guid Id { get; set; }
 
-    public required string Body { get; set; }
+    public string? Body { get; set; }
 
     public string? Image { get; set; }
 
-    public Guid AuthorId { get; set; }
+    public required string AuthorId { get; set; }
 
     public required string AuthorName { get; set; }
 
