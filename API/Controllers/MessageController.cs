@@ -62,4 +62,17 @@ public class MessageController : BaseApiController
         var result = await Mediator.Send(new Delete.Command { Id = messageId });
         return HandleResult(result);
     }
+
+    [Authorize]
+    [HttpPatch("{messageId}/reaction")]
+    public async Task<IActionResult> ToggleReaction(
+        Guid messageId,
+        [FromBody] ToggleReactionRequest request
+    )
+    {
+        var result = await Mediator.Send(
+            new ToggleReaction.Command { MessageId = messageId, Value = request.Value }
+        );
+        return HandleResult(result);
+    }
 }
