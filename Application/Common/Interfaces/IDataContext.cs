@@ -17,5 +17,7 @@ public interface IDataContext
 
     public DbSet<Conversation> Conversations { get; set; }
 
+    public DbSet<Reaction> Reactions { get; set; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

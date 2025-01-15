@@ -19,6 +19,8 @@ public class DataContext : IdentityDbContext<User>, IDataContext
 
     public DbSet<Conversation> Conversations { get; set; }
 
+    public DbSet<Reaction> Reactions { get; set; }
+
     public DataContext(DbContextOptions options)
         : base(options) { }
 
@@ -33,6 +35,7 @@ public class DataContext : IdentityDbContext<User>, IDataContext
         builder.Entity<Channel>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
         builder.Entity<Message>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
         builder.Entity<Conversation>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+        builder.Entity<Reaction>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
 
         //builder.Entity<Member>(x => x.HasKey(uw => new { uw.UserId, uw.WorkspaceId }));
         builder
