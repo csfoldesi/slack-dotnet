@@ -54,4 +54,12 @@ public class MessageController : BaseApiController
         );
         return HandleResult(result);
     }
+
+    [Authorize]
+    [HttpDelete("{messageId}")]
+    public async Task<IActionResult> Delete(Guid messageId)
+    {
+        var result = await Mediator.Send(new Delete.Command { Id = messageId });
+        return HandleResult(result);
+    }
 }

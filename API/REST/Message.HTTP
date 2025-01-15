@@ -15,10 +15,10 @@ Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkN
 
 
 #Get Message List by channel
-GET {{API_HostAddress}}?channelId=f7614ad3-88c3-4b01-8fa4-b0ffa674c756
+GET {{API_HostAddress}}?channelId=2c351198-844f-42fa-a5a5-392a83c2a858
 Accept: application/json
 Content-Type: application/json
-Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzY4MDE1MzAsImV4cCI6MTczNjgwMTgzMCwiaWF0IjoxNzM2ODAxNTMwfQ.YkRw7xE7SE--oN5ascZ0GiZijfu4huXBl0kzFlUki7OZpkyNeKkR65yQlK1TU1G1DxSFE9nN5LrAzMh_AWaf0Q
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3MzY5NDAyNDQsImV4cCI6MTczNjk0MDU0NCwiaWF0IjoxNzM2OTQwMjQ0fQ.fWux1W-TedjoKtkw9NZrlD1IhDTs-gfQL0ZMMnKBd7MiwP3YMDuOCUtxxElEqbrdKKWg2EypsjI77I3myqDDaQ
 
 ###
 
@@ -32,4 +32,12 @@ Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ikb
 {
   "body": "{\"ops\":[{\"insert\":\"mi\\n\"}]}"
 }
+###
+
+#Delete Message
+DELETE {{API_HostAddress}}/34d467c4-912e-48c6-abdb-600c561e8ed8
+Accept: application/json
+Content-Type: application/json
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkbDtmxkZXNpIENzYWJhIiwibmFtZWlkIjoiZGMzYzIyOTItMWEzZi00ZmMwLWI4ZjYtYzRkOTNiZTM0MWI4IiwiZW1haWwiOiJjc0Bjcy5jcyIsIlByb3ZpZGVyIjoiIiwibmJmIjoxNzM2OTQwNDY4LCJleHAiOjE3MzY5NDA3NjgsImlhdCI6MTczNjk0MDQ2OH0.I7WlndpScYrvbDzozn6JqdAzvhlxf4gyPRJQwKG5CCX_xOnC_YjvGZS1pM7gSnjwHABXsETl__rgZ4zqL4JtKw
+
 ###
