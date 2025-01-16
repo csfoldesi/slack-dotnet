@@ -27,4 +27,6 @@ public class MessageDto
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public List<ReactionDto> Reactions { get; set; } = [];
 }

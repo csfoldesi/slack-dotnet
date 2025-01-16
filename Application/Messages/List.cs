@@ -1,7 +1,7 @@
 ﻿using Application.Common;
 using Application.Common.Interfaces;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
+using Domain;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -86,11 +86,22 @@ public class List
                     && message.ParentMessageId == request.ParentMessageId
                 )
                 .OrderByDescending(message => message.CreatedAt)
-                .Include(x => x.User)
-                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
+                .Include(message => message.User)
+                .Include(message => message.Reactions);
+            //.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
 
-            var result = await query.PaginatedListAsync(0, 10);
+            var totalCount = await query.CountAsync(cancellationToken: cancellationToken);
+            var messages = await query
+                .Skip(0 * 10)
+                .Take(10)
+                .ToListAsync(cancellationToken: cancellationToken);
 
+            var result = new PagedList<MessageDto>(
+                _mapper.Map<List<Message>, List<MessageDto>>(messages),
+                0,
+                totalCount,
+                10
+            );
             return Result<PagedList<MessageDto>>.Success(result);
         }
     }

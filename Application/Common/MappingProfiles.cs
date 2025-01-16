@@ -19,6 +19,20 @@ public class MappingProfiles : AutoMapper.Profile
         CreateMap<Message, MessageDto>()
             .ForMember(x => x.AuthorId, ex => ex.MapFrom(m => m.UserId))
             .ForMember(x => x.AuthorName, ex => ex.MapFrom(m => m.User!.Name))
-            .ForMember(x => x.AuthorAvatar, ex => ex.MapFrom(m => m.User!.Avatar));
+            .ForMember(x => x.AuthorAvatar, ex => ex.MapFrom(m => m.User!.Avatar))
+            .ForMember(
+                x => x.Reactions,
+                ex =>
+                    ex.MapFrom(r =>
+                        r.Reactions.GroupBy(r => r.Value)
+                            .Select(g => new ReactionDto
+                            {
+                                Value = g.Key,
+                                Count = g.Count(),
+                                UserIds = g.Select(r => r.UserId!).ToList(),
+                            })
+                            .ToList()
+                    )
+            );
     }
 }
