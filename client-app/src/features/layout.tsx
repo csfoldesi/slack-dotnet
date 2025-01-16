@@ -5,11 +5,11 @@ import { Toolbar } from "./toolbar";
 import { Sidebar } from "./sidebar";
 import { Modals } from "@/components/modals";
 import { ChannelLayout } from "./channels/channel-layout";
+import { usePanel } from "@/hooks/use-panel";
 
 export const Layout = () => {
-  const showPanel = true;
-  const parentMessageId = undefined;
-  const profileMemberId = undefined;
+  const { parentMessageId, profileMemberId, onClose } = usePanel();
+  const showPanel = !!parentMessageId || !!profileMemberId;
 
   return (
     <>

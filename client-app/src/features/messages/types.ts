@@ -1,6 +1,6 @@
 export type Message = {
   id: string;
-  body: string;
+  body?: string;
   image?: string;
   authorId: string;
   authorName: string;
@@ -11,13 +11,31 @@ export type Message = {
   conversationId?: string;
   createdAt: number;
   updatedAt: number;
+  reactions: MessageReaction[];
 };
 
 export type CreateMessageRequest = {
-  body: string;
+  body?: string;
   image?: string;
   workspaceId: string;
   channelId?: string;
   parentMessageId?: string;
   conversationId?: string;
+};
+
+export type UpdateMessageRequest = {
+  id: string;
+  body?: string;
+  image?: string;
+};
+
+export type ToggleReactionRequest = {
+  messageId: string;
+  value: string;
+};
+
+export type MessageReaction = {
+  value: string;
+  count: number;
+  userIds: string[];
 };

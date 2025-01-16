@@ -82,7 +82,7 @@ export const MessageList = ({
               authorImage={message.authorAvatar}
               authorName={message.authorName}
               isAuthor={message.authorId === user?.id}
-              reactions={[]}
+              reactions={message.reactions}
               body={message.body}
               image={message.image}
               updatedAt={message.updatedAt}

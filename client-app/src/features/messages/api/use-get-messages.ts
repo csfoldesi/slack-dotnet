@@ -5,8 +5,15 @@ import { client } from "@/client";
 import { PagedList } from "@/api/types";
 
 export const useGetMessages = (channelId: string) => {
-  return useQuery<PagedList<Message>, AxiosError>({
+  const queryResult = useQuery<PagedList<Message>, AxiosError>({
     queryKey: ["GetMessages", channelId],
     queryFn: () => client.get(`/message?channelId=${channelId}`).then((res) => res.data.data),
   });
+
+  return { ...queryResult };
+
+  /*return useQuery<PagedList<Message>, AxiosError>({
+    queryKey: ["GetMessages", channelId],
+    queryFn: () => client.get(`/message?channelId=${channelId}`).then((res) => res.data.data),
+  });*/
 };
