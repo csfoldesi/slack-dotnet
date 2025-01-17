@@ -1,4 +1,5 @@
-﻿using Application.Members;
+﻿using API.Dto;
+using Application.Members;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +9,14 @@ public class MemberController : BaseApiController
 {
     [HttpGet("{workspaceId}")]
     [Authorize]
-    public async Task<IActionResult> GetMember(Guid workspaceId)
+    public async Task<IActionResult> GetMember(
+        Guid workspaceId,
+        [FromQuery] GetMembershipRequest request
+    )
     {
-        var result = await Mediator.Send(new GetMember.Query { WorkspaceId = workspaceId });
+        var result = await Mediator.Send(
+            new GetMember.Query { WorkspaceId = workspaceId, UserId = request.UserId }
+        );
         return HandleResult(result);
     }
 

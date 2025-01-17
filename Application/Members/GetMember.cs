@@ -13,6 +13,8 @@ public class GetMember
     public class Query : IRequest<Result<MemberDto>>
     {
         public required Guid WorkspaceId { get; set; }
+
+        public string? UserId { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, Result<MemberDto>>
@@ -33,14 +35,26 @@ public class GetMember
             CancellationToken cancellationToken
         )
         {
-            var member = await _dataContext
-                .Members.Where(x => x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId)
+            var isMember = await _dataContext.Members.AnyAsync(
+                x => x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId,
+                cancellationToken: cancellationToken
+            );
+
+            if (!isMember)
+            {
+                return Result<MemberDto>.NotFound();
+            }
+
+            var membership = await _dataContext
+                .Members.Where(x =>
+                    x.UserId == (request.UserId ?? _user.Id) && x.WorkspaceId == request.WorkspaceId
+                )
                 .Include(x => x.User)
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            return member != null
-                ? Result<MemberDto>.Success(member)
+            return membership != null
+                ? Result<MemberDto>.Success(membership)
                 : Result<MemberDto>.NotFound();
         }
     }
