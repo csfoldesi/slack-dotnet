@@ -21,6 +21,7 @@ public class BaseApiController : ControllerBase
             ResultCode.Success => Ok(ApiResponse<T>.Success(result.Value)),
             ResultCode.NotFound => NotFound(),
             ResultCode.Error => BadRequest(ApiResponse<T>.Failure(result.Error)),
+            ResultCode.Unathorized => Unauthorized(result.Error),
             _ => Ok(),
         };
     }
