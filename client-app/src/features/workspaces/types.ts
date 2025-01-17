@@ -15,3 +15,8 @@ export type Member = {
   avatar?: string;
   role: string;
 };
+
+export type GetMembershipRequets = {
+  workspaceId: string;
+  userId?: string;
+};

@@ -36,7 +36,7 @@ export const ChannelHeader = ({ title }: HeaderProps) => {
   );
   const [channemName, setChannelName] = useState(title);
   const [editOpen, setEditOpen] = useState(false);
-  const { data: membership } = useGetMembership(workspaceId);
+  const { data: membership } = useGetMembership({ workspaceId });
   const { updateChannel, isPending: isUpdatingChannel } = useUpdateChannel();
   //const { mutate: removeChannel, isPending: isRemovingChannel } = useRemoveChannel();
   const { deleteChannel, isPending: isDeletingChannel } = useDeleteChannel();

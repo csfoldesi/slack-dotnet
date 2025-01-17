@@ -16,7 +16,7 @@ export const WorkspaceSidebar = () => {
   const memberId = "memberid";
   const workspaceId = useWorkspaceId();
   const activeChannelId = useChannelId();
-  const { data: membership, isLoading: membershipLoading } = useGetMembership(workspaceId);
+  const { data: membership, isLoading: membershipLoading } = useGetMembership({ workspaceId });
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace(workspaceId);
   const { data: members } = useGetMembers(workspaceId);
 
