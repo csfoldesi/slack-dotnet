@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Application.Common;
 using Application.Common.Interfaces;
 using AutoMapper;

@@ -8,14 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Members;
 
-public class GetMemberList
+public class Get
 {
-    public class Query : IRequest<Result<List<MemberDto>>>
+    public class Query : IRequest<Result<MemberDto>>
     {
         public required Guid WorkspaceId { get; set; }
+
+        public string? UserId { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<List<MemberDto>>>
+    public class Handler : IRequestHandler<Query, Result<MemberDto>>
     {
         private readonly IDataContext _dataContext;
         private readonly IMapper _mapper;
@@ -28,7 +30,7 @@ public class GetMemberList
             _user = user;
         }
 
-        public async Task<Result<List<MemberDto>>> Handle(
+        public async Task<Result<MemberDto>> Handle(
             Query request,
             CancellationToken cancellationToken
         )
@@ -40,18 +42,20 @@ public class GetMemberList
 
             if (!isMember)
             {
-                return Result<List<MemberDto>>.Success([]);
+                return Result<MemberDto>.NotFound();
             }
 
-            var query = _dataContext
-                .Members.Where(x => x.WorkspaceId == request.WorkspaceId)
+            var membership = await _dataContext
+                .Members.Where(x =>
+                    x.UserId == (request.UserId ?? _user.Id) && x.WorkspaceId == request.WorkspaceId
+                )
                 .Include(x => x.User)
-                .OrderBy(x => x.User!.Name)
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider);
+                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            var result = await query.ToListAsync(cancellationToken);
-
-            return Result<List<MemberDto>>.Success(result);
+            return membership != null
+                ? Result<MemberDto>.Success(membership)
+                : Result<MemberDto>.NotFound();
         }
     }
 }

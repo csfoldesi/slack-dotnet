@@ -15,7 +15,7 @@ public class MemberController : BaseApiController
     )
     {
         var result = await Mediator.Send(
-            new GetMember.Query { WorkspaceId = workspaceId, UserId = request.UserId }
+            new Get.Query { WorkspaceId = workspaceId, UserId = request.UserId }
         );
         return HandleResult(result);
     }
@@ -24,7 +24,25 @@ public class MemberController : BaseApiController
     [Authorize]
     public async Task<IActionResult> GetMemberList(Guid workspaceId)
     {
-        var result = await Mediator.Send(new GetMemberList.Query { WorkspaceId = workspaceId });
+        var result = await Mediator.Send(new List.Query { WorkspaceId = workspaceId });
+        return HandleResult(result);
+    }
+
+    [HttpPatch("{workspaceId}")]
+    [Authorize]
+    public async Task<IActionResult> Update(
+        Guid workspaceId,
+        [FromBody] UpdateMemberRequest request
+    )
+    {
+        var result = await Mediator.Send(
+            new Update.Command
+            {
+                WorkspaceId = workspaceId,
+                UserId = request.UserId,
+                Role = request.Role,
+            }
+        );
         return HandleResult(result);
     }
 }

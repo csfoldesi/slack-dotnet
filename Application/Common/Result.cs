@@ -5,7 +5,7 @@ public enum ResultCode
     Success,
     Error,
     NotFound,
-    Unathorized,
+    Unauthorized,
 }
 
 public class Result<T>
@@ -30,6 +30,6 @@ public class Result<T>
     public static Result<T> NotFound(string? error = null) =>
         new() { ResultCode = ResultCode.NotFound, Error = error };
 
-    public static Result<T> Unathorized(string? error = null) =>
-        new() { ResultCode = ResultCode.Unathorized, Error = error };
+    public static Result<T> Unauthorized(string? error = null) =>
+        new() { ResultCode = ResultCode.Unauthorized, Error = error };
 }

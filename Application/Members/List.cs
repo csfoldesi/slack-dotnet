@@ -8,16 +8,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Members;
 
-public class GetMember
+public class List
 {
-    public class Query : IRequest<Result<MemberDto>>
+    public class Query : IRequest<Result<List<MemberDto>>>
     {
         public required Guid WorkspaceId { get; set; }
-
-        public string? UserId { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<MemberDto>>
+    public class Handler : IRequestHandler<Query, Result<List<MemberDto>>>
     {
         private readonly IDataContext _dataContext;
         private readonly IMapper _mapper;
@@ -30,7 +28,7 @@ public class GetMember
             _user = user;
         }
 
-        public async Task<Result<MemberDto>> Handle(
+        public async Task<Result<List<MemberDto>>> Handle(
             Query request,
             CancellationToken cancellationToken
         )
@@ -42,20 +40,18 @@ public class GetMember
 
             if (!isMember)
             {
-                return Result<MemberDto>.NotFound();
+                return Result<List<MemberDto>>.Success([]);
             }
 
-            var membership = await _dataContext
-                .Members.Where(x =>
-                    x.UserId == (request.UserId ?? _user.Id) && x.WorkspaceId == request.WorkspaceId
-                )
+            var query = _dataContext
+                .Members.Where(x => x.WorkspaceId == request.WorkspaceId)
                 .Include(x => x.User)
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+                .OrderBy(x => x.User!.Name)
+                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider);
 
-            return membership != null
-                ? Result<MemberDto>.Success(membership)
-                : Result<MemberDto>.NotFound();
+            var result = await query.ToListAsync(cancellationToken);
+
+            return Result<List<MemberDto>>.Success(result);
         }
     }
 }
