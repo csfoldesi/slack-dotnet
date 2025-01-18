@@ -1,7 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Interfaces;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Domain;
 using Domain.Common;
 using Domain.Interfaces;
@@ -10,13 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Members;
 
-public class Update
+public class Delete
 {
     public class Command : IRequest<Result<MemberDto>>
     {
         public required Guid WorkspaceId { get; set; }
         public required string UserId { get; set; }
-        public required WorkspaceRole Role { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Result<MemberDto>>
@@ -60,7 +58,22 @@ public class Update
                 return Result<MemberDto>.NotFound();
             }
 
-            member.Role = request.Role.ToString();
+            if (member.Role == WorkspaceRole.admin.ToString())
+            {
+                var adminRemained = await _dataContext.Members.AnyAsync(
+                    x =>
+                        x.WorkspaceId == request.WorkspaceId
+                        && x.Role == WorkspaceRole.admin.ToString()
+                        && x.UserId != request.UserId,
+                    cancellationToken: cancellationToken
+                );
+                if (!adminRemained)
+                {
+                    return Result<MemberDto>.Failure("At least one admin member must remain");
+                }
+            }
+
+            _dataContext.Members.Remove(member);
 
             try
             {
@@ -69,7 +82,7 @@ public class Update
             }
             catch (Exception)
             {
-                return Result<MemberDto>.Failure("Unable to update the role");
+                return Result<MemberDto>.Failure("Unable to delete the member");
             }
         }
     }
