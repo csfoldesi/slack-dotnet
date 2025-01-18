@@ -41,6 +41,14 @@ public class MessageController : BaseApiController
     }
 
     [Authorize]
+    [HttpGet("{messageId}")]
+    public async Task<IActionResult> Get(Guid messageId)
+    {
+        var result = await Mediator.Send(new Get.Query { MessageId = messageId });
+        return HandleResult(result);
+    }
+
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> List([FromQuery] MessageListRequest request)
     {
