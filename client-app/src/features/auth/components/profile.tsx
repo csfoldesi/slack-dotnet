@@ -13,6 +13,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useGetMembership } from "@/features/workspaces/api/use-get-membership";
+import { useUpdateMembership } from "@/features/workspaces/api/use-update-membership";
+import { useDeleteMembership } from "@/features/workspaces/api/use-delete-membership";
+import { useNavigate } from "@tanstack/react-router";
 
 interface ProfileProps {
   userId: string;
@@ -20,14 +23,12 @@ interface ProfileProps {
 }
 
 export const Profile = ({ userId, onClose }: ProfileProps) => {
+  const navigate = useNavigate();
   const workspaceId = useWorkspaceId();
   const { data: currentMember, isLoading: isLoadingCurrentMember } = useGetMembership({ workspaceId });
   const { data: member, isLoading: isLoadingMember } = useGetMembership({ workspaceId, userId });
-
-  //const { mutate: updateMember } = useUpdateMember();
-  //const { mutate: removeMember, isPending: isRemovingMember } = useRemoveMember();
-
-  const isRemovingMember = false;
+  const { updateMembership } = useUpdateMembership();
+  const { deleteMembership, isPending: isDeletingMemebrship } = useDeleteMembership();
 
   const [LeaveDialog, confirmLeave] = useConfirm("Leave workspace", "Are you sure you want to leave this workspace?");
   const [RemoveDialog, confirmRemove] = useConfirm("Remove user", "Are you sure you want to remove this member?");
@@ -38,53 +39,40 @@ export const Profile = ({ userId, onClose }: ProfileProps) => {
   const onRemove = async () => {
     if (!(await confirmRemove())) return;
 
-    /*removeMember(
-      { id: memberId },
-      {
-        onSuccess: () => {
-          toast.success("Member removed");
-          onClose();
-        },
-        onError: () => {
-          toast.error("Failed to remove member");
-        },
-      }
-    );*/
+    deleteMembership({ workspaceId, userId })
+      .then(() => {
+        toast.success("Member removed");
+        onClose();
+      })
+      .catch(() => {
+        toast.error("Failed to remove member");
+      });
   };
 
   const onLeave = async () => {
     if (!(await confirmLeave())) return;
-
-    /*removeMember(
-      { id: memberId },
-      {
-        onSuccess: () => {
-          router.replace("/");
-          toast.success("You left the workspace");
-          onClose();
-        },
-        onError: () => {
-          toast.error("Failed to leave the workspace");
-        },
-      }
-    );*/
+    deleteMembership({ workspaceId, userId })
+      .then(() => {
+        navigate({ to: "/" });
+        toast.success("You left the workspace");
+        onClose();
+      })
+      .catch(() => {
+        toast.error("Failed to leave the workspace");
+      });
   };
 
   const onUpdateRole = async (role: "admin" | "member") => {
     if (!(await confirmUpdate())) return;
 
-    /*updateMember(
-      { id: memberId, role },
-      {
-        onSuccess: () => {
-          toast.success("Role changed");
-          onClose();
-        },
-        onError: () => {
-          toast.error("Failed to change role");
-        },
-      }
-    );*/
+    updateMembership({ workspaceId, userId, role })
+      .then(() => {
+        toast.success("Role changed");
+        onClose();
+      })
+      .catch(() => {
+        toast.error("Failed to change role");
+      });
   };
 
   if (isLoadingMember || isLoadingCurrentMember) {
@@ -160,13 +148,13 @@ export const Profile = ({ userId, onClose }: ProfileProps) => {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              <Button variant="outline" className="w-full" onClick={onRemove} disabled={isRemovingMember}>
+              <Button variant="outline" className="w-full" onClick={onRemove} disabled={isDeletingMemebrship}>
                 Remove
               </Button>
             </div>
           ) : currentMember?.userId === userId && currentMember.role !== "admin" ? (
             <div className="mt-4">
-              <Button variant="outline" className="w-full" onClick={onLeave} disabled={isRemovingMember}>
+              <Button variant="outline" className="w-full" onClick={onLeave} disabled={isDeletingMemebrship}>
                 Leave
               </Button>
             </div>

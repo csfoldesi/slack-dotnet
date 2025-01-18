@@ -46,15 +46,12 @@ public class MemberController : BaseApiController
         return HandleResult(result);
     }
 
-    [HttpDelete("{workspaceId}")]
+    [HttpDelete("{workspaceId}/{userId}")]
     [Authorize]
-    public async Task<IActionResult> Delete(
-        Guid workspaceId,
-        [FromBody] DeleteMemberRequest request
-    )
+    public async Task<IActionResult> Delete(Guid workspaceId, string userId)
     {
         var result = await Mediator.Send(
-            new Delete.Command { WorkspaceId = workspaceId, UserId = request.UserId }
+            new Delete.Command { WorkspaceId = workspaceId, UserId = userId }
         );
         return HandleResult(result);
     }

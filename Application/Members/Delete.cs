@@ -35,30 +35,32 @@ public class Delete
             CancellationToken cancellationToken
         )
         {
-            var isAdminMember = await _dataContext.Members.AnyAsync(
-                x =>
-                    x.UserId == _user.Id
-                    && x.WorkspaceId == request.WorkspaceId
-                    && x.Role == WorkspaceRole.admin.ToString(),
-                cancellationToken: cancellationToken
-            );
-            if (!isAdminMember)
+            var currentMember = await _dataContext
+                .Members.Where(x => x.UserId == _user.Id && x.WorkspaceId == request.WorkspaceId)
+                .SingleOrDefaultAsync(cancellationToken: cancellationToken);
+            if (
+                currentMember == null
+                || (
+                    currentMember.Role != WorkspaceRole.admin.ToString()
+                    && _user.Id != request.UserId
+                )
+            )
             {
                 return Result<MemberDto>.Unauthorized();
             }
 
-            var member = await _dataContext
+            var memberToDelete = await _dataContext
                 .Members.Where(x =>
                     x.WorkspaceId == request.WorkspaceId && x.UserId == request.UserId
                 )
                 .Include(x => x.User)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
-            if (member == null)
+            if (memberToDelete == null)
             {
                 return Result<MemberDto>.NotFound();
             }
 
-            if (member.Role == WorkspaceRole.admin.ToString())
+            if (memberToDelete.Role == WorkspaceRole.admin.ToString())
             {
                 var adminRemained = await _dataContext.Members.AnyAsync(
                     x =>
@@ -73,12 +75,12 @@ public class Delete
                 }
             }
 
-            _dataContext.Members.Remove(member);
+            _dataContext.Members.Remove(memberToDelete);
 
             try
             {
                 await _dataContext.SaveChangesAsync(cancellationToken);
-                return Result<MemberDto>.Success(_mapper.Map<Member, MemberDto>(member));
+                return Result<MemberDto>.Success(_mapper.Map<Member, MemberDto>(memberToDelete));
             }
             catch (Exception)
             {
