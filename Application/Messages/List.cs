@@ -96,12 +96,23 @@ public class List
                 .Take(10)
                 .ToListAsync(cancellationToken: cancellationToken);
 
-            var result = new PagedList<MessageDto>(
-                _mapper.Map<List<Message>, List<MessageDto>>(messages),
-                0,
-                totalCount,
-                10
-            );
+            var messageDtos = _mapper.Map<List<Message>, List<MessageDto>>(messages);
+            foreach (var message in messageDtos)
+            {
+                var threadMessages = await _dataContext
+                    .Messages.Where(m => m.ParentMessageId == message.Id)
+                    .Include(m => m.User)
+                    .ToListAsync(cancellationToken: cancellationToken);
+                if (threadMessages != null && threadMessages.Count > 0)
+                {
+                    message.ThreadCount = threadMessages.Count;
+                    message.ThreadAuthor = threadMessages[0].User!.Name;
+                    message.ThreadImage = threadMessages[0].User!.Avatar;
+                    message.ThreadTimestamp = threadMessages[0].CreatedAt;
+                }
+            }
+
+            var result = new PagedList<MessageDto>(messageDtos, 0, totalCount, 10);
             return Result<PagedList<MessageDto>>.Success(result);
         }
     }

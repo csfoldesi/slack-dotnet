@@ -1,6 +1,4 @@
-﻿using Domain;
-
-namespace Application.Messages;
+﻿namespace Application.Messages;
 
 public class MessageDto
 {
@@ -29,4 +27,12 @@ public class MessageDto
     public DateTime? UpdatedAt { get; set; }
 
     public List<ReactionDto> Reactions { get; set; } = [];
+
+    public int ThreadCount { get; set; } = 0;
+
+    public string? ThreadImage { get; set; }
+
+    public string? ThreadAuthor { get; set; }
+
+    public DateTime? ThreadTimestamp { get; set; }
 }
