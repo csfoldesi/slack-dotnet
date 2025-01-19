@@ -51,14 +51,8 @@ public class List
                 isMember = await _dataContext
                     .Conversations.Where(conversation => conversation.Id == request.ConversationId)
                     .Where(conversation =>
-                        (
-                            conversation.MemberOne != null
-                            && conversation.MemberOne.User!.Id == _user.Id
-                        )
-                        || (
-                            conversation.MemberTwo != null
-                            && conversation.MemberTwo.User!.Id == _user.Id
-                        )
+                        (conversation.UserOne != null && conversation.UserOne.Id == _user.Id)
+                        || (conversation.UserTwo != null && conversation.UserTwo.Id == _user.Id)
                     )
                     .AnyAsync(cancellationToken);
             }

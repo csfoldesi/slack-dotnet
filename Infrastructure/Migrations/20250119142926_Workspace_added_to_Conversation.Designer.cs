@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250119142926_Workspace_added_to_Conversation")]
+    partial class Workspace_added_to_Conversation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -46,23 +49,22 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT COLLATE NOCASE");
 
-                    b.Property<string>("UserOneId")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid>("MemberOneId")
+                        .HasColumnType("TEXT COLLATE NOCASE");
 
-                    b.Property<string>("UserTwoId")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid>("MemberTwoId")
+                        .HasColumnType("TEXT COLLATE NOCASE");
 
                     b.Property<Guid?>("WorkspaceId")
                         .HasColumnType("TEXT COLLATE NOCASE");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserOneId");
+                    b.HasIndex("MemberOneId");
 
-                    b.HasIndex("UserTwoId");
+                    b.HasIndex("MemberTwoId");
 
-                    b.HasIndex("WorkspaceId", "UserOneId", "UserTwoId")
-                        .IsUnique();
+                    b.HasIndex("WorkspaceId");
 
                     b.ToTable("Conversations");
                 });
@@ -428,21 +430,25 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Conversation", b =>
                 {
-                    b.HasOne("Domain.User", "UserOne")
+                    b.HasOne("Domain.Member", "MemberOne")
                         .WithMany()
-                        .HasForeignKey("UserOneId");
+                        .HasForeignKey("MemberOneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Domain.User", "UserTwo")
+                    b.HasOne("Domain.Member", "MemberTwo")
                         .WithMany()
-                        .HasForeignKey("UserTwoId");
+                        .HasForeignKey("MemberTwoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Workspace", "Workspace")
                         .WithMany()
                         .HasForeignKey("WorkspaceId");
 
-                    b.Navigation("UserOne");
+                    b.Navigation("MemberOne");
 
-                    b.Navigation("UserTwo");
+                    b.Navigation("MemberTwo");
 
                     b.Navigation("Workspace");
                 });

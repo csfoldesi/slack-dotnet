@@ -4,7 +4,15 @@ public class Conversation
 {
     public Guid Id { get; set; }
 
-    public required Member MemberOne { get; set; }
+    public Workspace? Workspace { get; set; }
 
-    public required Member MemberTwo { get; set; }
+    public Guid? WorkspaceId { get; set; }
+
+    public required User UserOne { get; set; }
+
+    public string? UserOneId { get; set; }
+
+    public required User UserTwo { get; set; }
+
+    public string? UserTwoId { get; set; }
 }

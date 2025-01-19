@@ -1,5 +1,4 @@
-﻿using System.Reflection.Emit;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +36,31 @@ public class DataContext : IdentityDbContext<User>, IDataContext
         builder.Entity<Message>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
         builder.Entity<Conversation>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
         builder.Entity<Reaction>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+
+        builder
+            .Entity<Conversation>()
+            .HasIndex(c => new
+            {
+                c.WorkspaceId,
+                c.UserOneId,
+                c.UserTwoId,
+            })
+            .IsUnique();
+        builder
+            .Entity<Conversation>()
+            .HasOne(c => c.Workspace)
+            .WithMany()
+            .HasForeignKey(c => c.WorkspaceId);
+        builder
+            .Entity<Conversation>()
+            .HasOne(c => c.UserOne)
+            .WithMany()
+            .HasForeignKey(c => c.UserOneId);
+        builder
+            .Entity<Conversation>()
+            .HasOne(c => c.UserTwo)
+            .WithMany()
+            .HasForeignKey(c => c.UserTwoId);
 
         //builder.Entity<Member>(x => x.HasKey(uw => new { uw.UserId, uw.WorkspaceId }));
         builder

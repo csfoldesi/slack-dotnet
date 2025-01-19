@@ -1,4 +1,5 @@
 ﻿using Application.Channels;
+using Application.Conversations;
 using Application.Members;
 using Application.Messages;
 using Application.Workspaces;
@@ -34,5 +35,6 @@ public class MappingProfiles : AutoMapper.Profile
                             .ToList()
                     )
             );
+        CreateMap<Conversation, ConversationDto>();
     }
 }
