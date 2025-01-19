@@ -8,10 +8,15 @@ import { ChannelLayout } from "./channels/channel-layout";
 import { usePanel } from "@/hooks/use-panel";
 import { Profile } from "./auth/components/profile";
 import { Thread } from "./messages/components/thread";
+import { useMemberId } from "@/hooks/use-member-id";
+import { useChannelId } from "@/hooks/use-channel-id";
+import { ConversationPage } from "./conversations/components/conversation-page";
 
 export const Layout = () => {
   const { parentMessageId, profileMemberId, onClose } = usePanel();
   const showPanel = !!parentMessageId || !!profileMemberId;
+  const channelId = useChannelId();
+  const memberId = useMemberId();
 
   return (
     <>
@@ -25,7 +30,7 @@ export const Layout = () => {
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={80} minSize={20}>
-              <ChannelLayout />
+              {channelId ? <ChannelLayout /> : memberId ? <ConversationPage /> : null}
             </ResizablePanel>
             {showPanel && (
               <>

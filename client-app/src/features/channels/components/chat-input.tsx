@@ -14,9 +14,10 @@ import { toast } from "sonner";
 
 interface ChatInputProps {
   placeholder: string;
+  conversationId?: string;
 }
 
-export const ChatInput = ({ placeholder }: ChatInputProps) => {
+export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
   const [editorKey, setEditorKey] = useState(0);
   const [isPending, setIsPending] = useState(false);
   const editorRef = useRef<Quill | null>(null);
@@ -31,12 +32,16 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
       setIsPending(true);
       editorRef.current?.enable(false);
 
-      const values: CreateMessageRequest = {
-        channelId,
+      let values: CreateMessageRequest = {
         workspaceId,
+        conversationId,
         body,
         image: undefined,
       };
+      if (channelId) {
+        values = { channelId, ...values };
+      }
+
       /*if (image) {
         const url = await generateUploadUrl({}, { throwError: true });
         if (!url) {

@@ -9,7 +9,7 @@ export const useCreateMessage = () => {
   const mutation = useMutation<Message, AxiosError, CreateMessageRequest>({
     mutationFn: (request: CreateMessageRequest) => client.post("/message", request).then((res) => res.data.data),
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["GetMessages", variables.channelId] });
+      queryClient.invalidateQueries({ queryKey: ["GetMessages"] });
     },
   });
 

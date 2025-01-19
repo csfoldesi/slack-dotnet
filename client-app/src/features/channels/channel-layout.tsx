@@ -36,7 +36,7 @@ export const ChannelLayout = () => {
         isLoadingMore={false}
         canLoadMore={true}
       />
-      <ChatInput placeholder={`Message # ${channel.name}`} />
+      <ChatInput placeholder={`Message # ${channel.name}`}  />
     </div>
   );
 };

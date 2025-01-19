@@ -75,13 +75,15 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
       setIsPending(true);
       editorRef.current?.enable(false);
 
-      const request: CreateMessageRequest = {
-        channelId,
+      let request: CreateMessageRequest = {
         workspaceId,
         parentMessageId: messageId,
         body,
         image: undefined,
       };
+      if (channelId) {
+        request = { channelId, ...request };
+      }
       /*if (image) {
         const url = await generateUploadUrl({}, { throwError: true });
         if (!url) {

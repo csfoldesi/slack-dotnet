@@ -17,6 +17,7 @@ import { Route as AuthIndexImport } from "./routes/auth/index"
 import { Route as JoinWorkspaceIdImport } from "./routes/join_/$workspaceId"
 import { Route as AuthCallbackImport } from "./routes/auth/callback"
 import { Route as WorkspacesWorkspaceIdIndexImport } from "./routes/workspaces_/$workspaceId/index"
+import { Route as WorkspacesWorkspaceIdMembersMemberIdIndexImport } from "./routes/workspaces_/$workspaceId/members_/$memberId/index"
 import { Route as WorkspacesWorkspaceIdChannelsChannelIdIndexImport } from "./routes/workspaces_/$workspaceId/channels_/$channelId/index"
 
 // Create/Update Routes
@@ -58,6 +59,13 @@ const WorkspacesWorkspaceIdIndexRoute = WorkspacesWorkspaceIdIndexImport.update(
     getParentRoute: () => rootRoute,
   } as any,
 )
+
+const WorkspacesWorkspaceIdMembersMemberIdIndexRoute =
+  WorkspacesWorkspaceIdMembersMemberIdIndexImport.update({
+    id: "/workspaces_/$workspaceId/members_/$memberId/",
+    path: "/workspaces/$workspaceId/members/$memberId/",
+    getParentRoute: () => rootRoute,
+  } as any)
 
 const WorkspacesWorkspaceIdChannelsChannelIdIndexRoute =
   WorkspacesWorkspaceIdChannelsChannelIdIndexImport.update({
@@ -119,6 +127,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof WorkspacesWorkspaceIdChannelsChannelIdIndexImport
       parentRoute: typeof rootRoute
     }
+    "/workspaces_/$workspaceId/members_/$memberId/": {
+      id: "/workspaces_/$workspaceId/members_/$memberId/"
+      path: "/workspaces/$workspaceId/members/$memberId"
+      fullPath: "/workspaces/$workspaceId/members/$memberId"
+      preLoaderRoute: typeof WorkspacesWorkspaceIdMembersMemberIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -132,6 +147,7 @@ export interface FileRoutesByFullPath {
   "/workspaces": typeof WorkspacesIndexRoute
   "/workspaces/$workspaceId": typeof WorkspacesWorkspaceIdIndexRoute
   "/workspaces/$workspaceId/channels/$channelId": typeof WorkspacesWorkspaceIdChannelsChannelIdIndexRoute
+  "/workspaces/$workspaceId/members/$memberId": typeof WorkspacesWorkspaceIdMembersMemberIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -142,6 +158,7 @@ export interface FileRoutesByTo {
   "/workspaces": typeof WorkspacesIndexRoute
   "/workspaces/$workspaceId": typeof WorkspacesWorkspaceIdIndexRoute
   "/workspaces/$workspaceId/channels/$channelId": typeof WorkspacesWorkspaceIdChannelsChannelIdIndexRoute
+  "/workspaces/$workspaceId/members/$memberId": typeof WorkspacesWorkspaceIdMembersMemberIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -153,6 +170,7 @@ export interface FileRoutesById {
   "/workspaces_/": typeof WorkspacesIndexRoute
   "/workspaces_/$workspaceId/": typeof WorkspacesWorkspaceIdIndexRoute
   "/workspaces_/$workspaceId/channels_/$channelId/": typeof WorkspacesWorkspaceIdChannelsChannelIdIndexRoute
+  "/workspaces_/$workspaceId/members_/$memberId/": typeof WorkspacesWorkspaceIdMembersMemberIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -165,6 +183,7 @@ export interface FileRouteTypes {
     | "/workspaces"
     | "/workspaces/$workspaceId"
     | "/workspaces/$workspaceId/channels/$channelId"
+    | "/workspaces/$workspaceId/members/$memberId"
   fileRoutesByTo: FileRoutesByTo
   to:
     | "/"
@@ -174,6 +193,7 @@ export interface FileRouteTypes {
     | "/workspaces"
     | "/workspaces/$workspaceId"
     | "/workspaces/$workspaceId/channels/$channelId"
+    | "/workspaces/$workspaceId/members/$memberId"
   id:
     | "__root__"
     | "/"
@@ -183,6 +203,7 @@ export interface FileRouteTypes {
     | "/workspaces_/"
     | "/workspaces_/$workspaceId/"
     | "/workspaces_/$workspaceId/channels_/$channelId/"
+    | "/workspaces_/$workspaceId/members_/$memberId/"
   fileRoutesById: FileRoutesById
 }
 
@@ -194,6 +215,7 @@ export interface RootRouteChildren {
   WorkspacesIndexRoute: typeof WorkspacesIndexRoute
   WorkspacesWorkspaceIdIndexRoute: typeof WorkspacesWorkspaceIdIndexRoute
   WorkspacesWorkspaceIdChannelsChannelIdIndexRoute: typeof WorkspacesWorkspaceIdChannelsChannelIdIndexRoute
+  WorkspacesWorkspaceIdMembersMemberIdIndexRoute: typeof WorkspacesWorkspaceIdMembersMemberIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -205,6 +227,8 @@ const rootRouteChildren: RootRouteChildren = {
   WorkspacesWorkspaceIdIndexRoute: WorkspacesWorkspaceIdIndexRoute,
   WorkspacesWorkspaceIdChannelsChannelIdIndexRoute:
     WorkspacesWorkspaceIdChannelsChannelIdIndexRoute,
+  WorkspacesWorkspaceIdMembersMemberIdIndexRoute:
+    WorkspacesWorkspaceIdMembersMemberIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -223,7 +247,8 @@ export const routeTree = rootRoute
         "/auth/",
         "/workspaces_/",
         "/workspaces_/$workspaceId/",
-        "/workspaces_/$workspaceId/channels_/$channelId/"
+        "/workspaces_/$workspaceId/channels_/$channelId/",
+        "/workspaces_/$workspaceId/members_/$memberId/"
       ]
     },
     "/": {
@@ -246,6 +271,9 @@ export const routeTree = rootRoute
     },
     "/workspaces_/$workspaceId/channels_/$channelId/": {
       "filePath": "workspaces_/$workspaceId/channels_/$channelId/index.tsx"
+    },
+    "/workspaces_/$workspaceId/members_/$memberId/": {
+      "filePath": "workspaces_/$workspaceId/members_/$memberId/index.tsx"
     }
   }
 }
