@@ -10,9 +10,7 @@ import { useGetMessages } from "../messages/api/use-get-messages";
 export const ChannelLayout = () => {
   const channelId = useChannelId();
   const { data: channel, isLoading: isChannelLoading, error } = useGetChannel(channelId);
-  const { data: messages, isLoading: isMessagesLoading } = useGetMessages(channelId);
-  //const { results, status, loadMore } = useGetMessages({ channelId });
-  //const { data: channel, isLoading: channelLoading } = useGetChannel({ id: channelId });
+  const { data: messages, isLoading: isMessagesLoading } = useGetMessages({ channelId });
 
   if (isChannelLoading || isMessagesLoading /*|| status === "LoadingFirstPage"*/) {
     return <Loader />;

@@ -9,8 +9,9 @@ export const useToggleReaction = () => {
   const mutation = useMutation<string, AxiosError, ToggleReactionRequest>({
     mutationFn: (request: ToggleReactionRequest) =>
       client.patch(`/message/${request.messageId}/reaction`, { value: request.value }).then((res) => res.data.data),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["GetMessages"] });
+      queryClient.invalidateQueries({ queryKey: ["GetMessage", variables.messageId] });
     },
   });
 

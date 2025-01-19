@@ -146,7 +146,7 @@ export const Message = ({
                   image={threadImage}
                   timestamp={threadTimestamp}
                   name={threadName}
-                  onClick={() => {}}
+                  onClick={() => onOpenMessage(id)}
                 />
               </div>
             )}
@@ -215,7 +215,7 @@ export const Message = ({
                 image={threadImage}
                 timestamp={threadTimestamp}
                 name={threadName}
-                onClick={() => {}}
+                onClick={() => onOpenMessage(id)}
               />
             </div>
           )}

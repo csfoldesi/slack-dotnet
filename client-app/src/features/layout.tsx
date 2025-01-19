@@ -7,6 +7,7 @@ import { Modals } from "@/components/modals";
 import { ChannelLayout } from "./channels/channel-layout";
 import { usePanel } from "@/hooks/use-panel";
 import { Profile } from "./auth/components/profile";
+import { Thread } from "./messages/components/thread";
 
 export const Layout = () => {
   const { parentMessageId, profileMemberId, onClose } = usePanel();
@@ -31,7 +32,7 @@ export const Layout = () => {
                 <ResizableHandle withHandle />
                 <ResizablePanel minSize={20} defaultSize={29}>
                   {parentMessageId ? (
-                    <div>Thread</div>
+                    <Thread messageId={parentMessageId} onClose={onClose} />
                   ) : profileMemberId ? (
                     <Profile userId={profileMemberId} onClose={onClose} />
                   ) : (

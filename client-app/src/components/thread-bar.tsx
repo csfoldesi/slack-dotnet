@@ -11,9 +11,9 @@ interface ThreadBarProps {
 }
 
 export const ThreadBar = ({ count, image, timestamp, name = "Member", onClick }: ThreadBarProps) => {
-  const avatarFallback = name.charAt(0).toUpperCase();
-
   if (!count || !timestamp) return null;
+
+  const avatarFallback = name?.charAt(0).toUpperCase();
 
   return (
     <button

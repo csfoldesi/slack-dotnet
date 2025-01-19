@@ -12,6 +12,10 @@ export type Message = {
   createdAt: number;
   updatedAt: number;
   reactions: MessageReaction[];
+  threadCount: number;
+  threadImage?: string;
+  threadAuthor?: string;
+  threadTimestamp?: number;
 };
 
 export type CreateMessageRequest = {
