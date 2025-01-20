@@ -10,7 +10,13 @@ import { useGetMessages } from "../messages/api/use-get-messages";
 export const ChannelLayout = () => {
   const channelId = useChannelId();
   const { data: channel, isLoading: isChannelLoading, error } = useGetChannel(channelId);
-  const { data: messages, isLoading: isMessagesLoading } = useGetMessages({ channelId });
+  const {
+    data: messages,
+    isLoading: isMessagesLoading,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useGetMessages({ channelId });
 
   if (isChannelLoading || isMessagesLoading /*|| status === "LoadingFirstPage"*/) {
     return <Loader />;
@@ -25,18 +31,20 @@ export const ChannelLayout = () => {
     );
   }
 
+  console.log(messages);
+
   return (
     <div className="flex flex-col h-full">
       <ChannelHeader title={channel.name} />
       <MessageList
         channelName={channel.name}
         channelCreationTime={channel.createdAt}
-        data={messages?.items}
-        loadMore={() => {}}
-        isLoadingMore={false}
-        canLoadMore={true}
+        data={messages}
+        loadMore={fetchNextPage}
+        isLoadingMore={isFetchingNextPage}
+        canLoadMore={hasNextPage}
       />
-      <ChatInput placeholder={`Message # ${channel.name}`}  />
+      <ChatInput placeholder={`Message # ${channel.name}`} />
     </div>
   );
 };

@@ -32,16 +32,17 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
 
   const { user: currentUser } = useAuthStore();
   const { data: message, isLoading: loadingMessage } = useGetMessage(messageId);
-  const { data: results, status } = useGetMessages({ channelId, parentMessageId: messageId });
+  const {
+    data: results,
+    status,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useGetMessages({ channelId, parentMessageId: messageId });
   const { createMessage } = useCreateMessage();
   //const { mutate: generateUploadUrl } = useGenerateUploadUrl();
 
-  const canLoadMore = status === "CanLoadMore";
-  const isLoadingMore = status === "LoadingMore";
-
-  const loadMore = () => {};
-
-  const groupMessages = results?.items.reduce(
+  const groupMessages = results?.reduce(
     (groups, message) => {
       const date = new Date(message.createdAt);
       const dateKey = format(date, "yyyy-MM-dd");
@@ -51,7 +52,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
       groups[dateKey].unshift(message);
       return groups;
     },
-    {} as Record<string, typeof results.items>
+    {} as Record<string, MessageType[]>
   );
 
   const formatDateLabel = (dateStr: string) => {
@@ -202,8 +203,8 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
             if (el) {
               const observer = new IntersectionObserver(
                 ([entry]) => {
-                  if (entry.isIntersecting && canLoadMore) {
-                    loadMore();
+                  if (entry.isIntersecting && hasNextPage) {
+                    fetchNextPage();
                   }
                 },
                 { threshold: 1.0 }
@@ -213,7 +214,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
             }
           }}
         />
-        {isLoadingMore && (
+        {isFetchingNextPage && (
           <div className="text-center my-2 relative">
             <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
             <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">

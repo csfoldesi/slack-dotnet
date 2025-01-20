@@ -1,16 +1,11 @@
-//import dynamic from "next/dynamic";
-
 import { Editor } from "@/components/editor";
 import { useCreateMessage } from "@/features/messages/api/use-create-message";
 import { CreateMessageRequest } from "@/features/messages/types";
-//import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import Quill from "quill";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-
-//const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 
 interface ChatInputProps {
   placeholder: string;

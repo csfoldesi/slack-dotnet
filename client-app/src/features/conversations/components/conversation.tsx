@@ -17,8 +17,7 @@ export const Conversation = ({ id }: ConversationProps) => {
   const workspaceId = useWorkspaceId();
   const { onOpenProfile } = usePanel();
   const { data: member, isLoading: memberLoading } = useGetMembership({ workspaceId, userId: memberId });
-  const { data: results } = useGetMessages({ conversationId: id });
-  //const { results, status, loadMore } = useGetMessages({ conversationId: id });
+  const { data: results, hasNextPage, fetchNextPage, isFetchingNextPage } = useGetMessages({ conversationId: id });
 
   const status = "";
 
@@ -36,13 +35,13 @@ export const Conversation = ({ id }: ConversationProps) => {
         }}
       />
       <MessageList
-        data={results?.items}
+        data={results}
         variant="conversation"
         memberImage={member?.avatar}
         memberName={member?.name}
-        loadMore={() => {}}
-        isLoadingMore={status === "LoadingMore"}
-        canLoadMore={status === "CanLoadMore"}
+        loadMore={fetchNextPage}
+        isLoadingMore={isFetchingNextPage}
+        canLoadMore={hasNextPage}
       />
       <ChatInput placeholder={`Message ${member?.name}`} conversationId={id} />
     </div>
