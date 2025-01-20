@@ -1,6 +1,8 @@
-﻿namespace API.Dto;
+﻿using Application.Common;
 
-public class MessageListRequest
+namespace API.Dto;
+
+public class MessageListRequest : PagedQuery
 {
     public Guid? ChannelId { get; set; }
     public Guid? ConversationId { get; set; }

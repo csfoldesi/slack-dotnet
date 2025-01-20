@@ -58,6 +58,8 @@ public class MessageController : BaseApiController
                 ChannelId = request.ChannelId,
                 ConversationId = request.ConversationId,
                 ParentMessageId = request.ParentMessageId,
+                PageNumber = request.PageNumber,
+                PageSize = request.PageSize,
             }
         );
         return HandleResult(result);

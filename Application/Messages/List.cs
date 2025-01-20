@@ -15,6 +15,8 @@ public class List
         public Guid? ChannelId { get; set; }
         public Guid? ConversationId { get; set; }
         public Guid? ParentMessageId { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, Result<PagedList<MessageDto>>>
@@ -86,8 +88,8 @@ public class List
 
             var totalCount = await query.CountAsync(cancellationToken: cancellationToken);
             var messages = await query
-                .Skip(0 * 10)
-                .Take(10)
+                .Skip(request.PageNumber * request.PageSize)
+                .Take(request.PageSize)
                 .ToListAsync(cancellationToken: cancellationToken);
 
             var messageDtos = _mapper.Map<List<Message>, List<MessageDto>>(messages);
@@ -106,7 +108,12 @@ public class List
                 }
             }
 
-            var result = new PagedList<MessageDto>(messageDtos, 0, totalCount, 10);
+            var result = new PagedList<MessageDto>(
+                messageDtos,
+                request.PageNumber,
+                totalCount,
+                request.PageSize
+            );
             return Result<PagedList<MessageDto>>.Success(result);
         }
     }
