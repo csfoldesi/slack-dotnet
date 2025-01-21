@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Message } from "@/components/message";
 import { Editor } from "@/components/editor";
 import { AlertTriangleIcon, Loader, XIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useChannelId } from "@/hooks/use-channel-id";
 import Quill from "quill";
@@ -24,6 +24,7 @@ interface ThreadProps {
 export const Thread = ({ messageId, onClose }: ThreadProps) => {
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
+  const loaderRef = useRef(null);
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editorKey, setEditorKey] = useState(0);
@@ -41,6 +42,27 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
   } = useGetMessages({ channelId, parentMessageId: messageId });
   const { createMessage } = useCreateMessage();
   //const { mutate: generateUploadUrl } = useGenerateUploadUrl();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const target = entries[0];
+      if (target.isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    });
+
+    const current = loaderRef.current;
+
+    if (current) {
+      observer.observe(current);
+    }
+
+    return () => {
+      if (current) {
+        observer.unobserve(current);
+      }
+    };
+  }, [fetchNextPage, hasNextPage]);
 
   const formatDateLabel = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -179,28 +201,14 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
                 threadCount={0}
                 threadImage={undefined}
                 threadName={undefined}
-                threadTimestamp={0}
+                threadTimestamp={undefined}
               />
             ))}
           </div>
         ))}
-        <div
-          className="h-1"
-          ref={(el) => {
-            if (el) {
-              const observer = new IntersectionObserver(
-                ([entry]) => {
-                  if (entry.isIntersecting && hasNextPage) {
-                    fetchNextPage();
-                  }
-                },
-                { threshold: 1.0 }
-              );
-              observer.observe(el);
-              return () => observer.disconnect();
-            }
-          }}
-        />
+
+        <div className="h-1" ref={loaderRef} />
+
         {isFetchingNextPage && (
           <div className="text-center my-2 relative">
             <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />

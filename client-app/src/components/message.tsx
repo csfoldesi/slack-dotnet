@@ -25,8 +25,8 @@ interface MessageProps {
   reactions: MessageReaction[];
   body?: string;
   image: string | null | undefined;
-  updatedAt: number;
-  createdAt: number;
+  updatedAt: string;
+  createdAt: string;
   isEditing: boolean;
   setEditingId: (id: string | null) => void;
   isCompact?: boolean;
@@ -34,7 +34,7 @@ interface MessageProps {
   threadCount?: number;
   threadImage?: string;
   threadName?: string;
-  threadTimestamp?: number;
+  threadTimestamp?: string;
 }
 
 export const Message = ({

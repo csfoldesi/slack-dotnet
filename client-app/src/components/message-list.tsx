@@ -1,5 +1,5 @@
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loader } from "lucide-react";
 import { ChannelHero } from "@/features/channels/components/channel-hero";
 import { ConversationHero } from "@/features/conversations/components/conversation-hero";
@@ -34,6 +34,28 @@ export const MessageList = ({
 }: MessageListProps) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const { user } = useAuthStore();
+  const loaderRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const target = entries[0];
+      if (target.isIntersecting && canLoadMore) {
+        loadMore();
+      }
+    });
+
+    const current = loaderRef.current;
+
+    if (current) {
+      observer.observe(current);
+    }
+
+    return () => {
+      if (current) {
+        observer.unobserve(current);
+      }
+    };
+  }, [canLoadMore, loadMore]);
 
   const formatDateLabel = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -94,27 +116,12 @@ export const MessageList = ({
           </span>
         </div>
       )}
-      <div
-        className="h-1"
-        ref={(el) => {
-          if (el) {
-            const observer = new IntersectionObserver(
-              ([entry]) => {
-                if (entry.isIntersecting && canLoadMore) {
-                  loadMore();
-                }
-              },
-              { threshold: 1.0 }
-            );
-            observer.observe(el);
-            return () => observer.disconnect();
-          }
-        }}
-      />
-      {variant === "channel" && channelName && channelCreationTime && (
-        <ChannelHero name={channelName} creationTime={channelCreationTime} />
-      )}
-      {variant === "conversation" && <ConversationHero name={memberName} image={memberImage} />}
+      <div ref={loaderRef}>
+        {variant === "channel" && channelName && channelCreationTime && (
+          <ChannelHero name={channelName} creationTime={channelCreationTime} />
+        )}
+        {variant === "conversation" && <ConversationHero name={memberName} image={memberImage} />}
+      </div>
     </div>
   );
 };
