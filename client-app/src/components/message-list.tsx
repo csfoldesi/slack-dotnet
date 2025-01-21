@@ -15,7 +15,7 @@ interface MessageListProps {
   channelName?: string;
   channelCreationTime?: number;
   variant?: "channel" | "thread" | "conversation";
-  data: MessageType[] | undefined;
+  data: Record<string, MessageType[]> | undefined;
   loadMore: () => void;
   isLoadingMore: boolean;
   canLoadMore: boolean;
@@ -27,26 +27,13 @@ export const MessageList = ({
   channelName,
   channelCreationTime,
   variant = "channel",
-  data,
+  data: groupMessages,
   loadMore,
   isLoadingMore,
   canLoadMore,
 }: MessageListProps) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const { user } = useAuthStore();
-
-  const groupMessages = data?.reduce(
-    (groups, message) => {
-      const date = new Date(message.createdAt);
-      const dateKey = format(date, "yyyy-MM-dd");
-      if (!groups[dateKey]) {
-        groups[dateKey] = [];
-      }
-      groups[dateKey].unshift(message);
-      return groups;
-    },
-    {} as Record<string, typeof data>
-  );
 
   const formatDateLabel = (dateStr: string) => {
     const date = new Date(dateStr);

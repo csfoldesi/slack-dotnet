@@ -11,7 +11,7 @@ export const ChannelLayout = () => {
   const channelId = useChannelId();
   const { data: channel, isLoading: isChannelLoading, error } = useGetChannel(channelId);
   const {
-    data: messages,
+    data: groupMessages,
     isLoading: isMessagesLoading,
     hasNextPage,
     fetchNextPage,
@@ -31,15 +31,13 @@ export const ChannelLayout = () => {
     );
   }
 
-  console.log(messages);
-
   return (
     <div className="flex flex-col h-full">
       <ChannelHeader title={channel.name} />
       <MessageList
         channelName={channel.name}
         channelCreationTime={channel.createdAt}
-        data={messages}
+        data={groupMessages}
         loadMore={fetchNextPage}
         isLoadingMore={isFetchingNextPage}
         canLoadMore={hasNextPage}

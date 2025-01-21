@@ -9,13 +9,13 @@ export type Message = {
   channelId?: string;
   parentMessageId?: string;
   conversationId?: string;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
   reactions: MessageReaction[];
   threadCount: number;
   threadImage?: string;
   threadAuthor?: string;
-  threadTimestamp?: number;
+  threadTimestamp?: string;
 };
 
 export type CreateMessageRequest = {

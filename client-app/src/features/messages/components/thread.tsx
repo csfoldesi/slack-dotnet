@@ -33,7 +33,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
   const { user: currentUser } = useAuthStore();
   const { data: message, isLoading: loadingMessage } = useGetMessage(messageId);
   const {
-    data: results,
+    data: groupMessages,
     status,
     hasNextPage,
     fetchNextPage,
@@ -41,19 +41,6 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
   } = useGetMessages({ channelId, parentMessageId: messageId });
   const { createMessage } = useCreateMessage();
   //const { mutate: generateUploadUrl } = useGenerateUploadUrl();
-
-  const groupMessages = results?.reduce(
-    (groups, message) => {
-      const date = new Date(message.createdAt);
-      const dateKey = format(date, "yyyy-MM-dd");
-      if (!groups[dateKey]) {
-        groups[dateKey] = [];
-      }
-      groups[dateKey].unshift(message);
-      return groups;
-    },
-    {} as Record<string, MessageType[]>
-  );
 
   const formatDateLabel = (dateStr: string) => {
     const date = new Date(dateStr);
