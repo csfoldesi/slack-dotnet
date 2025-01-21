@@ -6,18 +6,18 @@ import { useCreteWorkspaceModal } from "../store";
 
 export const Workspaces = () => {
   const navigate = useNavigate();
-  const { data: workspaces, isLoading } = useGetWorkspaces();
+  const { data: workspaces, isLoading, isFetchedAfterMount } = useGetWorkspaces();
   const { open, setOpen } = useCreteWorkspaceModal();
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || !isFetchedAfterMount) return;
     if (workspaces !== undefined && workspaces.length > 0) {
       const workspaceId = workspaces[0].id;
       navigate({ to: "/workspaces/$workspaceId", params: { workspaceId } });
     } else if (!open) {
       setOpen(true);
     }
-  }, [isLoading, navigate, open, setOpen, workspaces]);
+  }, [isFetchedAfterMount, isLoading, navigate, open, setOpen, workspaces]);
 
   return (
     <>
