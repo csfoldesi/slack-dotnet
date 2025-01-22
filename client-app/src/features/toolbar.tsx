@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-//import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
-//import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Info, Search } from "lucide-react";
 import {
   CommandDialog,
@@ -12,34 +10,30 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { useState } from "react";
-import { useParams } from "@tanstack/react-router";
 import { useGetWorkspace } from "./workspaces/api/use-get-workspace";
 import { Loader } from "@/components/loader";
-//import { useGetChannels } from "@/features/channels/api/use-get-channels";
-//import { useGetMembers } from "@/features/members/api/use-get-members";
-//import { useRouter } from "next/navigation";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useGetChannels } from "./channels/api/use-get-channels";
+import { useGetMembers } from "./workspaces/api/use-get-members";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Toolbar = () => {
-  //const router = useRouter();
-  const { workspaceId } = useParams({ strict: false });
+  const navigate = useNavigate();
+  const workspaceId = useWorkspaceId();
   const { data: workspace, isLoading } = useGetWorkspace(workspaceId);
-  //const { data } = useGetWorkspace({ id: workspaceId });
-  //const { data: channels } = useGetChannels({ workspaceId });
-  //const { data: members } = useGetMembers({ workspaceId });
-
-  const channels: string[] = [];
-  const members: string[] = [];
+  const { data: channels } = useGetChannels(workspaceId);
+  const { data: members } = useGetMembers(workspaceId);
 
   const [open, setOpen] = useState(false);
 
   const onChannelClick = (channelId: string) => {
     setOpen(false);
-    //router.push(`/workspace/${workspaceId}/channel/${channelId}`);
+    navigate({ to: "/workspaces/$workspaceId/channels/$channelId", params: { workspaceId, channelId } });
   };
 
   const onMemberClick = (memberId: string) => {
     setOpen(false);
-    //router.push(`/workspace/${workspaceId}/member/${memberId}`);
+    navigate({ to: "/workspaces/$workspaceId/members/$memberId", params: { workspaceId, memberId } });
   };
 
   if (isLoading) {
@@ -63,16 +57,16 @@ export const Toolbar = () => {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Channels">
               {channels?.map((channel) => (
-                <CommandItem key={channel} onSelect={() => onChannelClick(channel)}>
-                  {channel}
+                <CommandItem key={channel.id} onSelect={() => onChannelClick(channel.id)}>
+                  {channel.name}
                 </CommandItem>
               ))}
             </CommandGroup>
             <CommandSeparator />
             <CommandGroup heading="Members">
               {members?.map((member) => (
-                <CommandItem key={member} onSelect={() => onMemberClick(member)}>
-                  {member}
+                <CommandItem key={member.userId} onSelect={() => onMemberClick(member.userId)}>
+                  {member.name}
                 </CommandItem>
               ))}
             </CommandGroup>
