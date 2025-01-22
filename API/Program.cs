@@ -2,6 +2,7 @@ using API.Extensions;
 using Application;
 using Infrastructure.Identity;
 using Infrastructure.Persistence;
+using Infrastructure.Storage;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddAPIServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddStorageServices(builder.Configuration);
 
 builder.Services.AddControllers();
 

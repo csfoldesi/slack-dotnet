@@ -1,0 +1,15 @@
+@API_HostAddress = http://localhost:5000/api/storage
+
+# Upload file
+POST {{API_HostAddress}}
+#Accept: application/json
+Content-Type: multipart/form-data; boundary=--boundary
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3Mzc1NTUyNzIsImV4cCI6MTczNzU1NTU3MiwiaWF0IjoxNzM3NTU1MjcyfQ.CDIB0wObTFJVpqYLy7TzH8q969N93CqoDpHNyKi2p31YMRzA1jbKU-VcJKVhJNG0M386_UmljY2THeUSSnSTEw
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="yourfile.txt"
+Content-Type: text/plain
+
+file content
+--boundary--
+###
