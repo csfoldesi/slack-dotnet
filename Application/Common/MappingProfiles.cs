@@ -23,6 +23,10 @@ public class MappingProfiles : AutoMapper.Profile
             .ForMember(x => x.AuthorAvatar, ex => ex.MapFrom(m => m.User!.Avatar))
             .ForMember(x => x.Image, ex => ex.MapFrom(i => i.Image != null ? i.Image.Url : null))
             .ForMember(
+                x => x.ImageId,
+                ex => ex.MapFrom(i => i.Image != null ? i.Image.Id.ToString() : null)
+            )
+            .ForMember(
                 x => x.Reactions,
                 ex =>
                     ex.MapFrom(r =>

@@ -8,6 +8,8 @@ public class MessageDto
 
     public string? Image { get; set; }
 
+    public Guid? ImageId { get; set; }
+
     public required string AuthorId { get; set; }
 
     public required string AuthorName { get; set; }

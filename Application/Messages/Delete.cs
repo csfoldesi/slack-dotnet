@@ -18,14 +18,21 @@ public class Delete
     public class Handler : IRequestHandler<Command, Result<MessageDto>>
     {
         private readonly IDataContext _dataContext;
+        private readonly IStorageService _storageService;
         private readonly IMapper _mapper;
         private readonly IUser _user;
 
-        public Handler(IDataContext dataContext, IMapper mapper, IUser user)
+        public Handler(
+            IDataContext dataContext,
+            IMapper mapper,
+            IUser user,
+            IStorageService storageService
+        )
         {
             _dataContext = dataContext;
             _mapper = mapper;
             _user = user;
+            _storageService = storageService;
         }
 
         public async Task<Result<MessageDto>> Handle(
@@ -37,6 +44,7 @@ public class Delete
                 .Members.Where(member => member.UserId == _user.Id)
                 .SelectMany(member => member.Workspace!.Messages)
                 .Where(message => message.UserId == _user.Id && message.Id == request.Id)
+                .Include(message => message.Image)
                 .SingleOrDefaultAsync(cancellationToken);
 
             if (message == null)
@@ -44,8 +52,13 @@ public class Delete
                 return Result<MessageDto>.NotFound();
             }
 
+            if (message.Image != null)
+            {
+                await _storageService.Delete(message.Image.StorageId);
+                _dataContext.Images.Remove(message.Image);
+            }
+
             _dataContext.Messages.Remove(message);
-            // TODO: delete image
 
             try
             {

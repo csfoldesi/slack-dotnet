@@ -12,7 +12,7 @@ public class List
 {
     public class Query : IRequest<Result<List<ChannelDto>>>
     {
-        public QueryParams Params { get; set; }
+        public required QueryParams Params { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, Result<List<ChannelDto>>>

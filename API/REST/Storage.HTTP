@@ -13,3 +13,11 @@ Content-Type: text/plain
 file content
 --boundary--
 ###
+
+
+# Delete an image
+DELETE {{API_HostAddress}}/25C4A0B1-7E1B-4241-8EAD-4C6A288CACE1
+Accept: application/json
+Cookie: AccessToken=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkNzYWJhIEbDtmxkZXNpIiwibmFtZWlkIjoiMjJhMTEwNmQtOThkMy00ZDA5LWExZWYtNTYxZjJlYTljOTJiIiwiZW1haWwiOiJjc2FidXNAZ21haWwuY29tIiwiUHJvdmlkZXIiOiJHaXRIdWIiLCJuYmYiOjE3Mzc2Mzc2OTMsImV4cCI6MTczNzYzNzk5MywiaWF0IjoxNzM3NjM3NjkzfQ.JHlHeJPegvtZ_l6jnzX1pR3tHCiw8UDgmh_gBqUcxJOamu0GFBH4O-H9pfOP60fytES6nX5K6yGEl2Iyr7SPnA
+
+###

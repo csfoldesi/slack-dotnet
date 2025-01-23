@@ -24,8 +24,14 @@ public class AzureStorageService : IStorageService
         return new StorageItemDto { Name = client.Name, URI = client.Uri.ToString() };
     }
 
-    public Task<string?> Delete(Guid publicId)
+    public async Task<string?> Delete(string publicId)
     {
-        throw new NotImplementedException();
+        var client = _containerClient.GetBlobClient(publicId);
+        bool exists = await client.ExistsAsync();
+        if (exists)
+        {
+            await client.DeleteAsync();
+        }
+        return "OK";
     }
 }
