@@ -1,5 +1,6 @@
 import { Editor } from "@/components/editor";
 import { useCreateMessage } from "@/features/messages/api/use-create-message";
+import { useUploadImage } from "@/features/messages/api/use-uppload-image";
 import { CreateMessageRequest } from "@/features/messages/types";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
@@ -20,7 +21,7 @@ export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
   const channelId = useChannelId();
 
   const { createMessage } = useCreateMessage();
-  //const { mutate: generateUploadUrl } = useGenerateUploadUrl();
+  const { uploadImage } = useUploadImage();
 
   const handleSubmit = async ({ body, image }: { body: string; image: File | null }) => {
     try {
@@ -31,32 +32,18 @@ export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
         workspaceId,
         conversationId,
         body,
-        image: undefined,
+        imageId: undefined,
       };
       if (channelId) {
         values = { channelId, ...values };
       }
 
-      /*if (image) {
-        const url = await generateUploadUrl({}, { throwError: true });
-        if (!url) {
-          throw new Error("Url not found");
+      if (image) {
+        const imageId = await uploadImage(image);
+        if (imageId) {
+          values.imageId = imageId;
         }
-
-        const result = await fetch(url!, {
-          method: "POST",
-          headers: { "Content-type": image.type },
-          body: image,
-        });
-
-        if (!result.ok) {
-          throw new Error("Failed to upload image");
-        }
-
-        const { storageId } = await result.json();
-        values.image = storageId;
-      }*/
-
+      }
       createMessage(values)
         .then(() => {
           setEditorKey((prevKey) => prevKey + 1);

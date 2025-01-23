@@ -13,6 +13,7 @@ import { useCreateMessage } from "../api/use-create-message";
 import { useGetMessage } from "../api/use-get-message";
 import { useGetMessages } from "../api/use-get-messages";
 import { CreateMessageRequest, Message as MessageType } from "../types";
+import { useUploadImage } from "../api/use-uppload-image";
 
 const TIME_TRESHOLD = 5;
 
@@ -35,13 +36,12 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
   const { data: message, isLoading: loadingMessage } = useGetMessage(messageId);
   const {
     data: groupMessages,
-    status,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
   } = useGetMessages({ channelId, parentMessageId: messageId });
   const { createMessage } = useCreateMessage();
-  //const { mutate: generateUploadUrl } = useGenerateUploadUrl();
+  const { uploadImage } = useUploadImage();
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -89,31 +89,17 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
         workspaceId,
         parentMessageId: messageId,
         body,
-        image: undefined,
+        imageId: undefined,
       };
       if (channelId) {
         request = { channelId, ...request };
       }
-      /*if (image) {
-        const url = await generateUploadUrl({}, { throwError: true });
-        if (!url) {
-          throw new Error("Url not found");
+      if (image) {
+        const imageId = await uploadImage(image);
+        if (imageId) {
+          request.imageId = imageId;
         }
-
-        const result = await fetch(url!, {
-          method: "POST",
-          headers: { "Content-type": image.type },
-          body: image,
-        });
-
-        if (!result.ok) {
-          throw new Error("Failed to upload image");
-        }
-
-        const { storageId } = await result.json();
-        values.image = storageId;
-      }*/
-
+      }
       createMessage(request)
         .then(() => {
           setEditorKey((prevKey) => prevKey + 1);
@@ -131,7 +117,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
     }
   };
 
-  if (loadingMessage || status === "LoadingFirstPage") {
+  if (loadingMessage) {
     return (
       <div className="flex h-full flex-col">
         <div className="flex justify-between items-center h-[49px] border-b">

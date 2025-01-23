@@ -20,7 +20,7 @@ export type Message = {
 
 export type CreateMessageRequest = {
   body?: string;
-  image?: string;
+  imageId?: string;
   workspaceId: string;
   channelId?: string;
   parentMessageId?: string;
