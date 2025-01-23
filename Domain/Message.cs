@@ -6,7 +6,9 @@ public class Message
 
     public string? Body { get; set; }
 
-    public string? Image { get; set; }
+    public Image? Image { get; set; }
+
+    public Guid? ImageId { get; set; }
 
     public User? User { get; set; }
 

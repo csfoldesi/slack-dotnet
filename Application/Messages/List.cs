@@ -83,7 +83,8 @@ public class List
                 )
                 .OrderByDescending(message => message.CreatedAt)
                 .Include(message => message.User)
-                .Include(message => message.Reactions);
+                .Include(message => message.Reactions)
+                .Include(message => message.Image);
             //.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
 
             var totalCount = await query.CountAsync(cancellationToken: cancellationToken);

@@ -4,7 +4,7 @@ public class CreateMessageRequest
 {
     public required string Body { get; set; }
 
-    public string? Image { get; set; }
+    public Guid? ImageId { get; set; }
 
     public required Guid WorkspaceId { get; set; }
 

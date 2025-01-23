@@ -14,7 +14,7 @@ public class Create
     {
         public string? Body { get; set; }
 
-        public string? Image { get; set; }
+        public Guid? ImageId { get; set; }
 
         public required Guid WorkspaceId { get; set; }
 
@@ -68,7 +68,7 @@ public class Create
                 Id = Guid.NewGuid(),
                 UserId = _user.Id,
                 Body = request.Body,
-                Image = request.Image,
+                ImageId = request.ImageId,
                 Workspace = workspace,
                 ChannelId = request.ChannelId,
                 ParentMessageId = request.ParentMessageId,

@@ -45,6 +45,7 @@ public class Delete
             }
 
             _dataContext.Messages.Remove(message);
+            // TODO: delete image
 
             try
             {

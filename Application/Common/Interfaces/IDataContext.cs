@@ -19,5 +19,7 @@ public interface IDataContext
 
     public DbSet<Reaction> Reactions { get; set; }
 
+    public DbSet<Image> Images { get; set; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

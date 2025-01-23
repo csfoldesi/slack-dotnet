@@ -4,5 +4,5 @@ public class UpdateMessageRequest
 {
     public string? Body { get; set; }
 
-    public string? Image { get; set; }
+    public Guid? ImageId { get; set; }
 }

@@ -21,6 +21,7 @@ public class MappingProfiles : AutoMapper.Profile
             .ForMember(x => x.AuthorId, ex => ex.MapFrom(m => m.UserId))
             .ForMember(x => x.AuthorName, ex => ex.MapFrom(m => m.User!.Name))
             .ForMember(x => x.AuthorAvatar, ex => ex.MapFrom(m => m.User!.Avatar))
+            .ForMember(x => x.Image, ex => ex.MapFrom(i => i.Image != null ? i.Image.Url : null))
             .ForMember(
                 x => x.Reactions,
                 ex =>

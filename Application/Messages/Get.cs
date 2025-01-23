@@ -37,6 +37,7 @@ public class Get
                 .Messages.Where(message => message.Id == request.MessageId)
                 .Include(message => message.User)
                 .Include(message => message.Reactions)
+                .Include(message => message.Image)
                 .SingleOrDefaultAsync(cancellationToken: cancellationToken);
 
             if (message == null)

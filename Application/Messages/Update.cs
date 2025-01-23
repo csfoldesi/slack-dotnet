@@ -14,7 +14,7 @@ public class Update
     {
         public required Guid Id { get; set; }
         public string? Body { get; set; }
-        public string? Image { get; set; }
+        public Guid? ImageId { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Result<MessageDto>>
@@ -47,7 +47,7 @@ public class Update
             }
 
             message.Body = request.Body;
-            message.Image = request.Image;
+            message.ImageId = request.ImageId;
 
             try
             {

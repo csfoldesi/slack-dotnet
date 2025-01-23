@@ -21,6 +21,8 @@ public class DataContext : IdentityDbContext<User>, IDataContext
 
     public DbSet<Reaction> Reactions { get; set; }
 
+    public DbSet<Image> Images { get; set; }
+
     public DataContext(DbContextOptions options)
         : base(options) { }
 
@@ -36,6 +38,7 @@ public class DataContext : IdentityDbContext<User>, IDataContext
         builder.Entity<Message>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
         builder.Entity<Conversation>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
         builder.Entity<Reaction>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
+        builder.Entity<Image>().Property(x => x.Id).HasColumnType("TEXT COLLATE NOCASE");
 
         builder
             .Entity<Conversation>()
@@ -94,5 +97,7 @@ public class DataContext : IdentityDbContext<User>, IDataContext
             .HasOne(uw => uw.User)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);*/
+
+        builder.Entity<Message>().HasOne(m => m.Image).WithOne();
     }
 }

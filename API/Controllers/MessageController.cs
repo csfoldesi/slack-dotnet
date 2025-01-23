@@ -15,7 +15,7 @@ public class MessageController : BaseApiController
             new Create.Command
             {
                 Body = request.Body,
-                Image = request.Image,
+                ImageId = request.ImageId,
                 WorkspaceId = request.WorkspaceId,
                 ChannelId = request.ChannelId,
                 ConversationId = request.ConversationId,
@@ -34,7 +34,7 @@ public class MessageController : BaseApiController
             {
                 Id = messageId,
                 Body = request.Body,
-                Image = request.Image,
+                ImageId = request.ImageId,
             }
         );
         return HandleResult(result);
