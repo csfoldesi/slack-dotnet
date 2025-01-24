@@ -19,7 +19,7 @@ namespace Infrastructure.Identity
             _dataContext = dataContext;
         }
 
-        public async Task<string> CreateAccessTokenAsync(User user, string? provider)
+        public string CreateAccessToken(User user, string? provider)
         {
             var claims = new List<Claim>
             {

@@ -49,7 +49,7 @@ public class AuthController : BaseApiController
 
         var user = result.Value!;
         var response = _mapper.Map<User, UserProfile>(user);
-        var accessToken = await _tokenService.CreateAccessTokenAsync(user, null);
+        var accessToken = _tokenService.CreateAccessToken(user, null);
         var refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
         var cookieOptions = new CookieOptions
         {
@@ -79,7 +79,7 @@ public class AuthController : BaseApiController
 
         var user = result.Value!;
         var response = _mapper.Map<User, UserProfile>(user);
-        var accessToken = await _tokenService.CreateAccessTokenAsync(user, null);
+        var accessToken = _tokenService.CreateAccessToken(user, null);
         var refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
         var cookieOptions = new CookieOptions
         {
@@ -131,7 +131,7 @@ public class AuthController : BaseApiController
         }
 
         var user = result.Value!;
-        var accessToken = await _tokenService.CreateAccessTokenAsync(user, user.AuthProvider);
+        var accessToken = _tokenService.CreateAccessToken(user, user.AuthProvider);
         var refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
 
         /*var createUserResponse = new CreateUserResponse
@@ -205,10 +205,7 @@ public class AuthController : BaseApiController
             {
                 var user = result.Value!;
                 await _tokenService.ExtendRefreshTokenAsync(refreshToken);
-                var accessToken = await _tokenService.CreateAccessTokenAsync(
-                    user,
-                    user.AuthProvider
-                );
+                var accessToken = _tokenService.CreateAccessToken(user, user.AuthProvider);
 
                 var cookieOptions = new CookieOptions
                 {

@@ -48,6 +48,7 @@ public class Update
 
             message.Body = request.Body;
             message.ImageId = request.ImageId;
+            message.UpdatedAt = DateTime.Now;
 
             try
             {
