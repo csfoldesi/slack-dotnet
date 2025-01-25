@@ -3,7 +3,6 @@ import { Message } from "../types";
 import { AxiosError } from "axios";
 import { client } from "@/client";
 import { PagedList } from "@/api/types";
-import { format } from "date-fns";
 
 type GetMessagesRequest = {
   channelId?: string;
@@ -24,21 +23,8 @@ export const useGetMessages = ({ channelId = "", conversationId = "", parentMess
     getNextPageParam: (lastPage) => (lastPage.currentPage < lastPage.totalPages - 1 ? lastPage.currentPage + 1 : null),
   });
 
-  const mergeData = (pages?: PagedList<Message>[]): Record<string, Message[]> | undefined => {
-    const messages = pages?.reduce((acc, current) => [...acc, ...current.items], [] as Message[]);
-
-    return messages?.reduce(
-      (groups, message) => {
-        const date = new Date(message.createdAt);
-        const dateKey = format(date, "yyyy-MM-dd");
-        if (!groups[dateKey]) {
-          groups[dateKey] = [];
-        }
-        groups[dateKey].unshift(message);
-        return groups;
-      },
-      {} as Record<string, Message[]>
-    );
+  const mergeData = (pages?: PagedList<Message>[]): Message[] | undefined => {
+    return pages?.reduce((acc, current) => [...acc, ...current.items], [] as Message[]);
   };
 
   return {

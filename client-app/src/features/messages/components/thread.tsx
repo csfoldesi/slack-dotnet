@@ -35,7 +35,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
   const { user: currentUser } = useAuthStore();
   const { data: message, isLoading: loadingMessage } = useGetMessage(messageId);
   const {
-    data: groupMessages,
+    data: messages,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
@@ -71,13 +71,17 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
     return format(date, "EEEE, MMMM d");
   };
 
-  const isCompact = (message: MessageType, previousMessage: MessageType): boolean => {
+  const isCompact = (message: MessageType, nextMessage: MessageType): boolean => {
     return (
       message &&
-      previousMessage &&
-      previousMessage.authorId === message.authorId &&
-      differenceInMinutes(new Date(message.createdAt), new Date(previousMessage.createdAt)) < TIME_TRESHOLD
+      nextMessage &&
+      nextMessage.authorId === message.authorId &&
+      differenceInMinutes(new Date(message.createdAt), new Date(nextMessage.createdAt)) < TIME_TRESHOLD
     );
+  };
+
+  const isNewDay = (message: MessageType, nextMessage: MessageType): boolean => {
+    return !nextMessage || format(message.createdAt, "yyyy-MM-dd") !== format(nextMessage.createdAt, "yyyy-MM-dd");
   };
 
   const handleSubmit = async ({ body, image }: { body: string; image: File | null }) => {
@@ -159,40 +163,39 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
         </Button>
       </div>
       <div className="flex-1 flex flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
-        {Object.entries(groupMessages || {}).map(([dateKey, messages]) => (
-          <div key={dateKey}>
-            <div className="text-center my-2 relative">
-              <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
-              <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
-                {formatDateLabel(dateKey)}
-              </span>
-            </div>
-            {messages.map((message, index) => (
-              <Message
-                key={message.id}
-                id={message.id}
-                authorId={message.authorId}
-                authorImage={message.authorAvatar}
-                authorName={message.authorName}
-                isAuthor={message.authorId === currentUser?.id}
-                reactions={message.reactions}
-                body={message.body}
-                image={message.image}
-                updatedAt={message.updatedAt}
-                createdAt={message.createdAt}
-                isEditing={editingId === message.id}
-                setEditingId={setEditingId}
-                isCompact={isCompact(message, messages[index - 1])}
-                hideThreadButton
-                threadCount={0}
-                threadImage={undefined}
-                threadName={undefined}
-                threadTimestamp={undefined}
-              />
-            ))}
+        {messages?.map((message, index) => (
+          <div key={message.id}>
+            {isNewDay(message, messages[index + 1]) && (
+              <div className="text-center my-2 relative">
+                <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
+                <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
+                  {formatDateLabel(message.createdAt)}
+                </span>
+              </div>
+            )}
+            <Message
+              key={message.id}
+              id={message.id}
+              authorId={message.authorId}
+              authorImage={message.authorAvatar}
+              authorName={message.authorName}
+              isAuthor={message.authorId === currentUser?.id}
+              reactions={message.reactions}
+              body={message.body}
+              image={message.image}
+              updatedAt={message.updatedAt}
+              createdAt={message.createdAt}
+              isEditing={editingId === message.id}
+              setEditingId={setEditingId}
+              isCompact={isCompact(message, messages[index + 1])}
+              hideThreadButton
+              threadCount={0}
+              threadImage={undefined}
+              threadName={undefined}
+              threadTimestamp={undefined}
+            />
           </div>
         ))}
-
         <div className="h-1" ref={loaderRef} />
 
         {isFetchingNextPage && (

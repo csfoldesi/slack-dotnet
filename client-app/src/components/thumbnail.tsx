@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 interface ThumbnailProps {
   url: string | null | undefined;
@@ -15,6 +15,8 @@ export const Thumbnail = ({ url }: ThumbnailProps) => {
         </div>
       </DialogTrigger>
       <DialogContent className="max-w-[800px] border-none bg-transparent p-0 shadow-none">
+        <DialogTitle />
+        <DialogDescription />
         <img src={url} alt="Message image" className="rounded-md object-cover size-full" />
       </DialogContent>
     </Dialog>

@@ -11,7 +11,7 @@ export const ChannelLayout = () => {
   const channelId = useChannelId();
   const { data: channel, isLoading: isChannelLoading, error } = useGetChannel(channelId);
   const {
-    data: groupMessages,
+    data: messages,
     isLoading: isMessagesLoading,
     hasNextPage,
     fetchNextPage,
@@ -37,7 +37,7 @@ export const ChannelLayout = () => {
       <MessageList
         channelName={channel.name}
         channelCreationTime={channel.createdAt}
-        data={groupMessages}
+        data={messages}
         loadMore={fetchNextPage}
         isLoadingMore={isFetchingNextPage}
         canLoadMore={hasNextPage}

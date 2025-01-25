@@ -15,7 +15,7 @@ interface MessageListProps {
   channelName?: string;
   channelCreationTime?: number;
   variant?: "channel" | "thread" | "conversation";
-  data: Record<string, MessageType[]> | undefined;
+  data: MessageType[] | undefined;
   loadMore: () => void;
   isLoadingMore: boolean;
   canLoadMore: boolean;
@@ -27,7 +27,7 @@ export const MessageList = ({
   channelName,
   channelCreationTime,
   variant = "channel",
-  data: groupMessages,
+  data: messages,
   loadMore,
   isLoadingMore,
   canLoadMore,
@@ -64,48 +64,51 @@ export const MessageList = ({
     return format(date, "EEEE, MMMM d");
   };
 
-  const isCompact = (message: MessageType, previousMessage: MessageType): boolean => {
+  const isCompact = (message: MessageType, nextMessage: MessageType): boolean => {
     return (
       message &&
-      previousMessage &&
-      previousMessage.authorId === message.authorId &&
-      differenceInMinutes(new Date(message.createdAt), new Date(previousMessage.createdAt)) < TIME_TRESHOLD
+      nextMessage &&
+      nextMessage.authorId === message.authorId &&
+      differenceInMinutes(message.createdAt, nextMessage.createdAt) < TIME_TRESHOLD
     );
+  };
+
+  const isNewDay = (message: MessageType, nextMessage: MessageType): boolean => {
+    return !nextMessage || format(message.createdAt, "yyyy-MM-dd") !== format(nextMessage.createdAt, "yyyy-MM-dd");
   };
 
   return (
     <div className="flex-1 flex flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
-      {Object.entries(groupMessages || {}).map(([dateKey, messages]) => (
-        <div key={dateKey}>
-          <div className="text-center my-2 relative">
-            <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
-            <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
-              {formatDateLabel(dateKey)}
-            </span>
-          </div>
-          {messages.map((message, index) => (
-            <Message
-              key={message.id}
-              id={message.id}
-              authorId={message.authorId}
-              authorImage={message.authorAvatar}
-              authorName={message.authorName}
-              isAuthor={message.authorId === user?.id}
-              reactions={message.reactions}
-              body={message.body}
-              image={message.image}
-              updatedAt={message.updatedAt}
-              createdAt={message.createdAt}
-              isEditing={editingId === message.id}
-              setEditingId={setEditingId}
-              isCompact={isCompact(message, messages[index - 1])}
-              hideThreadButton={variant === "thread"}
-              threadCount={message.threadCount}
-              threadImage={message.threadImage}
-              threadName={message.threadAuthor}
-              threadTimestamp={message.threadTimestamp}
-            />
-          ))}
+      {messages?.map((message, index) => (
+        <div key={message.id}>
+          {isNewDay(message, messages[index + 1]) && (
+            <div className="text-center my-2 relative">
+              <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
+              <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
+                {formatDateLabel(message.createdAt)}
+              </span>
+            </div>
+          )}
+          <Message
+            id={message.id}
+            authorId={message.authorId}
+            authorImage={message.authorAvatar}
+            authorName={message.authorName}
+            isAuthor={message.authorId === user?.id}
+            reactions={message.reactions}
+            body={message.body}
+            image={message.image}
+            updatedAt={message.updatedAt}
+            createdAt={message.createdAt}
+            isEditing={editingId === message.id}
+            setEditingId={setEditingId}
+            isCompact={isCompact(message, messages[index + 1])}
+            hideThreadButton={variant === "thread"}
+            threadCount={message.threadCount}
+            threadImage={message.threadImage}
+            threadName={message.threadAuthor}
+            threadTimestamp={message.threadTimestamp}
+          />
         </div>
       ))}
       {isLoadingMore && (

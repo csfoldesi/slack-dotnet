@@ -18,7 +18,7 @@ export const Conversation = ({ id }: ConversationProps) => {
   const { onOpenProfile } = usePanel();
   const { data: member, isLoading: memberLoading } = useGetMembership({ workspaceId, userId: memberId });
   const {
-    data: groupMessages,
+    data: messages,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
@@ -40,7 +40,7 @@ export const Conversation = ({ id }: ConversationProps) => {
         }}
       />
       <MessageList
-        data={groupMessages}
+        data={messages}
         variant="conversation"
         memberImage={member?.avatar}
         memberName={member?.name}
