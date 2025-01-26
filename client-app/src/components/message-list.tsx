@@ -6,6 +6,7 @@ import { ConversationHero } from "@/features/conversations/components/conversati
 import { Message as MessageType } from "@/features/messages/types";
 import { Message } from "./message";
 import { useAuthStore } from "@/features/auth/store";
+import { MessageProvider } from "@/features/messages/store/message-provider";
 
 const TIME_TRESHOLD = 5;
 
@@ -89,26 +90,16 @@ export const MessageList = ({
               </span>
             </div>
           )}
-          <Message
-            id={message.id}
-            authorId={message.authorId}
-            authorImage={message.authorAvatar}
-            authorName={message.authorName}
-            isAuthor={message.authorId === user?.id}
-            reactions={message.reactions}
-            body={message.body}
-            image={message.image}
-            updatedAt={message.updatedAt}
-            createdAt={message.createdAt}
-            isEditing={editingId === message.id}
-            setEditingId={setEditingId}
-            isCompact={isCompact(message, messages[index + 1])}
-            hideThreadButton={variant === "thread"}
-            threadCount={message.threadCount}
-            threadImage={message.threadImage}
-            threadName={message.threadAuthor}
-            threadTimestamp={message.threadTimestamp}
-          />
+          <MessageProvider message={message}>
+            <Message
+              key={message.id}
+              isAuthor={message.authorId === user?.id}
+              isEditing={editingId === message.id}
+              setEditingId={setEditingId}
+              isCompact={isCompact(message, messages[index + 1])}
+              hideThreadButton={variant === "thread"}
+            />
+          </MessageProvider>
         </div>
       ))}
       {isLoadingMore && (

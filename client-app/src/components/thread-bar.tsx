@@ -1,19 +1,24 @@
 import { formatDistanceToNow } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { ChevronRight } from "lucide-react";
+import { useContext } from "react";
+import { MessageContext } from "@/features/messages/store/message-context";
 
 interface ThreadBarProps {
-  count?: number;
-  image?: string;
-  timestamp?: string;
-  name?: string;
   onClick?: () => void;
 }
 
-export const ThreadBar = ({ count, image, timestamp, name = "Member", onClick }: ThreadBarProps) => {
+export const ThreadBar = ({ onClick }: ThreadBarProps) => {
+  const {
+    threadCount: count,
+    threadImage: image,
+    threadTimestamp: timestamp,
+    threadAuthor: author,
+  } = useContext(MessageContext);
+
   if (!count || !timestamp) return null;
 
-  const avatarFallback = name?.charAt(0).toUpperCase();
+  const avatarFallback = author?.charAt(0).toUpperCase();
 
   return (
     <button

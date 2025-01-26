@@ -14,6 +14,7 @@ import { useGetMessage } from "../api/use-get-message";
 import { useGetMessages } from "../api/use-get-messages";
 import { CreateMessageRequest, Message as MessageType } from "../types";
 import { useUploadImage } from "../api/use-uppload-image";
+import { MessageContext } from "../store/message-context";
 
 const TIME_TRESHOLD = 5;
 
@@ -173,27 +174,16 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
                 </span>
               </div>
             )}
-            <Message
-              key={message.id}
-              id={message.id}
-              authorId={message.authorId}
-              authorImage={message.authorAvatar}
-              authorName={message.authorName}
-              isAuthor={message.authorId === currentUser?.id}
-              reactions={message.reactions}
-              body={message.body}
-              image={message.image}
-              updatedAt={message.updatedAt}
-              createdAt={message.createdAt}
-              isEditing={editingId === message.id}
-              setEditingId={setEditingId}
-              isCompact={isCompact(message, messages[index + 1])}
-              hideThreadButton
-              threadCount={0}
-              threadImage={undefined}
-              threadName={undefined}
-              threadTimestamp={undefined}
-            />
+            <MessageContext.Provider value={message}>
+              <Message
+                key={message.id}
+                isAuthor={message.authorId === currentUser?.id}
+                isEditing={editingId === message.id}
+                setEditingId={setEditingId}
+                isCompact={isCompact(message, messages[index + 1])}
+                hideThreadButton
+              />
+            </MessageContext.Provider>
           </div>
         ))}
         <div className="h-1" ref={loaderRef} />
@@ -207,21 +197,14 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
           </div>
         )}
 
-        <Message
-          hideThreadButton
-          authorId={message.authorId}
-          authorImage={message.authorAvatar}
-          authorName={message.authorName}
-          isAuthor={message.authorId === currentUser?.id}
-          body={message.body}
-          image={message.image}
-          createdAt={message.createdAt}
-          updatedAt={message.updatedAt}
-          id={message.id}
-          reactions={message.reactions}
-          isEditing={editingId === message.id}
-          setEditingId={setEditingId}
-        />
+        <MessageContext.Provider value={message}>
+          <Message
+            hideThreadButton
+            isAuthor={message.authorId === currentUser?.id}
+            isEditing={editingId === message.id}
+            setEditingId={setEditingId}
+          />
+        </MessageContext.Provider>
       </div>
       <div className="px-4">
         <Editor
