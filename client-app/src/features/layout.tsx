@@ -25,17 +25,17 @@ export const Layout = () => {
         <div className="flex h-[calc(100vh-40px)]">
           <Sidebar />
           <ResizablePanelGroup direction="horizontal" autoSaveId="ca-worspace-layout">
-            <ResizablePanel defaultSize={20} minSize={11} className="bg-[#5e2c5f]">
+            <ResizablePanel defaultSize={20} minSize={11} id="WorkspaceSidebar" order={1} className="bg-[#5e2c5f]">
               <WorkspaceSidebar />
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={80} minSize={20}>
+            <ResizablePanel defaultSize={80} minSize={20} id="Messages" order={2}>
               {channelId ? <ChannelLayout /> : memberId ? <ConversationPage /> : null}
             </ResizablePanel>
             {showPanel && (
               <>
                 <ResizableHandle withHandle />
-                <ResizablePanel minSize={20} defaultSize={29}>
+                <ResizablePanel minSize={20} defaultSize={29} id="ThreadProfile" order={3}>
                   {parentMessageId ? (
                     <Thread messageId={parentMessageId} onClose={onClose} />
                   ) : profileMemberId ? (
