@@ -28,7 +28,6 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
   const channelId = useChannelId();
   const loaderRef = useRef(null);
 
-  const [editingId, setEditingId] = useState<string | null>(null);
   const [editorKey, setEditorKey] = useState(0);
   const [isPending, setIsPending] = useState(false);
   const editorRef = useRef<Quill | null>(null);
@@ -178,8 +177,6 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
               <Message
                 key={message.id}
                 isAuthor={message.authorId === currentUser?.id}
-                isEditing={editingId === message.id}
-                setEditingId={setEditingId}
                 isCompact={isCompact(message, messages[index + 1])}
                 hideThreadButton
               />
@@ -198,12 +195,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
         )}
 
         <MessageContext.Provider value={message}>
-          <Message
-            hideThreadButton
-            isAuthor={message.authorId === currentUser?.id}
-            isEditing={editingId === message.id}
-            setEditingId={setEditingId}
-          />
+          <Message hideThreadButton isAuthor={message.authorId === currentUser?.id} />
         </MessageContext.Provider>
       </div>
       <div className="px-4">

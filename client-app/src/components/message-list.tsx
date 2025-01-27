@@ -1,5 +1,5 @@
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Loader } from "lucide-react";
 import { ChannelHero } from "@/features/channels/components/channel-hero";
 import { ConversationHero } from "@/features/conversations/components/conversation-hero";
@@ -33,7 +33,6 @@ export const MessageList = ({
   isLoadingMore,
   canLoadMore,
 }: MessageListProps) => {
-  const [editingId, setEditingId] = useState<string | null>(null);
   const { user } = useAuthStore();
   const loaderRef = useRef(null);
 
@@ -94,8 +93,6 @@ export const MessageList = ({
             <Message
               key={message.id}
               isAuthor={message.authorId === user?.id}
-              isEditing={editingId === message.id}
-              setEditingId={setEditingId}
               isCompact={isCompact(message, messages[index + 1])}
               hideThreadButton={variant === "thread"}
             />

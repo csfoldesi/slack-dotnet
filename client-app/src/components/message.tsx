@@ -14,18 +14,17 @@ import { useUpdateMessage } from "@/features/messages/api/use-update-message";
 import { useDeleteMessage } from "@/features/messages/api/use-delete-message";
 import { useToggleReaction } from "@/features/messages/api/use-toggle-reaction";
 import { usePanel } from "@/hooks/use-panel";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { MessageContext } from "@/features/messages/store/message-context";
 
 interface MessageProps {
   isAuthor: boolean;
-  isEditing: boolean;
-  setEditingId: (id: string | null) => void;
   isCompact?: boolean;
   hideThreadButton?: boolean;
 }
 
-export const Message = ({ isAuthor, isEditing, setEditingId, isCompact, hideThreadButton }: MessageProps) => {
+export const Message = ({ isAuthor, isCompact, hideThreadButton }: MessageProps) => {
+  const [isEditing, setIsEditing] = useState(false);
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete message",
     "Are you sure you want to delete this messagage? This cannot be undone."
@@ -47,7 +46,7 @@ export const Message = ({ isAuthor, isEditing, setEditingId, isCompact, hideThre
         toast.error("Failed to update message");
       })
       .finally(() => {
-        setEditingId(null);
+        setIsEditing(false);
       });
   };
 
@@ -101,7 +100,7 @@ export const Message = ({ isAuthor, isEditing, setEditingId, isCompact, hideThre
                   onSubmit={handleUpdate}
                   disabled={isPending}
                   defaultValue={JSON.parse(message.body!)}
-                  onCancel={() => setEditingId(null)}
+                  onCancel={() => setIsEditing(false)}
                   variant="update"
                 />
               </div>
@@ -119,7 +118,7 @@ export const Message = ({ isAuthor, isEditing, setEditingId, isCompact, hideThre
             <MessageToolbar
               isAuthor={isAuthor}
               isPending={false}
-              handleEdit={() => setEditingId(message.id)}
+              handleEdit={() => setIsEditing(true)}
               handleThread={() => onOpenMessage(message.id)}
               handleDelete={handleDelete}
               handleReaction={handleReaction}
@@ -153,7 +152,7 @@ export const Message = ({ isAuthor, isEditing, setEditingId, isCompact, hideThre
                 onSubmit={handleUpdate}
                 disabled={isPending}
                 defaultValue={JSON.parse(message.body!)}
-                onCancel={() => setEditingId(null)}
+                onCancel={() => setIsEditing(false)}
                 variant="update"
               />
             </div>
@@ -184,7 +183,7 @@ export const Message = ({ isAuthor, isEditing, setEditingId, isCompact, hideThre
           <MessageToolbar
             isAuthor={isAuthor}
             isPending={false}
-            handleEdit={() => setEditingId(message.id)}
+            handleEdit={() => setIsEditing(true)}
             handleThread={() => onOpenMessage(message.id)}
             handleDelete={handleDelete}
             handleReaction={handleReaction}
