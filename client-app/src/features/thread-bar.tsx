@@ -1,8 +1,8 @@
-import { formatDistanceToNow } from "date-fns";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { ChevronRight } from "lucide-react";
 import { useContext } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { ChevronRight } from "lucide-react";
 import { MessageContext } from "@/features/messages/store/message-context";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ThreadBarProps {
   onClick?: () => void;

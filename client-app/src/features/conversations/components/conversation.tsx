@@ -1,5 +1,5 @@
 import { useMemberId } from "@/hooks/use-member-id";
-import { MessageList } from "@/components/message-list";
+import { MessageList } from "@/features/messages/components/message-list";
 import { usePanel } from "@/hooks/use-panel";
 import { Loader } from "@/components/loader";
 import { ConversationHeader } from "./conversation-header";
@@ -17,12 +17,7 @@ export const Conversation = ({ id }: ConversationProps) => {
   const workspaceId = useWorkspaceId();
   const { onOpenProfile } = usePanel();
   const { data: member, isLoading: memberLoading } = useGetMembership({ workspaceId, userId: memberId });
-  const {
-    data: messages,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useGetMessages({ conversationId: id });
+  const { data: messages, hasNextPage, fetchNextPage, isFetchingNextPage } = useGetMessages({ conversationId: id });
 
   const status = "";
 

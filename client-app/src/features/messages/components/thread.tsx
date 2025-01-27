@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Message } from "@/components/message";
-import { Editor } from "@/components/editor";
+import { Message } from "@/features/messages/components/message";
+import { Editor } from "@/features/messages/components/editor";
 import { AlertTriangleIcon, Loader, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";

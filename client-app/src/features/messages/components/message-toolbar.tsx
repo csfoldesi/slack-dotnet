@@ -1,7 +1,7 @@
 import { MessageSquareTextIcon, PencilIcon, SmileIcon, TrashIcon } from "lucide-react";
-import { Button } from "./ui/button";
-import { Hint } from "./hint";
-import { EmojiPopover } from "./emoji-popover";
+import { Button } from "@/components/ui/button";
+import { Hint } from "@/components/hint";
+import { EmojiPopover } from "@/components/emoji-popover";
 
 interface MessageToolbarProps {
   isAuthor: boolean;

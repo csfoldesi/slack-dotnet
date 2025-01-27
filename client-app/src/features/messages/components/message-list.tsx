@@ -1,10 +1,10 @@
-import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { useEffect, useRef } from "react";
 import { Loader } from "lucide-react";
+import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
+import { Message } from "@/features/messages/components/message";
 import { ChannelHero } from "@/features/channels/components/channel-hero";
 import { ConversationHero } from "@/features/conversations/components/conversation-hero";
 import { Message as MessageType } from "@/features/messages/types";
-import { Message } from "./message";
 import { useAuthStore } from "@/features/auth/store";
 import { MessageProvider } from "@/features/messages/store/message-provider";
 

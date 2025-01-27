@@ -1,21 +1,21 @@
+import { useContext, useState } from "react";
 import { format, isToday, isYesterday } from "date-fns";
-import { Hint } from "./hint";
-import { Renderer } from "./renderer";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Thumbnail } from "./thumbnail";
-import { MessageToolbar } from "./message-toolbar";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { Editor } from "./editor";
 import { useConfirm } from "@/hooks/use-confirm";
-import { Reactions } from "./reactions";
-import { ThreadBar } from "./thread-bar";
+import { usePanel } from "@/hooks/use-panel";
 import { useUpdateMessage } from "@/features/messages/api/use-update-message";
 import { useDeleteMessage } from "@/features/messages/api/use-delete-message";
 import { useToggleReaction } from "@/features/messages/api/use-toggle-reaction";
-import { usePanel } from "@/hooks/use-panel";
-import { useContext, useState } from "react";
 import { MessageContext } from "@/features/messages/store/message-context";
+import { Hint } from "@/components/hint";
+import { Renderer } from "@/features/messages/components/renderer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Thumbnail } from "@/components/thumbnail";
+import { MessageToolbar } from "@/features/messages/components/message-toolbar";
+import { Editor } from "@/features/messages/components/editor";
+import { Reactions } from "@/features/messages/components/reactions";
+import { ThreadBar } from "@/features/thread-bar";
 
 interface MessageProps {
   isAuthor: boolean;

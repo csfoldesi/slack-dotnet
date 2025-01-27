@@ -1,9 +1,9 @@
-import { Hint } from "./hint";
-import { cn } from "@/lib/utils";
-import { EmojiPopover } from "./emoji-popover";
 import { MdOutlineAddReaction } from "react-icons/md";
+import { cn } from "@/lib/utils";
 import { MessageReaction } from "@/features/messages/types";
 import { useAuthStore } from "@/features/auth/store";
+import { EmojiPopover } from "@/components/emoji-popover";
+import { Hint } from "@/components/hint";
 
 interface ReactionsProps {
   data: MessageReaction[];

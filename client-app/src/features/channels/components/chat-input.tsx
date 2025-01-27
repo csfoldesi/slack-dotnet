@@ -1,4 +1,4 @@
-import { Editor } from "@/components/editor";
+import { Editor } from "@/features/messages/components/editor";
 import { useCreateMessage } from "@/features/messages/api/use-create-message";
 import { useUploadImage } from "@/features/messages/api/use-uppload-image";
 import { CreateMessageRequest } from "@/features/messages/types";

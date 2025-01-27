@@ -4,7 +4,7 @@ import { Loader } from "@/components/loader";
 import { TriangleAlert } from "lucide-react";
 import { ChannelHeader } from "./components/channel-header";
 import { ChatInput } from "./components/chat-input";
-import { MessageList } from "@/components/message-list";
+import { MessageList } from "@/features/messages/components/message-list";
 import { useGetMessages } from "../messages/api/use-get-messages";
 
 export const ChannelLayout = () => {
