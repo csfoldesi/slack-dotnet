@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/avatar";
 
 interface ConversationHeroProps {
   name?: string;
@@ -6,15 +6,10 @@ interface ConversationHeroProps {
 }
 
 export const ConversationHero = ({ name, image }: ConversationHeroProps) => {
-  const avatarFallback = name?.charAt(0).toUpperCase();
-
   return (
     <div className="mt-[88px] mx-5 mb-4">
       <div className="flex items-center gap-x-1 mb-2">
-        <Avatar className="size-14 mr-2">
-          <AvatarImage src={image} />
-          <AvatarFallback>{avatarFallback}</AvatarFallback>
-        </Avatar>
+        <Avatar variant="medium" image={image} fallback={name} />
         <p className="text-2xl font-bold">{name}</p>
       </div>
       <p className="font-normal text-slate-800 mb-4">

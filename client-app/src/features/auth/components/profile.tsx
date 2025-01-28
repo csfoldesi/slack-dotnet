@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { AlertTriangleIcon, ChevronDownIcon, Loader, MailIcon, XIcon } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { toast } from "sonner";
@@ -16,6 +15,7 @@ import { useGetMembership } from "@/features/workspaces/api/use-get-membership";
 import { useUpdateMembership } from "@/features/workspaces/api/use-update-membership";
 import { useDeleteMembership } from "@/features/workspaces/api/use-delete-membership";
 import { useNavigate } from "@tanstack/react-router";
+import { Avatar } from "@/components/avatar";
 
 interface ProfileProps {
   userId: string;
@@ -34,7 +34,7 @@ export const Profile = ({ userId, onClose }: ProfileProps) => {
   const [RemoveDialog, confirmRemove] = useConfirm("Remove user", "Are you sure you want to remove this member?");
   const [UpdateDialog, confirmUpdate] = useConfirm("Change role", "Are you sure you want to this this member's role?");
 
-  const avatarFallback = member?.name[0] ?? "M";
+  //const avatarFallback = member?.name[0] ?? "M";
 
   const onRemove = async () => {
     if (!(await confirmRemove())) return;
@@ -121,10 +121,7 @@ export const Profile = ({ userId, onClose }: ProfileProps) => {
           </Button>
         </div>
         <div className="flex flex-col items-center justify-center p-4">
-          <Avatar className="max-w-[256px] max-h-[256px] size-full">
-            <AvatarImage src={member.avatar} />
-            <AvatarFallback className="aspect-square text-6xl">{avatarFallback}</AvatarFallback>
-          </Avatar>
+          <Avatar variant="xl" textVariant="xl" image={member.avatar} fallback={member.name} />
         </div>
         <div className="flex flex-col p-4">
           <p className="text-xl font-bold">{member.name}</p>

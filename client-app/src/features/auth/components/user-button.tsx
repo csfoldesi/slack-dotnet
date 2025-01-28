@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +8,7 @@ import { LogOut } from "lucide-react";
 import { useAuthStore } from "../store";
 import { useNavigate } from "@tanstack/react-router";
 import { useSignOut } from "../api/use-sign-out";
+import { Avatar } from "@/components/avatar";
 
 export const UserButton = () => {
   const navigate = useNavigate();
@@ -25,15 +25,10 @@ export const UserButton = () => {
 
   if (!user) return null;
 
-  const avatarFallback = user.name.charAt(0).toUpperCase();
-
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="outline-none relative">
-        <Avatar className="size-10 hover:opacity-75 transition rounded-md">
-          <AvatarImage alt={user.name} src={user.avatar} />
-          <AvatarFallback className="bg-blue-400 text-white rounded-md">{avatarFallback}</AvatarFallback>
-        </Avatar>
+        <Avatar variant="userButton" textVariant="userButton" image={user.avatar} fallback={user.name} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" side="right" className="w-60">
         <DropdownMenuItem className="flex items-center h-10 cursor-pointer" onClick={() => onSignOut()}>

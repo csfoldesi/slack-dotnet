@@ -10,12 +10,12 @@ import { useToggleReaction } from "@/features/messages/api/use-toggle-reaction";
 import { MessageContext } from "@/features/messages/store/message-context";
 import { Hint } from "@/components/hint";
 import { Renderer } from "@/features/messages/components/renderer";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Thumbnail } from "@/components/thumbnail";
 import { MessageToolbar } from "@/features/messages/components/message-toolbar";
 import { Editor } from "@/features/messages/components/editor";
 import { Reactions } from "@/features/messages/components/reactions";
 import { ThreadBar } from "@/features/thread-bar";
+import { Avatar } from "@/components/avatar";
 
 interface MessageProps {
   isAuthor: boolean;
@@ -75,8 +75,6 @@ export const Message = ({ isAuthor, isCompact, hideThreadButton }: MessageProps)
   const formatFullTime = (date: Date) => {
     return `${isToday(date) ? "Today" : isYesterday(date) ? "Yesterday" : format(date, "MMM d, yyyy")} at ${format(date, "H:mm:ss")}`;
   };
-
-  const avatarFallback = message.authorName?.charAt(0).toUpperCase();
 
   if (isCompact) {
     return (
@@ -141,10 +139,7 @@ export const Message = ({ isAuthor, isCompact, hideThreadButton }: MessageProps)
         )}>
         <div className="flex items-start gap-2">
           <button onClick={() => onOpenProfile(message.authorId)}>
-            <Avatar>
-              <AvatarImage src={message.authorAvatar} />
-              <AvatarFallback className="text-sm">{avatarFallback}</AvatarFallback>
-            </Avatar>
+            <Avatar image={message.authorAvatar} fallback={message.authorName} />
           </button>
           {isEditing ? (
             <div className="w-full h-full">
