@@ -19,9 +19,7 @@ export const Conversation = ({ id }: ConversationProps) => {
   const { data: member, isLoading: memberLoading } = useGetMembership({ workspaceId, userId: memberId });
   const { data: messages, hasNextPage, fetchNextPage, isFetchingNextPage } = useGetMessages({ conversationId: id });
 
-  const status = "";
-
-  if (memberLoading || status === "LoadingFirstPage") {
+  if (memberLoading) {
     return <Loader />;
   }
 

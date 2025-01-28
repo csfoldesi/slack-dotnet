@@ -18,7 +18,7 @@ export const ChannelLayout = () => {
     isFetchingNextPage,
   } = useGetMessages({ channelId });
 
-  if (isChannelLoading || isMessagesLoading /*|| status === "LoadingFirstPage"*/) {
+  if (isChannelLoading || isMessagesLoading) {
     return <Loader />;
   }
 
