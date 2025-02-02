@@ -28,7 +28,7 @@ export const UserButton = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="outline-none relative">
-        <Avatar variant="userButton" textVariant="userButton" image={user.avatar} fallback={user.name} />
+        <Avatar variant="userButton" image={user.avatar} fallback={user.name} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" side="right" className="w-60">
         <DropdownMenuItem className="flex items-center h-10 cursor-pointer" onClick={() => onSignOut()}>

@@ -6,37 +6,46 @@ const avatarVariants = cva("", {
   variants: {
     variant: {
       default: "",
-      xs: "size-5 rounded-md mr-1",
-      small: "size-6 shrink-0",
+      xs: "size-5 rounded-sm mr-1",
+      small: "size-6 mr-2 rounded-sm",
       medium: "size-14 mr-2",
-      xl: "max-w-[256px] max-h-[256px] size-full",
+      profile: "max-w-[256px] max-h-[256px] size-full",
       userButton: "size-10 hover:opacity-75 transition rounded-md",
     },
-    textVariant: {
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+const fallbackVariants = cva("", {
+  variants: {
+    variant: {
       default: "",
-      xl: "aspect-square text-6xl",
+      xs: "rounded-sm bg-sky-500 text-white text-xs",
+      small: "",
+      medium: "text-2xl",
+      profile: "aspect-square text-6xl",
       userButton: "bg-blue-400 text-white rounded-md",
     },
   },
   defaultVariants: {
     variant: "default",
-    textVariant: "default",
   },
 });
 
-interface AvatarProps extends VariantProps<typeof avatarVariants> {
+interface AvatarProps extends VariantProps<typeof avatarVariants>, VariantProps<typeof fallbackVariants> {
   image?: string;
   fallback?: string;
-  className?: string;
 }
 
-export const Avatar = ({ image, fallback, className, variant, textVariant: textSize }: AvatarProps) => {
+export const Avatar = ({ image, fallback, variant: variant }: AvatarProps) => {
   const avatarFallback = fallback?.charAt(0).toUpperCase();
 
   return (
-    <AvatarBase className={cn(avatarVariants({ variant, className }))}>
+    <AvatarBase className={cn(avatarVariants({ variant: variant }))}>
       <AvatarImage src={image} />
-      <AvatarFallback className={cn(avatarVariants({ textVariant: textSize }))}>{avatarFallback}</AvatarFallback>
+      <AvatarFallback className={cn(fallbackVariants({ variant: variant }))}>{avatarFallback}</AvatarFallback>
     </AvatarBase>
   );
 };

@@ -121,7 +121,7 @@ export const Profile = ({ userId, onClose }: ProfileProps) => {
           </Button>
         </div>
         <div className="flex flex-col items-center justify-center p-4">
-          <Avatar variant="xl" textVariant="xl" image={member.avatar} fallback={member.name} />
+          <Avatar variant="profile" image={member.avatar} fallback={member.name} />
         </div>
         <div className="flex flex-col p-4">
           <p className="text-xl font-bold">{member.name}</p>
